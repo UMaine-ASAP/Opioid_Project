@@ -3,10 +3,10 @@ var pool  = null;
 
 exports.connect = function() {
     pool = mysql.createPool({
-      host     : 'localhost',
-      user     : 'root',
-      password : 'AsAp4U8u',
-      database : 'Opioid'
+      host     : '',
+      user     : '',
+      password : '',
+      database : ''
     });
   }
 
