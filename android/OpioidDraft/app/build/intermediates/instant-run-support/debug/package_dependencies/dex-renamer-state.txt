@@ -1,4 +1,0 @@
-#Mon Oct 16 15:36:46 EDT 2017
-base.0=/Users/asap/Android/OpioidDraft/app/build/intermediates/transforms/dexMerger/debug/10
-renamed.0=classes.dex
-file.0=/Users/asap/Android/OpioidDraft/app/build/intermediates/transforms/dexMerger/debug/10/classes.dex

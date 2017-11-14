@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Mindfulness</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_parent">ParentActivity</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Main -->
+    <string name="bottom_nav_feed">Feed</string>
+    <string name="bottom_nav_tracks">Tracks</string>
+    <string name="bottom_nav_resources">Resources</string>
+
+    <!-- Feed -->
+
+    <!-- Tracks -->
+
+    <!-- Resources -->
+
+</resources>
