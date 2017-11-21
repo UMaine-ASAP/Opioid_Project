@@ -3,6 +3,7 @@ package com.asap.mindfulness.Fragments
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -28,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_feed.view.*
  */
 class FeedFragment : Fragment() {
 
-    private var mListener: OnFragmentInteractionListener? = null
+    private var mListener: OnNavigationRequestListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +52,16 @@ class FeedFragment : Fragment() {
         rootView.feed_recycler.adapter = FeedAdapter(feedItems)
         rootView.feed_recycler.layoutManager = LinearLayoutManager(context)
 
+        Snackbar.make(rootView, "Some text", Snackbar.LENGTH_LONG)
+                .show()
+
         return rootView
     }
 
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is OnNavigationRequestListener) {
             mListener = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
@@ -67,20 +71,6 @@ class FeedFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         mListener = null
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
-     */
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
     }
 
     companion object {

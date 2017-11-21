@@ -1,5 +1,6 @@
 package com.asap.mindfulness
 
+import android.content.Context
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 
@@ -8,17 +9,27 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.asap.mindfulness.Fragments.FeedFragment
+import com.asap.mindfulness.Fragments.OnNavigationRequestListener
 
 import kotlinx.android.synthetic.main.activity_parent.*
 import kotlinx.android.synthetic.main.fragment_parent.view.*
 
-class ParentActivity : AppCompatActivity() {
+/**
+ * @author Spencer Ward
+ * @created November 14, 2017
+ *
+ * The primary activity for the app, handling navigation and paging through each of the three
+ * fragments. The hierarchical parent of all activities except WelcomeActivity and SetupActivity.
+ */
+
+class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
 
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide
@@ -34,14 +45,49 @@ class ParentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parent)
 
-        setSupportActionBar(toolbar)
+//        setSupportActionBar(toolbar)
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         // Set up the ViewPager with the sections adapter.
         container.adapter = mSectionsPagerAdapter
+        container.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+                // Don't care
+            }
 
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                // Don't care
+            }
+
+            override fun onPageSelected(position: Int) {
+                bottom_nav.selectedItemId = when (position) {
+                    0 -> R.id.bottom_nav_feed
+                    1 -> R.id.bottom_nav_tracks
+                    2 -> R.id.bottom_nav_resources
+                    else -> 0
+                }
+            }
+        })
+
+        bottom_nav.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.bottom_nav_feed -> {
+                    container.currentItem = 0
+                    true
+                }
+                R.id.bottom_nav_tracks -> {
+                    container.currentItem = 1
+                    true
+                }
+                R.id.bottom_nav_resources -> {
+                    container.currentItem = 2
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
 
@@ -61,22 +107,16 @@ class ParentActivity : AppCompatActivity() {
             return true
         }
 
-        return when (id) {
-            R.id.action_settings -> true
-            R.id.bottom_nav_feed -> {
-                container.currentItem = 0
-                true
-            }
-            R.id.bottom_nav_tracks -> {
-                container.currentItem = 1
-                true
-            }
-            R.id.bottom_nav_resources -> {
-                container.currentItem = 2
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        return false
+    }
+
+    override fun onPageRequested(page: Int) : Boolean {
+        if (page > -1 && page < 3) {
+            container.currentItem = page
+            return true
         }
+
+        return false
     }
 
 
@@ -95,9 +135,6 @@ class ParentActivity : AppCompatActivity() {
             }
         }
 
-        override fun getCount(): Int {
-            // Show 3 total pages.
-            return 3
-        }
+        override fun getCount() = 3
     }
 }

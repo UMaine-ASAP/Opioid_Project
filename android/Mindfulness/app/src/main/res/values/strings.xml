@@ -6,10 +6,35 @@
     <string name="title_activity_parent">ParentActivity</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Main -->
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!-- Welcome -->
+    <string name="welcome_message">welcome,\nyour doctor will\nassist you with\nsetup</string>
+    <string name="welcome_button">Okay</string>
+
+    <!-- Setup -->
+    <string name="setup_move_on">Move On</string>
+    <string name="setup_finish">Finish Setup</string>
+    <string name="setup_name">What would you like to be called?</string>
+    <string name="setup_password_prompt">Would you like to set a password?</string>
+    <string name="setup_patient_id">Please enter your Patiend ID</string>
+
+    <!-- Parent -->
     <string name="bottom_nav_feed">Feed</string>
     <string name="bottom_nav_tracks">Tracks</string>
     <string name="bottom_nav_resources">Resources</string>
+    <string name="title_activity_setup">Setup</string>
 
     <!-- Feed -->
 
