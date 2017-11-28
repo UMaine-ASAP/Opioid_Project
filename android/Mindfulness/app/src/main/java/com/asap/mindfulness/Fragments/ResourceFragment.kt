@@ -1,10 +1,12 @@
 package com.asap.mindfulness.Fragments
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,12 +22,12 @@ import kotlinx.android.synthetic.main.fragment_feed.view.*
  *
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [TracksFragment.OnFragmentInteractionListener] interface
+ * [ResourceFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [TracksFragment.newInstance] factory method to
+ * Use the [ResourceFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TracksFragment : Fragment() {
+class ResourceFragment : Fragment() {
 
     private var mListener: OnNavigationRequestListener? = null
 
@@ -81,13 +83,13 @@ class TracksFragment : Fragment() {
          *
          * @return A new instance of fragment FeedFragment.
          */
-        fun newInstance(): TracksFragment {
+        fun newInstance(): ResourceFragment {
 //            val fragment = FeedFragment()
 //            val args = Bundle()
 //            args.putString(ARG_PARAM1, param1)
 //            args.putString(ARG_PARAM2, param2)
 //            fragment.arguments = args
-            return TracksFragment()
+            return ResourceFragment()
         }
     }
 }// Required empty public constructor

@@ -1,8 +1,9 @@
-package com.asap.mindfulness
+package com.asap.mindfulness.Setup
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.asap.mindfulness.R
 import kotlinx.android.synthetic.main.activity_welcome.*
 
 /**
