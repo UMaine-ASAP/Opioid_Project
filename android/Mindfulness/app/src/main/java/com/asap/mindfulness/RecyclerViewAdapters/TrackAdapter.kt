@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.asap.mindfulness.Containers.FeedItem
+import com.asap.mindfulness.Containers.Track
 import com.asap.mindfulness.R
 import kotlinx.android.synthetic.main.card_feed.view.*
+import kotlinx.android.synthetic.main.card_track.view.*
 
 /**
  * @author Spencer Ward
@@ -17,27 +18,31 @@ import kotlinx.android.synthetic.main.card_feed.view.*
  *
  */
 
-class TrackAdapter(private val items : List<FeedItem>) : RecyclerView.Adapter<TrackAdapter.FeedHolder>() {
-    class FeedHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-
-        val title : TextView
+class TrackAdapter(private val items: List<Track>): RecyclerView.Adapter<TrackAdapter.TrackHolder>() {
+    class TrackHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        val title: TextView
+        val desc: TextView
+        val time: TextView
 
         init {
-            title = itemView.feed_title
+            title = itemView.track_title
+            desc = itemView.track_desc
+            time = itemView.track_time
         }
     }
 
-    init {
-
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): FeedHolder {
-        return FeedHolder(LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TrackHolder {
+        return TrackHolder(LayoutInflater.from(parent?.context)
                 .inflate(R.layout.card_feed, parent, false))
     }
 
-    override fun onBindViewHolder(holder: FeedHolder?, position: Int) {
+    override fun onBindViewHolder(holder: TrackHolder?, position: Int) {
         holder?.title?.text =  items[position].title
+        holder?.desc?.text = items[position].desc
+        holder?.desc?.text = (items[position].length / 60).toString()
+        holder?.itemView?.setOnClickListener { view ->
+            // TODO: Logic for playing tracks
+        }
     }
 
     override fun getItemCount(): Int {
