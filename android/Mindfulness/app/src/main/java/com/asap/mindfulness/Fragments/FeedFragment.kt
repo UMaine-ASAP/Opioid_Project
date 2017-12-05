@@ -54,9 +54,6 @@ class FeedFragment : Fragment() {
         rootView.feed_recycler.adapter = FeedAdapter(feedItems)
         rootView.feed_recycler.layoutManager = LinearLayoutManager(context)
 
-        Snackbar.make(rootView, "Some text", Snackbar.LENGTH_LONG)
-                .show()
-
         return rootView
     }
 

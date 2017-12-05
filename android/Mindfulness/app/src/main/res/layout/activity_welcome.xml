@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="168dp"
         android:background="@color/colorPrimaryDark"
         android:text="@string/welcome_button"
         android:textColor="@android:color/background_light"

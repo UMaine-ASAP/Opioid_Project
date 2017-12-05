@@ -1,5 +1,6 @@
 package com.asap.mindfulness.RecyclerViewAdapters
 
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +17,15 @@ import kotlinx.android.synthetic.main.card_track.view.*
  *
  * An adapter to be used with the RecyclerView for the Feed fragment.
  *
+ * @property items: The list of Tracks displayed by the RecyclerView
+ *
  */
 
 class TrackAdapter(private val items: List<Track>): RecyclerView.Adapter<TrackAdapter.TrackHolder>() {
+    /**
+     * A simple ViewHolder for Track cards
+     * @property title: The TextView holding the title of th\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+     */
     class TrackHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val title: TextView
         val desc: TextView
@@ -32,17 +39,22 @@ class TrackAdapter(private val items: List<Track>): RecyclerView.Adapter<TrackAd
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TrackHolder {
+        // Create a new TrackHolder bound to a new Card view
         return TrackHolder(LayoutInflater.from(parent?.context)
-                .inflate(R.layout.card_feed, parent, false))
+                .inflate(R.layout.card_track, parent, false))
     }
 
     override fun onBindViewHolder(holder: TrackHolder?, position: Int) {
+        // Initialize card components
         holder?.title?.text =  items[position].title
         holder?.desc?.text = items[position].desc
-        holder?.desc?.text = (items[position].length / 60).toString()
+        holder?.time?.text = (items[position].length / 60).toString() + "\nminutes"
         holder?.itemView?.setOnClickListener { view ->
             // TODO: Logic for playing tracks
         }
+
+        // Set the card to float (backwards compatible)
+        holder?.itemView?.card_track?.cardElevation = 8f
     }
 
     override fun getItemCount(): Int {

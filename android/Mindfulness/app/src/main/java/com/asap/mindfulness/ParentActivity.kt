@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.asap.mindfulness.Fragments.FeedFragment
 import com.asap.mindfulness.Fragments.OnNavigationRequestListener
+import com.asap.mindfulness.Fragments.TracksFragment
 
 import kotlinx.android.synthetic.main.activity_parent.*
 import kotlinx.android.synthetic.main.fragment_parent.view.*
@@ -46,6 +47,7 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         setContentView(R.layout.activity_parent)
 
 //        setSupportActionBar(toolbar)
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -54,11 +56,11 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         container.adapter = mSectionsPagerAdapter
         container.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
-                // Don't care
+                // Don't care yet
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                // Don't care
+                // Don't care yet
             }
 
             override fun onPageSelected(position: Int) {
@@ -129,7 +131,7 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         override fun getItem(position: Int): Fragment {
             return when (position) {
                 0 -> FeedFragment.newInstance()
-                1 -> FeedFragment.newInstance()
+                1 -> TracksFragment.newInstance()
                 2 -> FeedFragment.newInstance()
                 else -> FeedFragment.newInstance()
             }

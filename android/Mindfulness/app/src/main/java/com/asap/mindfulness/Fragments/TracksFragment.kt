@@ -9,10 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.asap.mindfulness.Containers.FeedItem
+import com.asap.mindfulness.Containers.Track
 
 import com.asap.mindfulness.R
 import com.asap.mindfulness.RecyclerViewAdapters.FeedAdapter
+import com.asap.mindfulness.RecyclerViewAdapters.TrackAdapter
 import kotlinx.android.synthetic.main.fragment_feed.view.*
+import kotlinx.android.synthetic.main.fragment_tracks.view.*
 
 /**
  * @author Spencer Ward
@@ -42,16 +45,20 @@ class TracksFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val rootView = inflater!!.inflate(R.layout.fragment_feed, container, false)
+        val rootView = inflater!!.inflate(R.layout.fragment_tracks, container, false)
 
-        val feedItems = ArrayList<FeedItem>()
-        feedItems.add(FeedItem("First"))
+        val trackList = ArrayList<Track>()
+        for (i in 1..6) {
+            trackList.add(Track("Track " + i.toString(),
+                    "\u2022 Deep Breathing Exercises\n" +
+                            "\u2022 Nature Sounds\n" +
+                            "\u2022 Slow & Quiet",
+                    307)
+            )
+        }
 
-        rootView.feed_recycler.adapter = FeedAdapter(feedItems)
-        rootView.feed_recycler.layoutManager = LinearLayoutManager(context)
-
-        Snackbar.make(rootView, "Some text", Snackbar.LENGTH_LONG)
-                .show()
+        rootView.track_recycler.adapter = TrackAdapter(trackList)
+        rootView.track_recycler.layoutManager = LinearLayoutManager(context)
 
         return rootView
     }
