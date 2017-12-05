@@ -53,8 +53,17 @@ class TracksFragment : Fragment() {
                     "\u2022 Deep Breathing Exercises\n" +
                             "\u2022 Nature Sounds\n" +
                             "\u2022 Slow & Quiet",
-                    307)
+                    307, 0)
             )
+            trackList[i - 1].path = when (i) {
+                1 -> R.raw.track1
+                2 -> R.raw.track2
+                3 -> R.raw.track3
+                4 -> R.raw.track4
+                5 -> R.raw.track5
+                6 -> R.raw.track6
+                else -> R.raw.track1
+            }
         }
 
         rootView.track_recycler.adapter = TrackAdapter(trackList)

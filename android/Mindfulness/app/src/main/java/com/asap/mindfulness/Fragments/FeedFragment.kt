@@ -50,7 +50,6 @@ class FeedFragment : Fragment() {
         val feedItems = ArrayList<FeedItem>()
         feedItems.add(FeedItem("First"))
 
-
         rootView.feed_recycler.adapter = FeedAdapter(feedItems)
         rootView.feed_recycler.layoutManager = LinearLayoutManager(context)
 

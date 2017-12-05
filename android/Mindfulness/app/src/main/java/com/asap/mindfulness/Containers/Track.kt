@@ -10,4 +10,4 @@ package com.asap.mindfulness.Containers
  * @property length: The length of the track in seconds
  */
 
-class Track(val title: String, val desc: String, val length: Int)
+class Track(val title: String, val desc: String, val length: Int, var path: Int)

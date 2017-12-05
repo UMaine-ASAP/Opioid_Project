@@ -1,7 +1,9 @@
 package com.asap.mindfulness.RecyclerViewAdapters
 
+import android.content.Intent
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,8 @@ import com.asap.mindfulness.Containers.Track
 import com.asap.mindfulness.R
 import kotlinx.android.synthetic.main.card_feed.view.*
 import kotlinx.android.synthetic.main.card_track.view.*
+import android.os.Bundle
+import com.asap.mindfulness.MediaActivity
 
 /**
  * @author Spencer Ward
@@ -49,8 +53,21 @@ class TrackAdapter(private val items: List<Track>): RecyclerView.Adapter<TrackAd
         holder?.title?.text =  items[position].title
         holder?.desc?.text = items[position].desc
         holder?.time?.text = (items[position].length / 60).toString() + "\nminutes"
+
         holder?.itemView?.setOnClickListener { view ->
-            // TODO: Logic for playing tracks
+            val bundle = Bundle()
+            val intent = Intent(view.context, MediaActivity::class.java)
+
+            bundle.putString("title", items[position].title)
+            bundle.putString("desc", items[position].desc)
+            bundle.putInt("path", items[position].path)
+
+            intent.putExtras(bundle)
+
+            view.context.startActivity(intent)
+
+
+
         }
 
         // Set the card to float (backwards compatible)

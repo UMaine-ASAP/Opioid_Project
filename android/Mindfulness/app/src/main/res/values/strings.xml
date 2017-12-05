@@ -138,6 +138,7 @@
     <string name="track_no_title">Track Not Found</string>
     <string name="track_no_desc">No description available.</string>
     <string name="track_no_time">10\nminutes</string>
+    <string name="title_activity_media">MediaActivity</string>
 
     <!-- Resources -->
 
