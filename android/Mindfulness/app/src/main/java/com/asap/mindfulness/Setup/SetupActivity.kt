@@ -54,10 +54,34 @@ class SetupActivity : AppCompatActivity() {
 
         // Initialize ViewPager and give it an instance of SetupPagerAdapter
         setup_pager.adapter = SetupPagerAdapter(supportFragmentManager)
-        setup_pager.setOnTouchListener { _, _ ->
-            setup_pager.currentItem = setup_pager.currentItem
-            true
-        }
+        setup_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            // TODO: This is only half finished
+            override fun onPageSelected(position: Int) {
+                // Checking the current page
+                val current = setup_pager.currentItem
+                if (current == 1) {
+                    if (scrollUser()) {
+                        setup_pager.currentItem = 1
+                        setup_button.text = getString(R.string.setup_finish)
+                    } else {
+                        setup_pager.currentItem = 0
+                    }
+                } else {
+                    if (scrollPatient()) {
+                        val main = Intent(parent, ParentActivity::class.java)
+                        startActivity(main)
+                    } else {
+                        setup_pager.currentItem = 0
+                    }
+                }
+            }
+
+        })
 
         // Add the view pager to the progress bubbles
         setup_progress.setViewPager(setup_pager)
