@@ -28,6 +28,9 @@ import kotlinx.android.synthetic.main.fragment_parent.view.*
  *
  * The primary activity for the app, handling navigation and paging through each of the three
  * fragments. The hierarchical parent of all activities except WelcomeActivity and SetupActivity.
+ *
+ * Consists of a Bottom Navigation Bar and a ViewPager. The pager's fragments can be scrolled using
+ * the bar or through swiping.
  */
 
 class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
@@ -56,11 +59,11 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         container.adapter = mSectionsPagerAdapter
         container.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
-                // Don't care yet
+                // Don't care
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                // Don't care yet
+                // Don't care
             }
 
             override fun onPageSelected(position: Int) {
@@ -112,6 +115,10 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         return false
     }
 
+    /**
+     * A callback to allow child fragments to request page changes.
+     * @param page: The page to move to, from 0 to 2
+     */
     override fun onPageRequested(page: Int) : Boolean {
         if (page > -1 && page < 3) {
             container.currentItem = page

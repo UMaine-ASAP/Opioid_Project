@@ -1,6 +1,5 @@
 package com.asap.mindfulness.Setup
 
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -9,8 +8,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
-import android.util.AttributeSet
-import android.view.MotionEvent
 import com.asap.mindfulness.ParentActivity
 import com.asap.mindfulness.R
 import kotlinx.android.synthetic.main.activity_setup.*
@@ -43,9 +40,9 @@ class SetupActivity : AppCompatActivity() {
 
     // Use patient_password_switch.isChecked for the password checkbox
 
-    var patientName : String? = null
-    var patientPassword : String? = null
-    var patientId : String? = null
+    private var patientName : String = ""
+    private var patientPassword : String = ""
+    private var patientId : String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

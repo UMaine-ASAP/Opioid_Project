@@ -39,6 +39,9 @@
     <string name="bottom_nav_resources">Resources</string>
     <string name="title_activity_setup">Setup</string>
 
+    <!-- Media -->
+    <string name="media_timer">%</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>

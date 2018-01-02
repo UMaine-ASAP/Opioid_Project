@@ -5,21 +5,19 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_media.*
+import kotlinx.android.synthetic.main.pause_popup_window.*
 import kotlinx.android.synthetic.main.pause_popup_window.view.*
 
 
 import java.util.concurrent.TimeUnit
 
-class MediaActivity : AppCompatActivity(), View.OnClickListener {
+class MediaActivity : AppCompatActivity() {
 
 
     // source of the audio to be played
@@ -42,11 +40,11 @@ class MediaActivity : AppCompatActivity(), View.OnClickListener {
         override fun run() {
 
             if (!playerReleased) {
-                timeTextView.text = TimeUnit.MILLISECONDS.toMinutes(mediaPlayer.currentPosition.toLong()).toString() +
+                textTime.text = TimeUnit.MILLISECONDS.toMinutes(mediaPlayer.currentPosition.toLong()).toString() +
                         ":" + (TimeUnit.MILLISECONDS.toSeconds(mediaPlayer.currentPosition.toLong()) % 60).toString() +
                         " / " + TimeUnit.MILLISECONDS.toMinutes(mediaPlayer.duration.toLong()) +
                         ":" + (TimeUnit.MILLISECONDS.toSeconds(mediaPlayer.duration.toLong()) % 60).toString()
-                timeTextView.postDelayed(this, 1000)
+                textTime.postDelayed(this, 1000)
             }
         }
     }
@@ -74,8 +72,13 @@ class MediaActivity : AppCompatActivity(), View.OnClickListener {
         mediaPlayer.start()
         playerReleased = true
 
+        textTitle.text = intent.getStringExtra("title")
+        textTime.post(mUpdateTime)
 
-        timeTextView.post(mUpdateTime)
+        pauseButton.setOnClickListener { _ ->
+            if(!isPaused)
+                pause()
+        }
     }
 
     override fun onBackPressed() {
@@ -94,18 +97,6 @@ class MediaActivity : AppCompatActivity(), View.OnClickListener {
         mediaPlayer.stop()
         mediaPlayer.release()
         playerReleased = true
-    }
-
-    override fun onClick(view: View?) {
-        if(view == pauseButton){
-            if(!isPaused) {
-                pause()
-            }
-        }else if (view == popupResumeButton){
-            if(isPaused) {
-                resume()
-            }
-        }
     }
 
     private fun pause(){
@@ -128,11 +119,14 @@ class MediaActivity : AppCompatActivity(), View.OnClickListener {
             // We need to get the instance of the LayoutInflater
             val inflater: LayoutInflater = LayoutInflater.from(this@MediaActivity)
             getSystemService(Context.LAYOUT_INFLATER_SERVICE)
-            val layout = inflater.inflate(R.layout.pause_popup_window, findViewById<ViewGroup>(R.id.popup_1))
+            val layout = inflater.inflate(R.layout.pause_popup_window, popup_1)
             popupWindow = PopupWindow(layout, 300, 370, true)
             popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0)
             popupResumeButton =  layout.resumeButton
-            popupResumeButton.setOnClickListener(this)
+            popupResumeButton.setOnClickListener { _ ->
+                if(isPaused)
+                    resume()
+            }
             popupCounterTextView = layout.countDownTextView
             cd.start()
         } catch (e:Exception) {
