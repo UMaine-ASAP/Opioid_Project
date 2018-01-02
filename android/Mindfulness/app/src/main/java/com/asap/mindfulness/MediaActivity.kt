@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.pause_popup_window.*
 import kotlinx.android.synthetic.main.pause_popup_window.view.*
 
 
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit.MILLISECONDS as TUM
 
 class MediaActivity : AppCompatActivity() {
 
@@ -38,12 +38,13 @@ class MediaActivity : AppCompatActivity() {
 
     private val mUpdateTime = object : Runnable {
         override fun run() {
-
             if (!playerReleased) {
-                textTime.text = TimeUnit.MILLISECONDS.toMinutes(mediaPlayer.currentPosition.toLong()).toString() +
-                        ":" + (TimeUnit.MILLISECONDS.toSeconds(mediaPlayer.currentPosition.toLong()) % 60).toString() +
-                        " / " + TimeUnit.MILLISECONDS.toMinutes(mediaPlayer.duration.toLong()) +
-                        ":" + (TimeUnit.MILLISECONDS.toSeconds(mediaPlayer.duration.toLong()) % 60).toString()
+                // Changed over to using placeholders (uses String.format() formatting style)
+                textTime.text = getString(R.string.media_timer,
+                        TUM.toMinutes(mediaPlayer.currentPosition.toLong()),
+                        TUM.toSeconds(mediaPlayer.currentPosition.toLong()) % 60,
+                        TUM.toMinutes(mediaPlayer.duration.toLong()),
+                        TUM.toSeconds(mediaPlayer.duration.toLong()) % 60)
                 textTime.postDelayed(this, 1000)
             }
         }
@@ -52,7 +53,9 @@ class MediaActivity : AppCompatActivity() {
     // counter for the media player
     var cd: CountDownTimer = object: CountDownTimer(300000, 1000) {
         override fun onTick(millisUntilFinished:Long) {
-            popupCounterTextView.setText(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished).toString() + ":" + (TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)%60).toString())
+            popupCounterTextView.text = getString(R.string.media_popup_timer,
+                    TUM.toMinutes(millisUntilFinished),
+                    TUM.toSeconds(millisUntilFinished) % 60)
 
         }
         override fun onFinish() {
@@ -70,7 +73,7 @@ class MediaActivity : AppCompatActivity() {
         //creating mediaplayer and starting the audio
         mediaPlayer = MediaPlayer.create(this, audioSource)
         mediaPlayer.start()
-        playerReleased = true
+        playerReleased = false
 
         textTitle.text = intent.getStringExtra("title")
         textTime.post(mUpdateTime)
@@ -127,7 +130,7 @@ class MediaActivity : AppCompatActivity() {
                 if(isPaused)
                     resume()
             }
-            popupCounterTextView = layout.countDownTextView
+            popupCounterTextView = layout.textCountDown
             cd.start()
         } catch (e:Exception) {
             e.printStackTrace()
