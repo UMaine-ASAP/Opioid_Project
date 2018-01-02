@@ -34,11 +34,13 @@ class TrackAdapter(private val items: List<Track>): RecyclerView.Adapter<TrackAd
         val title: TextView
         val desc: TextView
         val time: TextView
+        val credits: TextView
 
         init {
             title = itemView.track_title
             desc = itemView.track_desc
             time = itemView.track_time
+            credits = itemView.track_credits
         }
     }
 
@@ -52,7 +54,8 @@ class TrackAdapter(private val items: List<Track>): RecyclerView.Adapter<TrackAd
         // Initialize card components
         holder?.title?.text =  items[position].title
         holder?.desc?.text = items[position].desc
-        holder?.time?.text = (items[position].length / 60).toString() + "\nminutes"
+        holder?.credits?.text = items[position].credits
+        holder?.time?.text = items[position].length
 
         holder?.itemView?.setOnClickListener { view ->
             val bundle = Bundle()
@@ -65,9 +68,6 @@ class TrackAdapter(private val items: List<Track>): RecyclerView.Adapter<TrackAd
             intent.putExtras(bundle)
 
             view.context.startActivity(intent)
-
-
-
         }
 
         // Set the card to float (backwards compatible)

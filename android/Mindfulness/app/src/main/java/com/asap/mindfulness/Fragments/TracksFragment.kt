@@ -34,10 +34,6 @@ class TracksFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        if (arguments != null) {
-//            mParam1 = arguments.getString(ARG_PARAM1)
-//            mParam2 = arguments.getString(ARG_PARAM2)
-//        }
 
         // TODO: Put database and network requests here
     }
@@ -53,7 +49,7 @@ class TracksFragment : Fragment() {
         val trackTitles = resources.getStringArray(R.array.track_titles)
         val trackDescriptions = resources.getStringArray(R.array.track_descs)
         val trackCredits = resources.getStringArray(R.array.track_credits)
-        val trackLengths = resources.getStringArray(R.array.track_credits)
+        val trackLengths = resources.getStringArray(R.array.track_lengths)
         for (i in 0..5) {
             // Create track from resources
             trackList.add(
@@ -70,6 +66,7 @@ class TracksFragment : Fragment() {
             }
         }
 
+        // Set up our recycler adapter and layout
         rootView.track_recycler.adapter = TrackAdapter(trackList)
         rootView.track_recycler.layoutManager = LinearLayoutManager(context)
 
@@ -79,15 +76,18 @@ class TracksFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        // Grab callback from caller
         if (context is OnNavigationRequestListener) {
             mListener = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context!!.toString() + " must implement OnNavigationRequestListener")
         }
     }
 
     override fun onDetach() {
         super.onDetach()
+
+        // Destroy the player
         mListener = null
     }
 

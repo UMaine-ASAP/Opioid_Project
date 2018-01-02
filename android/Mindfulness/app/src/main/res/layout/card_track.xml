@@ -26,28 +26,15 @@
             app:layout_constraintTop_toTopOf="parent"
             card_view:srcCompat="@color/colorAccent" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="4dp"
-            android:cropToPadding="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            card_view:srcCompat="?attr/colorPrimaryDark" />
-
         <TextView
             android:id="@+id/track_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-condensed"
             android:text="@string/track_no_title"
-            android:textColor="@color/cardview_light_background"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,43 +44,58 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="4dp"
+            android:layout_marginTop="20dp"
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/track_title" />
 
         <TextView
             android:id="@+id/track_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:gravity="start"
             android:text="@string/track_no_desc"
+            android:textAlignment="center"
             android:textSize="18sp"
-            android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="@+id/imageView2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/imageView2"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
+        <TextView
+            android:id="@+id/track_credits"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:gravity="start"
+            android:text="Credits"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <Button
             android:id="@+id/track_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="40dp"
             android:background="@color/colorPrimaryDark"
             android:text="@string/track_no_time"
             android:textColor="@color/cardview_light_background"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintVertical_bias="0.852" />
+            app:layout_constraintTop_toBottomOf="@+id/track_desc" />
 
 
     </android.support.constraint.ConstraintLayout>

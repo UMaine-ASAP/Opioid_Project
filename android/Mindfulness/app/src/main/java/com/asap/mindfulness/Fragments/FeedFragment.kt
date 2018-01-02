@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_feed.view.*
  *
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [FeedFragment.OnFragmentInteractionListener] interface
+ * [OnNavigationRequestListener] interface
  * to handle interaction events.
  * Use the [FeedFragment.newInstance] factory method to
  * create an instance of this fragment.
