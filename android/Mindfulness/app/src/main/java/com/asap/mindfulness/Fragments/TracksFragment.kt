@@ -47,21 +47,25 @@ class TracksFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater!!.inflate(R.layout.fragment_tracks, container, false)
 
+        // Create list to hold our tracks as we build them
         val trackList = ArrayList<Track>()
-        for (i in 1..6) {
-            trackList.add(Track("Track " + i.toString(),
-                    "\u2022 Deep Breathing Exercises\n" +
-                            "\u2022 Nature Sounds\n" +
-                            "\u2022 Slow & Quiet",
-                    307, 0)
-            )
-            trackList[i - 1].path = when (i) {
-                1 -> R.raw.track1
-                2 -> R.raw.track2
-                3 -> R.raw.track3
-                4 -> R.raw.track4
-                5 -> R.raw.track5
-                6 -> R.raw.track6
+        // Pull String arrays from resources
+        val trackTitles = resources.getStringArray(R.array.track_titles)
+        val trackDescriptions = resources.getStringArray(R.array.track_descs)
+        val trackCredits = resources.getStringArray(R.array.track_credits)
+        val trackLengths = resources.getStringArray(R.array.track_credits)
+        for (i in 0..5) {
+            // Create track from resources
+            trackList.add(
+                    Track(trackTitles[i], trackDescriptions[i], trackCredits[i], trackLengths[i]))
+            // Link track to the audio file
+            trackList[i].path = when (i) {
+                0 -> R.raw.track1
+                1 -> R.raw.track2
+                2 -> R.raw.track3
+                3 -> R.raw.track4
+                4 -> R.raw.track5
+                5 -> R.raw.track6
                 else -> R.raw.track1
             }
         }

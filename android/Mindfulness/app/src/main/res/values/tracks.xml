@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Resource file for storing info on our tracks -->
+<resources>
+    <string-array name="track_titles">
+        <item>Breathing slow and low</item>
+        <item>Thoughts as leaves down a stream</item>
+        <item>Breath focused mindfulness</item>
+        <item>Body scan</item>
+        <item>Urge surfing exercise</item>
+        <item>Mindful walking</item>
+    </string-array>
+    <string-array name="track_descs">
+        <item>Use this exercise frequently in Week 1.</item>
+        <item>Use this exercise alternating with Track 1 in Week 2.</item>
+        <item>Use this core exercise in Week 3 when you are ready to practice for longer periods of time.</item>
+        <item>This relaxing exercise is good to do lying down. Try it during Week 4, or whenever you’re ready.</item>
+        <item>This is a more difficult exercise. Make sure you’ve practiced the other exercises regularly before you try this.</item>
+        <item>This exercise incorporates mindfulness with movement.</item>
+    </string-array>
+    <string-array name="track_credits">
+        <item>Adapted from Williams and Kraft, The Mindfulness Workbook for Addiction, copyright 2012 by New Harbinger Press. Recorded with permission of New Harbinger Press.</item>
+        <item>Adapted from Williams and Kraft, The Mindfulness Workbook for Addiction, copyright 2012 by New Harbinger Press. Recorded with permission of New Harbinger Press.</item>
+        <item> </item>
+        <item>Adapted from Bowen, Chawla and Marlatt, Mindfulness-Based Relapse Prevention for Addictive Behaviors, copyright 2011 by The Guilford Press. Recorded with permission of Guilford Press.</item>
+        <item>Adapted from Bowen, Chawla and Marlatt, Mindfulness-Based Relapse Prevention for Addictive Behaviors, copyright 2011 by The Guilford Press. Recorded with permission of Guilford Press.</item>
+        <item>Adapted in part from Williams and Kraft, The Mindfulness Workbook for Addiction, copyright 2012 by New Harbinger Press. Recorded with permission of New Harbinger Press.</item>
+    </string-array>
+    <!-- Just for display, so they don't need to be integers -->
+    <string-array name="track_lengths">
+        <item>5:07</item>
+        <item>7:06</item>
+        <item>9:40</item>
+        <item>19:21</item>
+        <item>8:37</item>
+        <item>10:04</item>
+    </string-array>
+</resources>
