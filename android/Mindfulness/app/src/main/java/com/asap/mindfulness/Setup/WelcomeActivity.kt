@@ -17,7 +17,8 @@ import kotlinx.android.synthetic.main.activity_welcome.*
  * Consists of some welcome text and a button. Doesn't load at all if the user data already exists.
  *
  * TODO: Add logic to check if the user's been setup (SQLite tools from Jason should make that
- * TODO... a lot easier than that sounds)
+ * TODO... a lot easier than that sounds).
+ * TODO: Tie in background login and info pull with Retrofit, if necessary.
  */
 
 
@@ -31,6 +32,9 @@ class WelcomeActivity : AppCompatActivity() {
         // Otherwise, start creating the activity
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
+
+        // TODO: Create background activity to refresh login - can be setup with retrofit and SQLite
+        // TODO... to make into a fire-and-forget runnable
 
         // Set the Welcome Button to launch the SetupActivity
         welcome_button.setOnClickListener { _ ->

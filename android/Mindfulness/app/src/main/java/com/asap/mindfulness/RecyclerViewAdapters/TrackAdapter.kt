@@ -57,7 +57,7 @@ class TrackAdapter(private val items: List<Track>): RecyclerView.Adapter<TrackAd
         holder?.credits?.text = items[position].credits
         holder?.time?.text = items[position].length
 
-        holder?.itemView?.setOnClickListener { view ->
+        holder?.time?.setOnClickListener { view ->
             val bundle = Bundle()
             val intent = Intent(view.context, MediaActivity::class.java)
 
