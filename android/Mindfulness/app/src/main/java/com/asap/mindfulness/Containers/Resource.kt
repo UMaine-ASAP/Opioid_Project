@@ -8,4 +8,4 @@ package com.asap.mindfulness.Containers
  *
  */
 
-class Resource(val title : String)
+class Resource(val title : String, val description: String, val url: String, val id: Int)
