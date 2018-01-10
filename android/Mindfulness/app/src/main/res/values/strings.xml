@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="title_activity_parent">ParentActivity</string>
+    <string name="title_activity_parent">Mindfulness</string>
     <string name="action_settings">Settings</string>
 
     <!-- Strings related to login -->
@@ -32,6 +32,9 @@
     <string name="setup_password_hint"></string>
     <string name="setup_patient_id">Please enter your Patient ID</string>
     <string name="setup_patient_id_hint"></string>
+
+    <!-- Quotes -->
+    <string name="title_activity_quotes">Mindful Quotes</string>
 
     <!-- Parent -->
     <string name="bottom_nav_feed">Feed</string>
@@ -142,7 +145,7 @@
     <string name="track_no_title">Track Not Found</string>
     <string name="track_no_desc">No description available.</string>
     <string name="track_no_time">10\nminutes</string>
-    <string name="title_activity_media">MediaActivity</string>
+    <string name="title_activity_media">Exercises</string>
 
     <!-- Resources -->
 

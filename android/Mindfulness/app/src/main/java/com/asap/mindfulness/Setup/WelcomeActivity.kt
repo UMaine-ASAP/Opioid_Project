@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.asap.mindfulness.ParentActivity
+import com.asap.mindfulness.QuoteActivity
 import com.asap.mindfulness.R
 import kotlinx.android.synthetic.main.activity_welcome.*
 
@@ -26,7 +27,7 @@ class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Check if user is already set up and skip to ParentActivity
         if (/* TODO: Logic for the check */ true) {
-            val intent = Intent(this, ParentActivity::class.java)
+            val intent = Intent(this, QuoteActivity::class.java)
             startActivity(intent)
         }
         // Otherwise, start creating the activity

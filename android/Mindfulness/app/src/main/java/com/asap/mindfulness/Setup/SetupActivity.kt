@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import com.asap.mindfulness.ParentActivity
+import com.asap.mindfulness.QuoteActivity
 import com.asap.mindfulness.R
 import kotlinx.android.synthetic.main.activity_setup.*
 import kotlinx.android.synthetic.main.fragment_setup_patient.*
@@ -94,7 +95,7 @@ class SetupActivity : AppCompatActivity() {
                 }
             } else {
                 if (scrollPatient()) {
-                    val main = Intent(this, ParentActivity::class.java)
+                    val main = Intent(this, QuoteActivity::class.java)
                     startActivity(main)
                 }
             }

@@ -37,7 +37,10 @@
             android:label="@string/title_activity_media"
             android:parentActivityName=".ParentActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".QuoteActivity" />
+        <activity
+            android:name=".QuoteActivity"
+            android:label="@string/title_activity_quotes"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
