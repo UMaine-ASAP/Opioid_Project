@@ -14,7 +14,7 @@ import com.asap.mindfulness.Containers.FeedItem
 
 import com.asap.mindfulness.R
 import com.asap.mindfulness.RecyclerViewAdapters.FeedAdapter
-import kotlinx.android.synthetic.main.fragment_feed.view.*
+import kotlinx.android.synthetic.main.content_scrolling.view.*
 
 /**
  * @author Spencer Ward

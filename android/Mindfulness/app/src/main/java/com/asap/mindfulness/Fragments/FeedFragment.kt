@@ -14,8 +14,7 @@ import com.asap.mindfulness.Containers.FeedItem
 
 import com.asap.mindfulness.R
 import com.asap.mindfulness.RecyclerViewAdapters.FeedAdapter
-import kotlinx.android.synthetic.main.fragment_feed.*
-import kotlinx.android.synthetic.main.fragment_feed.view.*
+import kotlinx.android.synthetic.main.content_scrolling.view.*
 
 /**
  * @author Spencer Ward
@@ -49,6 +48,7 @@ class FeedFragment : Fragment() {
 
         val feedItems = ArrayList<FeedItem>()
         feedItems.add(FeedItem("First"))
+        feedItems.add(FeedItem("Second"))
 
         rootView.feed_recycler.adapter = FeedAdapter(feedItems)
         rootView.feed_recycler.layoutManager = LinearLayoutManager(context)
