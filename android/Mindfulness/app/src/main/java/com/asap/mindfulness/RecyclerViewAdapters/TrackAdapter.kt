@@ -64,6 +64,7 @@ class TrackAdapter(private val items: List<Track>): RecyclerView.Adapter<TrackAd
             bundle.putString("title", items[position].title)
             bundle.putString("desc", items[position].desc)
             bundle.putInt("path", items[position].path)
+            bundle.putInt("index", position)
 
             intent.putExtras(bundle)
 
