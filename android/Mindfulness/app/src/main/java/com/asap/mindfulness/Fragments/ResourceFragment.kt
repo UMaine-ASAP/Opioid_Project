@@ -11,10 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.asap.mindfulness.Containers.FeedItem
+import com.asap.mindfulness.Containers.Resource
 
 import com.asap.mindfulness.R
 import com.asap.mindfulness.RecyclerViewAdapters.FeedAdapter
+import com.asap.mindfulness.RecyclerViewAdapters.ResourceAdapter
 import kotlinx.android.synthetic.main.content_scrolling.view.*
+import kotlinx.android.synthetic.main.fragment_resource.view.*
 
 /**
  * @author Spencer Ward
@@ -44,13 +47,13 @@ class ResourceFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val rootView = inflater!!.inflate(R.layout.fragment_feed, container, false)
+        val rootView = inflater!!.inflate(R.layout.fragment_resource, container, false)
 
-        val feedItems = ArrayList<FeedItem>()
-        feedItems.add(FeedItem("First"))
+        val resources = ArrayList<Resource>()
+        // TODO: resources.add(* things *)
 
-        rootView.feed_recycler.adapter = FeedAdapter(feedItems)
-        rootView.feed_recycler.layoutManager = LinearLayoutManager(context)
+        rootView.resource_recycler.adapter = ResourceAdapter(resources)
+        rootView.resource_recycler.layoutManager = LinearLayoutManager(context)
 
         Snackbar.make(rootView, "Some text", Snackbar.LENGTH_LONG)
                 .show()
