@@ -5,14 +5,22 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
+import com.asap.mindfulness.Containers.AudioStatus
+import com.asap.mindfulness.Containers.Success
+import com.asap.mindfulness.Retrofit.*
 import kotlinx.android.synthetic.main.activity_media.*
 import kotlinx.android.synthetic.main.pause_popup_window.*
 import kotlinx.android.synthetic.main.pause_popup_window.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.*
 
 
 import java.util.concurrent.TimeUnit.MILLISECONDS as TUM
@@ -22,6 +30,7 @@ class MediaActivity : AppCompatActivity() {
 
     // source of the audio to be played
     private var audioSource = R.raw.track1
+    private var audioIndex = 0
 
     // private variables for the main view
     private lateinit var mediaPlayer: MediaPlayer
@@ -67,7 +76,8 @@ class MediaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
 
-        audioSource = intent.getIntExtra("path", R.raw.track3)
+        audioSource = intent.getIntExtra("path", R.raw.track1)
+        audioIndex = intent.getIntExtra("index", 0)
 
 
         //creating mediaplayer and starting the audio
@@ -86,11 +96,17 @@ class MediaActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        Log.d("HERE", "exited")
         if(mediaPlayer.duration * 0.95 > mediaPlayer.currentPosition){
             // allow user to exit
-            TODO("Allow user to exit the activity")
+
+            val audioStatus = AudioStatus(deviceId, audioIndex, true, Calendar.getInstance().getTime())
+            sendAudioHistory(audioStatus)
+
         }else{
             // prompt user that seession will not count
+            val audioStatus = AudioStatus(deviceId, audioIndex, false, Calendar.getInstance().getTime())
+            sendAudioHistory(audioStatus)
             TODO("Prompt user that exiting will not count")
         }
     }
@@ -135,6 +151,37 @@ class MediaActivity : AppCompatActivity() {
         } catch (e:Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun sendAudioHistory(audio: AudioStatus){
+        val call = service.postAudioHistory(audio)
+
+        call.enqueue(object : Callback<Success> {
+            override fun onResponse(call: Call<Success>?, response: Response<Success>?) {
+                if (response == null) {
+                    Log.d("onResponse", "response is null")
+                    TODO("save audio data locally")
+                    return
+                }
+
+                if(response.code() >= 300){
+                    Log.d("onResponse", response.body().toString())
+                    TODO("save audio data locally")
+                    return
+                }
+
+                if(response.body()?.error == true) {
+                    TODO("save audio data locally")
+                }
+
+            }
+
+            override fun onFailure(call: Call<Success>?, t: Throwable?) {
+                Log.d("onResponse", "Error")
+                TODO("save audio data locally")
+            }
+
+        })
     }
 
 }
