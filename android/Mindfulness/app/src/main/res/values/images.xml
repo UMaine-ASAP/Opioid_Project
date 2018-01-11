@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="image_array">
+        <item>@drawable/ic_dashboard_black_24dp</item>
+        <item>@drawable/sunset_lake</item>
+        <item>@drawable/sunset_lake</item>
+        <item>@drawable/sunset_lake</item>
+    </array>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="quotes_array">
+        <item>Quote 1</item>
+        <item>Quote 2</item>
+        <item>Quote 3</item>
+        <item>Quote 4</item>
+        <item>Quote 5</item>
+        <item>Quote 6</item>
+        <item>Quote 7</item>
+        <item>Quote 8</item>
+    </string-array>
+</resources>
