@@ -39,7 +39,7 @@ class ResourceAdapter(private val items : List<Resource>) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: ResourceHolder?, position: Int) {
         holder?.title?.text =  items[position].title
         holder?.extra?.text = items[position].extra
-        holder?.image?.setImageResource(items[position].image)
+        //holder?.image?.setImageResource(items[position].image)
     }
 
     override fun getItemCount(): Int {

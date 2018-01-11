@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="image_array">
-        <item>@drawable/ic_dashboard_black_24dp</item>
-        <item>@drawable/sunset_lake</item>
-        <item>@drawable/sunset_lake</item>
-        <item>@drawable/sunset_lake</item>
+        <item>@drawable/beach_stones</item>
+        <item>@drawable/water_shimmer</item>
+        <item>@drawable/wood_grain</item>
     </array>
 </resources>

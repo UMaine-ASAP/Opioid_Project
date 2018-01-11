@@ -19,7 +19,7 @@ import android.view.View
 class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View?) {
-        TODO("check to see if enqueues are done")
+        //TODO("check to see if enqueues are done")
         if(true) {
             val intent = Intent(this, ParentActivity::class.java)
             startActivity(intent)
@@ -39,11 +39,12 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         val quotes = resources.getStringArray(R.array.quotes_array)
         quoteTextView.text = quotes[0]
-        TODO("use mod to update the quote")
+        //TODO("use mod to update the quote")
 
         val images = resources.obtainTypedArray(R.array.image_array)
-        quoteImageView.setImageResource(images.getResourceId(0,0))
-        TODO("use mod to update the image")
+        //quoteImageView.setImageResource(images.getResourceId(0,0))
+        quoteImageView.setImageResource(R.drawable.wood_grain)
+        //TODO("use mod to update the image")
 
         quoteImageView.setOnClickListener(this)
         quoteImageView.setOnClickListener(this)
@@ -54,7 +55,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         // check local sql database to see if needs to update server
         // call addSurvey for each survey in loacl db
         // call addAudioHistory for each audio track in local db
-        TODO("Intergrate local SQL LITE DB")
+        //TODO("Intergrate local SQL LITE DB")
     }
 
 
