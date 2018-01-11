@@ -43,7 +43,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         val images = resources.obtainTypedArray(R.array.image_array)
         //quoteImageView.setImageResource(images.getResourceId(0,0))
-        quoteImageView.setImageResource(R.drawable.wood_grain)
+        //quoteImageView.setImageResource(R.drawable.wood_grain)
         //TODO("use mod to update the image")
 
         quoteImageView.setOnClickListener(this)
