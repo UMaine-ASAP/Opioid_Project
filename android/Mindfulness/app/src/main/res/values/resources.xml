@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="resource_titles">
+        <item>Google</item>
+        <item>Wikipedia - Mindfulness</item>
+        <item>PES - Fresh Guacamole</item>
+        <item>Relaxing Songs</item>
+        <item>Survey</item>
+        <item>Introduction</item>
+    </string-array>
+    <string-array name="resource_extras">
+        <item>https://google.com</item>
+        <item>https://en.wikipedia.org/wiki/Mindfulness</item>
+        <item>https://www.youtube.com/watch?v=dNJdJIwCF_Y</item>
+        <item>https://renaissancesound.bandcamp.com/track/dont-eat-my-dwarves</item>
+        <item>https://survey.com</item>
+        <item>"REPLACE WITH CURRENT DATE"</item>
+    </string-array>
+    <integer-array name="resource_types">
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </integer-array>
+    <string-array name="resource_images">
+        <item>R.drawable.google-favicon</item>
+        <items>R.drawable.wikipedia-favicon</items>
+        <items>""</items>
+        <items>""</items>
+        <items>""</items>
+        <items>""</items>
+    </string-array>
+</resources>

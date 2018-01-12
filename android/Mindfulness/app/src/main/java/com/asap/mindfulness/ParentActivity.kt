@@ -1,6 +1,7 @@
 package com.asap.mindfulness
 
 import android.content.Context
+import android.content.Intent
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 
@@ -122,6 +123,16 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
     override fun onPageRequested(page: Int) : Boolean {
         if (page > -1 && page < 3) {
             container.currentItem = page
+            return true
+        }
+
+        return false
+    }
+
+    override fun onSurveyRequested(url: String): Boolean {
+        if (url != "") {
+            val webview = Intent(baseContext, WebViewActivity::class.java)
+            webview.putExtra("url", url)
             return true
         }
 

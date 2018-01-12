@@ -1,6 +1,7 @@
 package com.asap.mindfulness.Setup
 
 import android.content.Intent
+import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -11,6 +12,7 @@ import android.support.v4.view.ViewPager
 import com.asap.mindfulness.ParentActivity
 import com.asap.mindfulness.QuoteActivity
 import com.asap.mindfulness.R
+import com.asap.mindfulness.SQLite.SQLManager
 import kotlinx.android.synthetic.main.activity_setup.*
 import kotlinx.android.synthetic.main.fragment_setup_patient.*
 import kotlinx.android.synthetic.main.fragment_setup_user.*
@@ -99,6 +101,34 @@ class SetupActivity : AppCompatActivity() {
                     startActivity(main)
                 }
             }
+        }
+
+        // Load in Resources to the DB
+        val resourceTitles = resources.getStringArray(R.array.resource_titles)
+        val resourceExtras = resources.getStringArray(R.array.resource_extras)
+        val resourceTypes = resources.getIntArray(R.array.resource_types)
+        val resourceImages = resources.getStringArray(R.array.resource_images)
+        val db = SQLManager(this)
+        db.createDatabase("Updatables")
+
+        // Create Resources Table
+        db.createColumn("ID", "INTEGER", "PRIMARY, AUTO INCREMENT")
+        db.createColumn("Title", "TEXT")
+        db.createColumn("Extra", "TEXT")
+        db.createColumn("Type", "INTEGER")
+        db.createColumn("Image", "TEXT")
+        db.createTable("Updatables", "Resources")
+
+        for (i in 0 until resourceTitles.size) {
+            db.insertRow("Updatables", "Resources",
+                    "TITLE, Extra, Type, Image",
+                    String.format("%s, %s, %d, %s",
+                            resourceTitles[i],
+                            resourceExtras[i],
+                            resourceTypes[i],
+                            resourceImages[i]
+                    )
+            )
         }
     }
 

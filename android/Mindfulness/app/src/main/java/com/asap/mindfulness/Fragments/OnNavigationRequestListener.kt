@@ -18,5 +18,6 @@ package com.asap.mindfulness.Fragments
  * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
  */
 interface OnNavigationRequestListener {
-    fun onPageRequested(page : Int) : Boolean
+    fun onPageRequested(page: Int): Boolean
+    fun onSurveyRequested(url: String): Boolean
 }

@@ -1,6 +1,8 @@
 package com.asap.mindfulness.Fragments
 
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -16,6 +18,8 @@ import com.asap.mindfulness.Containers.Resource
 import com.asap.mindfulness.R
 import com.asap.mindfulness.RecyclerViewAdapters.FeedAdapter
 import com.asap.mindfulness.RecyclerViewAdapters.ResourceAdapter
+import com.asap.mindfulness.SQLite.DatabaseClass
+import com.asap.mindfulness.SQLite.SQLManager
 import kotlinx.android.synthetic.main.content_scrolling.view.*
 import kotlinx.android.synthetic.main.fragment_resource.view.*
 
@@ -49,8 +53,23 @@ class ResourceFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater!!.inflate(R.layout.fragment_resource, container, false)
 
+        // Load in resources from SQLite
+        val db = DatabaseClass(context, "Updatables").readableDatabase
+        val cursor = db.query(true, "Resources", arrayOf("Title", "Extra", "Type", "Image"),
+                null, null, null, "Type", null, null)
+
         val resources = ArrayList<Resource>()
-        // TODO: resources.add(* things *)
+
+        while (!cursor.isLast) {
+            cursor.moveToNext()
+            resources.add(Resource(
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getInt(3),
+                    cursor.getString(4)))
+        }
+
+        cursor.close()
 
         rootView.resource_recycler.adapter = ResourceAdapter(resources)
         rootView.resource_recycler.layoutManager = LinearLayoutManager(context)
