@@ -13,6 +13,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.view.View
+import android.widget.RelativeLayout
+
+
 
 
 
@@ -39,16 +42,14 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         val quotes = resources.getStringArray(R.array.quotes_array)
         quoteTextView.text = quotes[0]
-        //TODO("use mod to update the quote")
+        //TODO("use mod to update the quote. day%count")
 
-        val images = resources.obtainTypedArray(R.array.image_array)
+        //val images = resources.obtainTypedArray(R.array.image_array)
         //quoteImageView.setImageResource(images.getResourceId(0,0))
         //quoteImageView.setImageResource(R.drawable.wood_grain)
         //TODO("use mod to update the image")
 
-        quoteImageView.setOnClickListener(this)
-        quoteImageView.setOnClickListener(this)
-
+        view_quote.setOnClickListener(this)
     }
 
     fun updateServer() {
