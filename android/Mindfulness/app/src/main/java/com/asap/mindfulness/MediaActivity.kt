@@ -25,11 +25,14 @@ import java.util.*
 
 import java.util.concurrent.TimeUnit.MILLISECONDS as TUM
 import android.content.Intent
+import android.os.Build
+import android.provider.Settings
 import android.view.MenuItem
 
 
 class MediaActivity : AppCompatActivity() {
 
+    private var deviceId = ""
 
     // source of the audio to be played
     private var audioSource = R.raw.track1
@@ -79,6 +82,10 @@ class MediaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
+
+        deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
+
+        Log.d("DeviceID", deviceId)
 
         audioSource = intent.getIntExtra("path", R.raw.track1)
         audioIndex = intent.getIntExtra("index", 0)

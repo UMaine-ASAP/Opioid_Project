@@ -9,19 +9,24 @@ import kotlinx.android.synthetic.main.activity_quote.*
 import android.util.Log
 import com.asap.mindfulness.Containers.*
 import com.asap.mindfulness.Retrofit.service
+import com.asap.mindfulness.Retrofit.PREFS_NAME
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.view.View
 import android.widget.RelativeLayout
-
-
-
+//import sun.plugin2.util.PojoUtil.toJson
+import com.google.gson.Gson
+import android.R.id.edit
+import android.content.SharedPreferences
+import java.util.*
 
 
 class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
     var isDoneSending = false
+
+    lateinit var prefs: SharedPreferences
 
     override fun onClick(view: View?) {
         if(isDoneSending) {
@@ -35,14 +40,23 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quote)
 
+        prefs = this.getSharedPreferences(PREFS_NAME, 0)
+
         setup()
         updateServer()
     }
 
     fun setup() {
 
+        val startDate = Date()
+        startDate.time = prefs.getLong("StartDate", 0)
+
+        val numOfDays = daysBetween(startDate, Date())
+
         val quotes = resources.getStringArray(R.array.quotes_array)
-        quoteTextView.text = quotes[0]
+        quoteTextView.text = quotes[(numOfDays % quotes.size.toLong()).toInt()]
+
+
         //TODO("use mod to update the quote. day%count")
 
         //val images = resources.obtainTypedArray(R.array.image_array)
@@ -253,4 +267,29 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 //
 //        })
 //    }
+
+
+
+    fun daysBetween(startDate: Date, endDate: Date): Long {
+
+        fun getDatePart(date:Date):Calendar {
+            val cal = Calendar.getInstance() // get calendar instance
+            cal.setTime(date)
+            cal.set(Calendar.HOUR_OF_DAY, 0) // set hour to midnight
+            cal.set(Calendar.MINUTE, 0) // set minute in hour
+            cal.set(Calendar.SECOND, 0) // set second in minute
+            cal.set(Calendar.MILLISECOND, 0) // set millisecond in second
+            return cal // return the date part
+        }
+
+        val sDate = getDatePart(startDate)
+        val eDate = getDatePart(endDate)
+
+        var daysBetween: Long = 0
+        while (sDate.before(eDate)) {
+            sDate.add(Calendar.DAY_OF_MONTH, 1)
+            daysBetween++
+        }
+        return daysBetween
+    }
 }

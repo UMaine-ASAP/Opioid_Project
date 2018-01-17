@@ -12,10 +12,12 @@ import android.support.v4.view.ViewPager
 import com.asap.mindfulness.ParentActivity
 import com.asap.mindfulness.QuoteActivity
 import com.asap.mindfulness.R
+import com.asap.mindfulness.Retrofit.PREFS_NAME
 import com.asap.mindfulness.SQLite.SQLManager
 import kotlinx.android.synthetic.main.activity_setup.*
 import kotlinx.android.synthetic.main.fragment_setup_patient.*
 import kotlinx.android.synthetic.main.fragment_setup_user.*
+import java.util.*
 
 /**
  * @author Spencer Ward
@@ -102,6 +104,13 @@ class SetupActivity : AppCompatActivity() {
                 }
             }
         }
+
+        //Setting the date the user starts treatment
+        val today: Long = Date().time
+        val prefs = this.getSharedPreferences(PREFS_NAME, 0)
+        val prefsEditor = prefs.edit()
+        prefsEditor.putLong("StartDate", today)
+        prefsEditor.commit()
 
         // Load in Resources to the DB
         val resourceTitles = resources.getStringArray(R.array.resource_titles)
