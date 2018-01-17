@@ -25,11 +25,11 @@
         <item>4</item>
     </integer-array>
     <string-array name="resource_images">
-        <item>R.drawable.google-favicon</item>
-        <items>R.drawable.wikipedia-favicon</items>
-        <items>""</items>
-        <items>""</items>
-        <items>""</items>
-        <items>""</items>
+        <item>R.drawable.google_favicon</item>
+        <item>R.drawable.wikipedia_favicon</item>
+        <item>""</item>
+        <item>""</item>
+        <item>""</item>
+        <item>""</item>
     </string-array>
 </resources>
