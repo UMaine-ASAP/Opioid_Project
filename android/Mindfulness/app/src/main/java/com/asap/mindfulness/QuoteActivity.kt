@@ -21,9 +21,10 @@ import android.widget.RelativeLayout
 
 class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
+    var isDoneSending = false
+
     override fun onClick(view: View?) {
-        //TODO("check to see if enqueues are done")
-        if(true) {
+        if(isDoneSending) {
             val intent = Intent(this, ParentActivity::class.java)
             startActivity(intent)
         }
@@ -57,6 +58,19 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         // call addSurvey for each survey in loacl db
         // call addAudioHistory for each audio track in local db
         //TODO("Intergrate local SQL LITE DB")
+
+        if(false){ // if sql has data
+
+            // call retrofit functions to update data
+
+
+        }
+        done()
+    }
+
+    fun done(){
+        isDoneSending = true
+        quoteProgressBar.visibility = View.INVISIBLE
     }
 
 
@@ -70,19 +84,23 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
                 if (response == null) {
                     Log.d("onResponse", "response is null")
+                    done()
                     return
                 }
 
                 if(response.code() >= 300){
                     Log.d("onResponse", response.body().toString())
+                    done()
                     return
                 }
 
+                done()
                 // was successfull
 
             }
 
             override fun onFailure(call: Call<Success>?, t: Throwable?) {
+                done()
                 Log.d("onResponse", "Error")
             }
         })
@@ -94,19 +112,22 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         call.enqueue(object : Callback<Success> {
             override fun onResponse(call: Call<Success>?, response: Response<Success>?) {
                 if (response == null) {
+                    done()
                     Log.d("onResponse", "response is null")
                     return
                 }
 
                 if(response.code() >= 300){
+                    done()
                     Log.d("onResponse", response.body().toString())
                     return
                 }
 
-                // successfull
+                done()
             }
 
             override fun onFailure(call: Call<Success>?, t: Throwable?) {
+                done()
                 Log.d("onResponse", "Error")
             }
 

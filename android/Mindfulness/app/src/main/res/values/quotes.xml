@@ -10,4 +10,9 @@
         <item>Quote 7</item>
         <item>Quote 8</item>
     </string-array>
+    <array name="image_array">
+        <item>@drawable/beach_stones</item>
+        <item>@drawable/water_shimmer</item>
+        <item>@drawable/wood_grain</item>
+    </array>
 </resources>
