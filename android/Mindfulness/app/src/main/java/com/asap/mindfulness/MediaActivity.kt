@@ -24,6 +24,9 @@ import java.util.*
 
 
 import java.util.concurrent.TimeUnit.MILLISECONDS as TUM
+import android.content.Intent
+import android.view.MenuItem
+
 
 class MediaActivity : AppCompatActivity() {
 
@@ -68,7 +71,8 @@ class MediaActivity : AppCompatActivity() {
 
         }
         override fun onFinish() {
-            // exit the activity because time ran out
+            val audioStatus = AudioStatus(deviceId, audioIndex, true, Calendar.getInstance().getTime())
+            sendAudioHistory(audioStatus)
         }
     }
 
@@ -96,12 +100,24 @@ class MediaActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        Log.d("HERE", "exited")
+        goBack()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        goBack()
+        finish()
+        return true
+    }
+
+    fun goBack(){
         if(mediaPlayer.duration * 0.95 > mediaPlayer.currentPosition){
             // allow user to exit
 
             val audioStatus = AudioStatus(deviceId, audioIndex, true, Calendar.getInstance().getTime())
             sendAudioHistory(audioStatus)
+
+            val myIntent = Intent(applicationContext, ParentActivity::class.java)
+            startActivityForResult(myIntent, 0)
 
         }else{
             // prompt user that seession will not count
@@ -160,25 +176,25 @@ class MediaActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Success>?, response: Response<Success>?) {
                 if (response == null) {
                     Log.d("onResponse", "response is null")
-                    TODO("save audio data locally")
+                    //TODO("save audio data locally")
                     return
                 }
 
                 if(response.code() >= 300){
                     Log.d("onResponse", response.body().toString())
-                    TODO("save audio data locally")
+                    //TODO("save audio data locally")
                     return
                 }
 
                 if(response.body()?.error == true) {
-                    TODO("save audio data locally")
+                    //TODO("save audio data locally")
                 }
 
             }
 
             override fun onFailure(call: Call<Success>?, t: Throwable?) {
                 Log.d("onResponse", "Error")
-                TODO("save audio data locally")
+                //TODO("save audio data locally")
             }
 
         })
