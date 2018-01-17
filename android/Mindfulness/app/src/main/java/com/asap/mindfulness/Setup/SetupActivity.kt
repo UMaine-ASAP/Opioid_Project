@@ -122,6 +122,13 @@ class SetupActivity : AppCompatActivity() {
         val db = SQLManager(this)
         db.createDatabase("Updatables")
 
+        // Create audio table
+        db.createColumn("track_number", "INTEGER")
+        db.createColumn("completion_status", "INTEGER")
+        db.createColumn("creation_date", "TIMESTAMP")
+        db.createTable("Updatables", "Audio History")
+
+
         // Create Resources Table
         db.createColumn("ID", "INTEGER", "PRIMARY, AUTO INCREMENT")
         db.createColumn("Title", "TEXT")
