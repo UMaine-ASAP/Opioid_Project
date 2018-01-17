@@ -1,5 +1,6 @@
 package com.asap.mindfulness.Setup
 
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
+import android.util.Log
 import com.asap.mindfulness.ParentActivity
 import com.asap.mindfulness.QuoteActivity
 import com.asap.mindfulness.R
@@ -107,10 +109,10 @@ class SetupActivity : AppCompatActivity() {
 
         //Setting the date the user starts treatment
         val today: Long = Date().time
-        val prefs = this.getSharedPreferences(PREFS_NAME, 0)
+        val prefs = this.getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
         val prefsEditor = prefs.edit()
         prefsEditor.putLong("StartDate", today)
-        prefsEditor.commit()
+        prefsEditor.apply()
 
         // Load in Resources to the DB
         val resourceTitles = resources.getStringArray(R.array.resource_titles)
@@ -138,6 +140,9 @@ class SetupActivity : AppCompatActivity() {
                             resourceImages[i]
                     )
             )
+
+            Log.d("SetupActivity", R.mipmap.google_favicon.toString())
+            Log.d("SetupActivity", R.mipmap.wikipedia_favicon.toString())
         }
     }
 
@@ -155,7 +160,11 @@ class SetupActivity : AppCompatActivity() {
             return false
         }
 
-        // TODO: Store patientName and patientPassword asynchronously
+        with (getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE).edit()) {
+            putString(getString(R.string.sp_name), patientName)
+            putString(getString(R.string.sp_password), patientPassword)
+            apply()
+        }
 
         return true
     }
@@ -169,7 +178,10 @@ class SetupActivity : AppCompatActivity() {
             return false
         }
 
-        // TODO: Store patientId asynchronously
+        with (getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE).edit()) {
+            putString(getString(R.string.setup_patient_id), patientId)
+            apply()
+        }
 
         return true
     }

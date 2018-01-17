@@ -18,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.asap.mindfulness.Fragments.FeedFragment
 import com.asap.mindfulness.Fragments.OnNavigationRequestListener
+import com.asap.mindfulness.Fragments.ResourceFragment
 import com.asap.mindfulness.Fragments.TracksFragment
 
 import kotlinx.android.synthetic.main.activity_parent.*
@@ -150,7 +151,7 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
             return when (position) {
                 0 -> FeedFragment.newInstance()
                 1 -> TracksFragment.newInstance()
-                2 -> FeedFragment.newInstance()
+                2 -> ResourceFragment.newInstance()
                 else -> FeedFragment.newInstance()
             }
         }

@@ -1,6 +1,8 @@
 package com.asap.mindfulness.Containers
 
+import android.support.v4.content.res.ResourcesCompat
 import com.asap.mindfulness.R
+import android.content.res.Resources
 
 /**
  * @author Spencer Ward
@@ -29,24 +31,12 @@ import com.asap.mindfulness.R
  *
  */
 
-class Resource(val title : String, val extra: String, val type: Int, val image: String) {
-    var img: Int = 0
+class Resource(val title : String, val extra: String, val type: Int, val image: Int) {
     companion object {
         val WEBSITE = 0
         val VIDEO = 1
         val AUDIO = 2
         val SURVEY = 3
         val INTRODUCTION = 4
-    }
-
-    init {
-//        img = when(type) {
-//            WEBSITE -> Resource.getIdentifier(image)
-//            VIDEO -> R.drawable.icon_video
-//            AUDIO -> R.drawable.icon_audio
-//            SURVEY -> R.drawable.icon_survey
-//            INTRODUCTION -> R.drawable.icon_intro
-//            else -> R.drawable.ic_dashboard_black_24dp
-//        }
     }
 }

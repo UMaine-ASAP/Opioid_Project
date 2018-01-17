@@ -14,6 +14,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.asap.mindfulness.Containers.FeedItem
 import com.asap.mindfulness.Containers.Resource
+import com.asap.mindfulness.Containers.Resource.Companion.AUDIO
+import com.asap.mindfulness.Containers.Resource.Companion.INTRODUCTION
+import com.asap.mindfulness.Containers.Resource.Companion.SURVEY
+import com.asap.mindfulness.Containers.Resource.Companion.VIDEO
 
 import com.asap.mindfulness.R
 import com.asap.mindfulness.RecyclerViewAdapters.FeedAdapter
@@ -56,7 +60,7 @@ class ResourceFragment : Fragment() {
         // Load in resources from SQLite
         val db = DatabaseClass(context, "Updatables").readableDatabase
         val cursor = db.query(true, "Resources", arrayOf("Title", "Extra", "Type", "Image"),
-                null, null, null, "Type", null, null)
+                null, null, "Type", null, null, null)
 
         val resources = ArrayList<Resource>()
 
@@ -66,7 +70,15 @@ class ResourceFragment : Fragment() {
                     cursor.getString(1),
                     cursor.getString(2),
                     cursor.getInt(3),
-                    cursor.getString(4)))
+                    when(cursor.getInt(3)) {
+//                        Resource.WEBSITE -> getResources().getIdentifier(cursor.getString(4), "drawable", "com.asap.mindfulness.Fragments")
+                        Resource.WEBSITE -> cursor.getInt(4)
+//                        VIDEO -> R.drawable.icon_video
+//                        AUDIO -> R.drawable.icon_audio
+//                        SURVEY -> R.drawable.icon_survey
+//                        INTRODUCTION -> R.drawable.icon_intro
+                        else -> R.drawable.ic_dashboard_black_24dp
+                    }))
         }
 
         cursor.close()

@@ -6,6 +6,12 @@
     <string name="title_activity_parent">Mindfulness</string>
     <string name="action_settings">Settings</string>
 
+    <!-- SharedPreference Keys -->
+    <string name="sp_file_key">com.asap.mindfulness.PREFERENCE_FILE</string>
+    <string name="sp_name">SP_USER_NAME</string>
+    <string name="sp_password">SP_USER_PASSWORD</string>
+    <string name="sp_patient_id">SP_USER_PATIENT_ID</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
