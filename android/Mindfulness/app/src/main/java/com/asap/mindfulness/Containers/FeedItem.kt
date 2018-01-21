@@ -24,15 +24,12 @@ class FeedItem(val line1: String, val line2: String, val type: Int) {
 
         private val top = itemView.feed_top
         private val bottom = itemView.feed_bottom
-        private var navigationListener: OnNavigationRequestListener? = null
 
-        fun populate(item: FeedItem) {
+        fun populate(item: FeedItem, listener: OnNavigationRequestListener?) {
             top.text = item.line1
             bottom.text = item.line2
-        }
 
-        fun attachOnNavigationRequestListener(listener: OnNavigationRequestListener) {
-            navigationListener = listener
+            // TODO: Set up listener to navigate the parent to a specific page
         }
     }
 }

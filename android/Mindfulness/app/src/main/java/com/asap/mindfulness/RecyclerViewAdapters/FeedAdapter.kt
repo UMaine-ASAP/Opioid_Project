@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.asap.mindfulness.Containers.FeedItem
+import com.asap.mindfulness.Fragments.OnNavigationRequestListener
 import com.asap.mindfulness.R
 import kotlinx.android.synthetic.main.card_feed.view.*
 
@@ -18,8 +19,12 @@ import kotlinx.android.synthetic.main.card_feed.view.*
  */
 
 class FeedAdapter(private val items : List<FeedItem>) : RecyclerView.Adapter<FeedItem.Holder>() {
-    init {
 
+    var navigationListener: OnNavigationRequestListener? = null
+
+    fun attachOnNavigationRequestListener(listener: OnNavigationRequestListener?) : FeedAdapter {
+        navigationListener = listener
+        return this
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): FeedItem.Holder {
@@ -28,7 +33,7 @@ class FeedAdapter(private val items : List<FeedItem>) : RecyclerView.Adapter<Fee
     }
 
     override fun onBindViewHolder(holder: FeedItem.Holder?, position: Int) {
-        holder?.populate(items[position])
+        holder?.populate(items[position], navigationListener)
     }
 
     override fun getItemCount(): Int {

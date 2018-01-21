@@ -36,8 +36,8 @@ class FeedFragment : Fragment() {
         super.onCreate(savedInstanceState)
         // TODO: Put database and network requests here
 
-        feedItems.add(FeedItem("First"))
-        feedItems.add(FeedItem("Second"))
+        feedItems.add(FeedItem("First", "Thing", 0))
+        feedItems.add(FeedItem("Second", "Card", 1))
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -46,6 +46,7 @@ class FeedFragment : Fragment() {
         val rootView = inflater!!.inflate(R.layout.fragment_feed, container, false)
 
         rootView.feed_recycler.adapter = FeedAdapter(feedItems)
+                .attachOnNavigationRequestListener(mListener)
         rootView.feed_recycler.layoutManager = LinearLayoutManager(context)
 
         return rootView
