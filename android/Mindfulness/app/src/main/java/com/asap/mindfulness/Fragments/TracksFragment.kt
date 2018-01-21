@@ -31,20 +31,12 @@ import kotlinx.android.synthetic.main.fragment_tracks.view.*
 class TracksFragment : Fragment() {
 
     private var mListener: OnNavigationRequestListener? = null
+    // List to hold our tracks as we load them
+    private val trackList = ArrayList<Track>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // TODO: Put database and network requests here
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        val rootView = inflater!!.inflate(R.layout.fragment_tracks, container, false)
-
-        // Create list to hold our tracks as we build them
-        val trackList = ArrayList<Track>()
         // Pull String arrays from resources
         val trackTitles = resources.getStringArray(R.array.track_titles)
         val trackDescriptions = resources.getStringArray(R.array.track_descs)
@@ -65,6 +57,12 @@ class TracksFragment : Fragment() {
                 else -> R.raw.track1
             }
         }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        val rootView = inflater!!.inflate(R.layout.fragment_tracks, container, false)
 
         // Set up our recycler adapter and layout
         rootView.track_recycler.adapter = TrackAdapter(trackList)

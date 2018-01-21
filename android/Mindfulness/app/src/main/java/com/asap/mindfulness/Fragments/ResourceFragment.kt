@@ -41,28 +41,15 @@ import kotlinx.android.synthetic.main.fragment_resource.view.*
 class ResourceFragment : Fragment() {
 
     private var mListener: OnNavigationRequestListener? = null
+    private val resources = ArrayList<Resource>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        if (arguments != null) {
-//            mParam1 = arguments.getString(ARG_PARAM1)
-//            mParam2 = arguments.getString(ARG_PARAM2)
-//        }
-
-        // TODO: Put database and network requests here
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        val rootView = inflater!!.inflate(R.layout.fragment_resource, container, false)
 
         // Load in resources from SQLite
         val db = DatabaseClass(context, "Updatables").readableDatabase
         val cursor = db.query(true, "Resources", arrayOf("Title", "Extra", "Type", "Image"),
                 null, null, "Type", null, null, null)
-
-        val resources = ArrayList<Resource>()
 
         while (!cursor.isLast) {
             cursor.moveToNext()
@@ -82,6 +69,12 @@ class ResourceFragment : Fragment() {
         }
 
         cursor.close()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        val rootView = inflater!!.inflate(R.layout.fragment_resource, container, false)
 
         rootView.resource_recycler.adapter = ResourceAdapter(resources).attachOnNavigationRequestListener(mListener)
         rootView.resource_recycler.layoutManager = LinearLayoutManager(context)
