@@ -76,7 +76,8 @@ class ResourceFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater!!.inflate(R.layout.fragment_resource, container, false)
 
-        rootView.resource_recycler.adapter = ResourceAdapter(resources).attachOnNavigationRequestListener(mListener)
+        rootView.resource_recycler.adapter = ResourceAdapter(resources)
+                .attachOnNavigationRequestListener(mListener)
         rootView.resource_recycler.layoutManager = LinearLayoutManager(context)
 
         Snackbar.make(rootView, "Some text", Snackbar.LENGTH_LONG)

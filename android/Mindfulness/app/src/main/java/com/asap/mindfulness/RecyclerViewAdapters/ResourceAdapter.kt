@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.card_resource.view.*
 
 class ResourceAdapter(private val items : List<Resource>) : RecyclerView.Adapter<Resource.Holder>() {
 
-
     var navigationListener: OnNavigationRequestListener? = null
 
     fun attachOnNavigationRequestListener(listener: OnNavigationRequestListener?) : ResourceAdapter {
