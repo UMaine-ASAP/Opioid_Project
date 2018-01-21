@@ -1,4 +1,4 @@
-package com.huskehtech.databasemanager;
+package com.asap.mindfulness.SQLite;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

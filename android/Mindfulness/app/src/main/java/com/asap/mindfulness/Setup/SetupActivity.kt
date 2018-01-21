@@ -120,21 +120,21 @@ class SetupActivity : AppCompatActivity() {
         val resourceTypes = resources.getIntArray(R.array.resource_types)
         val resourceImages = resources.getStringArray(R.array.resource_images)
         val db = SQLManager(this)
-        db.createDatabase("Updatables")
+        db.registerDatabase("Updatables")
 
         // Create audio table
-        db.createColumn("track_number", "INTEGER")
-        db.createColumn("completion_status", "INTEGER")
-        db.createColumn("creation_date", "TIMESTAMP")
+        db.pushColumn("track_number", "INTEGER")
+        db.pushColumn("completion_status", "INTEGER")
+        db.pushColumn("creation_date", "TIMESTAMP")
         db.createTable("Updatables", "Audio History")
 
 
         // Create Resources Table
-        db.createColumn("ID", "INTEGER", "PRIMARY, AUTO INCREMENT")
-        db.createColumn("Title", "TEXT")
-        db.createColumn("Extra", "TEXT")
-        db.createColumn("Type", "INTEGER")
-        db.createColumn("Image", "TEXT")
+        db.pushColumn("ID", "INTEGER", "PRIMARY, AUTO INCREMENT")
+        db.pushColumn("Title", "TEXT")
+        db.pushColumn("Extra", "TEXT")
+        db.pushColumn("Type", "INTEGER")
+        db.pushColumn("Image", "TEXT")
         db.createTable("Updatables", "Resources")
 
         for (i in 0 until resourceTitles.size) {
