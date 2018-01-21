@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- SharedPreference Keys -->
+    <string name="sp_file_key">com.asap.mindfulness.PREFERENCE_FILE</string>
+    <string name="sp_name">SP_USER_NAME</string>
+    <string name="sp_password">SP_USER_PASSWORD</string>
+    <string name="sp_patient_id">SP_USER_PATIENT_ID</string>
+    <string name="sp_current_track">SP_CURRENT_TRACK</string>
+    <string name="sp_start_date">SP_START_DATE</string>
+</resources>

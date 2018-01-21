@@ -111,7 +111,7 @@ class SetupActivity : AppCompatActivity() {
         val today: Long = Date().time
         val prefs = this.getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
         val prefsEditor = prefs.edit()
-        prefsEditor.putLong("StartDate", today)
+        prefsEditor.putLong(getString(R.string.sp_start_date), today)
         prefsEditor.apply()
 
         // Load in Resources to the DB

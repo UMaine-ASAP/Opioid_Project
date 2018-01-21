@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.activity_quote.*
 import android.util.Log
 import com.asap.mindfulness.Containers.*
 import com.asap.mindfulness.Retrofit.service
-import com.asap.mindfulness.Retrofit.PREFS_NAME
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +39,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quote)
 
-        prefs = this.getSharedPreferences(PREFS_NAME, 0)
+        prefs = this.getSharedPreferences(getString(R.string.sp_file_key), 0)
 
         setup()
         updateServer()

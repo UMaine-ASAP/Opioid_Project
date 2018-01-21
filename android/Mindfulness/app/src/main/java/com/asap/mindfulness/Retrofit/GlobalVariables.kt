@@ -9,8 +9,6 @@ import android.content.SharedPreferences
 
 val url = "http://chitna.asap.um.maine.edu:4300"
 
-val PREFS_NAME = "edu.maine.um.asap.mindfullness"
-
 //deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
 
 val gson = GsonBuilder()
