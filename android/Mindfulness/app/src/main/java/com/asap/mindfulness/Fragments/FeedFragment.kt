@@ -30,25 +30,20 @@ import kotlinx.android.synthetic.main.content_scrolling.view.*
 class FeedFragment : Fragment() {
 
     private var mListener: OnNavigationRequestListener? = null
+    private var feedItems = ArrayList<FeedItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        if (arguments != null) {
-//            mParam1 = arguments.getString(ARG_PARAM1)
-//            mParam2 = arguments.getString(ARG_PARAM2)
-//        }
-
         // TODO: Put database and network requests here
+
+        feedItems.add(FeedItem("First"))
+        feedItems.add(FeedItem("Second"))
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val rootView = inflater!!.inflate(R.layout.fragment_feed, container, false)
-
-        val feedItems = ArrayList<FeedItem>()
-        feedItems.add(FeedItem("First"))
-        feedItems.add(FeedItem("Second"))
 
         rootView.feed_recycler.adapter = FeedAdapter(feedItems)
         rootView.feed_recycler.layoutManager = LinearLayoutManager(context)
@@ -90,4 +85,4 @@ class FeedFragment : Fragment() {
             return FeedFragment()
         }
     }
-}// Required empty public constructor
+}

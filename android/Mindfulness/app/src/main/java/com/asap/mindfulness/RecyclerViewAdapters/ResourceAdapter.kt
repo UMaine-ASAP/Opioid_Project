@@ -22,18 +22,8 @@ import kotlinx.android.synthetic.main.card_resource.view.*
  *
  */
 
-class ResourceAdapter(private val items : List<Resource>) : RecyclerView.Adapter<ResourceAdapter.ResourceHolder>() {
-    class ResourceHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-        var title: TextView
-        var extra: TextView
-        var image: ImageView
+class ResourceAdapter(private val items : List<Resource>) : RecyclerView.Adapter<Resource.Holder>() {
 
-        init {
-            title = itemView.resource_title
-            extra = itemView.resource_extra
-            image = itemView.resource_icon
-        }
-    }
 
     var navigationListener: OnNavigationRequestListener? = null
 
@@ -42,24 +32,13 @@ class ResourceAdapter(private val items : List<Resource>) : RecyclerView.Adapter
         return this
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ResourceHolder {
-        return ResourceHolder(LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): Resource.Holder {
+        return Resource.Holder(LayoutInflater.from(parent?.context)
                 .inflate(R.layout.card_resource, parent, false))
     }
 
-    override fun onBindViewHolder(holder: ResourceHolder?, position: Int) {
-        val item = items[position]
-        holder?.title?.text =  item.title
-        holder?.extra?.text = item.extra
-        holder?.image?.setImageResource((item.image))
-        holder?.itemView?.setOnClickListener { _ ->
-            if (item.type < Resource.INTRODUCTION) {
-                navigationListener?.onWebViewRequested(item.extra)
-            } else {
-                // TODO: Launch Introduction Activity
-            }
-
-        }
+    override fun onBindViewHolder(holder: Resource.Holder?, position: Int) {
+        holder?.populate(items[position], navigationListener)
     }
 
     override fun getItemCount(): Int {

@@ -17,26 +17,17 @@ import kotlinx.android.synthetic.main.card_feed.view.*
  *
  */
 
-class FeedAdapter(private val items : List<FeedItem>) : RecyclerView.Adapter<FeedAdapter.FeedHolder>() {
-    class FeedHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-
-        val title : TextView
-
-        init {
-            title = itemView.feed_title
-        }
-    }
-
+class FeedAdapter(private val items : List<FeedItem>) : RecyclerView.Adapter<FeedItem.Holder>() {
     init {
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): FeedHolder {
-        return FeedHolder(LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): FeedItem.Holder {
+        return FeedItem.Holder(LayoutInflater.from(parent?.context)
                 .inflate(R.layout.card_feed, parent, false))
     }
 
-    override fun onBindViewHolder(holder: FeedHolder?, position: Int) {
+    override fun onBindViewHolder(holder: FeedItem.Holder?, position: Int) {
         holder?.title?.text =  items[position].title
     }
 
