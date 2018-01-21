@@ -1,4 +1,4 @@
-package com.asap.mindfulness.SQLite;
+package com.huskehtech.databasemanager;
 
 import android.content.ContentValues;
 

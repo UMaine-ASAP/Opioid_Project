@@ -1,7 +1,8 @@
-package com.asap.mindfulness.SQLite;
+package com.huskehtech.databasemanager;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -22,10 +23,10 @@ Description: The SQLManager is the direct interface for managing the Android's S
 
 public class SQLManager
 {
-    Map<String, DatabaseClass> databasestorage = new HashMap<String, DatabaseClass>();      //Stores database objects with an associated string
-    List<TableColumnClass> constructor = new ArrayList<TableColumnClass>();
-    Context passedContext;                                              //Stores the context that is passed on to other methods
-    TableClass tc;                                                      //creates a table class, which is used to modify tables
+    private Map<String, DatabaseClass> databaseStorage = new HashMap<>();       //Stores database objects with an associated string
+    private List<TableColumnClass> constructor = new ArrayList<>();
+    private Context passedContext;                                              //Stores the context that is passed on to other methods
+    private TableClass tc;                                                      //creates a table class, which is used to modify tables
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// CONSTRUCTOR
     /*
@@ -37,20 +38,22 @@ public class SQLManager
     {
         passedContext=context;          //grabs the context passed
         tc = new TableClass();          //Instantiates a table class object
+        databaseStorage = new HashMap<>();
+        constructor = new ArrayList<>();
     }
 
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// CREATE DATABASE
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// REGISTER DATABASE
     /*
-    Creates a database
+    Registers a database in the manager, and creates it if it does not exist
     Takes a string for what the database will be named
 
     Creates a databaseclass object that is called on to perform specific tasks associated with that database
      */
-    public void createDatabase(String dbname)
+    public void registerDatabase(String db)
     {
-        databasestorage.put(dbname, new DatabaseClass(passedContext,dbname));   //stores a newly created database in our hashmap
+        databaseStorage.put(db, new DatabaseClass(passedContext,db));   //stores a newly created database in our hashmap
     }
 
 
@@ -64,23 +67,23 @@ public class SQLManager
         passedContext.deleteDatabase(dbname);
         try
         {
-            databasestorage.remove(dbname);
+            databaseStorage.remove(dbname);
         }
         catch(Exception e)
         {
-            return;
+            Log.e("SQLManager", e.getMessage());
         }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// CREATE COLUMN
     /*
-    Creates a Column to be used in the creation of a table
+    Creates a Column to be used in the next table created
     Takes a String name of the column, type of data the column will hold, a boolean that is true if it is the primary key, and a boolean that if true autoincriments the values
 
     OVERLOADED FUNCTION
     Includes two versions - One accepts a string variable of flags. These would be items such as autoincriment, primary key and the sort. The other method does not require this.
      */
-    public void createColumn(String name, String type, String flags)
+    public void pushColumn(String name, String type, String flags)
     {
         ContentValues column = new ContentValues();         //creates a ContentValue item that will store our values
         column.put("name", name);                           //Populates the values we need in order to create the column
@@ -89,7 +92,7 @@ public class SQLManager
         constructor.add(new TableColumnClass(column));      //adds a tablecolumnclass object to our constructor array and passes our Content Value to it.
     }
 
-    public void createColumn(String name, String type)
+    public void pushColumn(String name, String type)
     {
         ContentValues column = new ContentValues();         //creates a ContentValue item that will store our values
         column.put("name", name);                           //Populates the values we need in order to create the column
@@ -111,8 +114,8 @@ public class SQLManager
             exportable[i] = constructor.get(i);                         //loops through our constructor array and stores it in to an array.
         }
 
-        tc.createTable(tableName, exportable, databasestorage.get(db).getSQLiteDatabase()); //tells the tableclass object to create a table with the values collected
-        constructor= null;                                              //Clears the constructor in case we need to make another table with different stuff.
+        tc.createTable(tableName, exportable, databaseStorage.get(db).getSQLiteDatabase()); //tells the tableclass object to create a table with the values collected
+        constructor = new ArrayList<>();                                              //Clears the constructor in case we need to make another table with different stuff.
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// DELETE TABLE
@@ -122,39 +125,41 @@ public class SQLManager
      */
     public void deleteTable(String tableName, String db)
     {
-        tc.deleteTable(tableName, databasestorage.get(db).getSQLiteDatabase());
+        tc.deleteTable(tableName, databaseStorage.get(db).getSQLiteDatabase());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// UPDATE TABLE
     /*
     Updates a table
-    Takes a string database name, string table name, comma seperated string of columns, comma seperated string of values, and a string that defines where the action takes place
+    Takes a string database name, string table name, comma separated string of columns, comma separated string of values, and a WHERE statement to determine which column to update.
+    The WHERE statement can contain '?' wildcards, which are replaced in order with the values in wildCards[].
      */
-    public void updateTable(String db, String tableName, String colName, String newVals, String CompareCol, String CompareVal)
+    public void updateTable(String db, String table, String columns, String values, String whereClause, String wildCards)
     {
-        ContentValues values = new ContentValues();                     //creates a ContentValues object
-        List<String> columnNames = Arrays.asList(colName.trim().split(","));   //creates an arraylist of the column names list by splitting it by commas
-        List<String> newValues  = Arrays.asList(newVals.trim().split(","));    //creates an arraylist of the new values list by splitting it by commas
+        ContentValues cValues = new ContentValues();                     //creates a ContentValues object
+        List<String> columnNames = Arrays.asList(columns.trim().split(","));   //creates an arrayList of the column names list by splitting it by commas
+        List<String> newValues  = Arrays.asList(values.trim().split(","));    //creates an arrayList of the new values list by splitting it by commas
+        String[] whereWildCards = wildCards.trim().split(",");
         for(int i = 0; i < columnNames.size(); i++)                     //Loops through the lists, and assembles a key/value ContentValue for each paring
-            values.put(columnNames.get(i), newValues.get(i));
-        Log.d("TELLMESTUFF", (String) values.toString());
-        databasestorage.get(db).getSQLiteDatabase().update(tableName, values, CompareCol + "= ?", new String[]{CompareVal}); //Pulls the database out of the database storage, and executes the update function
+            cValues.put(columnNames.get(i), newValues.get(i));
+        Log.d("TELLMESTUFF", cValues.toString());
+        databaseStorage.get(db).getSQLiteDatabase().update(table, cValues, whereClause, whereWildCards); //Pulls the database out of the database storage, and executes the update function
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// INSERT ROW
     /*
     Insert Row
-    Takes a string of database name, comma seperated string of column names, comma seperated string of values, and string of the table's name
+    Takes a string of database name, string table name comma seperated string of column names, and a comma seperated string of values
      */
-    public void insertRow(String db, String tabName, String colName, String colval)
+    public void insertRow(String db, String table, String columns, String values)
     {
-        ContentValues values = new ContentValues();                             //creates a contentValues object
-        List<String> columnList = Arrays.asList(colName.split(","));            //Creates an arraylist of the column names by splitting it by commas
-        List<String> columnValues = Arrays.asList(colval.split(","));           //Creates an arraylist of the new values by splitting it by commas
+        ContentValues cValues = new ContentValues();                             //creates a contentValues object
+        List<String> columnList = Arrays.asList(columns.trim().split(","));            //Creates an arrayList of the column names by splitting it by commas
+        List<String> columnValues = Arrays.asList(values.trim().split(","));           //Creates an arrayList of the new values by splitting it by commas
         for(int i = 0; i < columnList.size(); i++)                              //Loops through the lists, and assembles a key/value content value for each pairing
-            values.put(columnList.get(i), columnValues.get(i));
+            cValues.put(columnList.get(i), columnValues.get(i));
         try {
-            databasestorage.get(db).getSQLiteDatabase().insert(tabName,null,values);
+            databaseStorage.get(db).getSQLiteDatabase().insert(table,null, cValues);
         }
         catch(Exception e)
         {
@@ -162,9 +167,30 @@ public class SQLManager
         }
     }
 
-    public void deleteRow(String db, String tabname, String where)
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// DELETE ROW
+    /*
+    Delete Row
+    Takes a string of database name, string of the table name, a WHERE clause.
+    The WHERE statement can contain '?' wildcards, which are replaced in order with the values in wildCards[].
+     */
+    public void deleteRow(String db, String table, String whereClause, String wildCards)
     {
-        databasestorage.get(db).getSQLiteDatabase().delete(tabname, where, null);
+        String values[] = wildCards.trim().split(",");
+        databaseStorage.get(db).getSQLiteDatabase().delete(table, whereClause, values);
+    }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// SELECT DATA
+    /*
+    Select Data
+        Allows for the extraction of data from a Database.
+        Takes a string databse name, string table name, string of a comma seperated list of column names, and a string of a WHERE clause.
+        The WHERE statement can contain '?' wildcards, which are replaced in order with the values in wildCards[].
+     */
+
+    public Cursor selectData(String db, String table, String columns, String whereClause, String wildCards )
+    {
+        String queryString = "SELECT "+ columns + " FROM " + table + " WHERE " + whereClause;
+        Cursor query = databaseStorage.get(db).getSQLiteDatabase().rawQuery(queryString, new String[]{wildCards});
+        return query;
     }
 }

@@ -1,7 +1,9 @@
-package com.asap.mindfulness.SQLite;
+package com.huskehtech.databasemanager;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 public class TableClass
 {
@@ -16,24 +18,25 @@ public class TableClass
     public void createTable(String tableName, TableColumnClass col[], SQLiteDatabase db)
     {
         //Implement notnull, unique, primary key, foreign key, check, default, index, auto-increment
-        //Cursor result = db.query(tableName, colName, null, null, null, null, null, null);
+        // Cursor result = db.query(tableName, colName, null, null, null, null, null, null);
         //Cursor result = db.rawQuery("SELECT" + colName[0] +" FROM " + tableName, null);
         //if(result.getCount() < 1) {
-            String query = "CREATE TABLE " + tableName + " (";
+            StringBuilder query = new StringBuilder("CREATE TABLE " + tableName + " (");
             int listLength = col.length;
             for (int i = 0; i < listLength; i++) {
-                query += col[i].builder();
+                query.append(col[i].builder());
                 if (i < listLength-1) {
-                    query += ", ";
+                    query.append(", ");
                 } else
-                    query += ")";
+                    query.append(")");
             }
             try
             {
-                db.execSQL(query);
+                db.execSQL(query.toString());
             }
             catch (SQLiteException e)
             {
+                Log.e("TableClass", e.getMessage());
                 return;
             }
     }
