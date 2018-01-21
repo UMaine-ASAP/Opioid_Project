@@ -1,4 +1,4 @@
-package com.asap.mindfulness.SQLite;
+package com.huskehtech.databasemanager;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,15 +15,15 @@ import java.util.Map;
 public final class DatabaseClass extends SQLiteOpenHelper
 {
 
-    SQLiteDatabase db;
-    String filename;
-    String currentTable;
+    private SQLiteDatabase db;
+    private String filename;
+    private String currentTable;
 
 
 
     public DatabaseClass(Context context, String name)      //Constructor for this class
     {
-        super(context, name, null, 1);                      //creates the database
+        super(context, name, null, 1);       //creates the database
         filename = name;                                    //Stores the filename
         db = this.getWritableDatabase();                    //Stores the database object
     }
