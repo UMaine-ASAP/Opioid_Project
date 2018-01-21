@@ -146,6 +146,8 @@
     </string>
 
     <!-- Feed -->
+    <string name="feed_no_top">No Top Text</string>
+    <string name="feed_no_bottom">No Bottom Text</string>
 
     <!-- Tracks -->
     <string name="track_no_title">Track Not Found</string>

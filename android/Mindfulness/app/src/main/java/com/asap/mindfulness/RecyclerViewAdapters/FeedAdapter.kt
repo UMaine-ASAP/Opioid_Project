@@ -28,7 +28,7 @@ class FeedAdapter(private val items : List<FeedItem>) : RecyclerView.Adapter<Fee
     }
 
     override fun onBindViewHolder(holder: FeedItem.Holder?, position: Int) {
-        holder?.title?.text =  items[position].title
+        holder?.populate(items[position])
     }
 
     override fun getItemCount(): Int {
