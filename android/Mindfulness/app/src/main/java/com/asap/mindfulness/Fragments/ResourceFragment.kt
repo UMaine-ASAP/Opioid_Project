@@ -83,7 +83,7 @@ class ResourceFragment : Fragment() {
 
         cursor.close()
 
-        rootView.resource_recycler.adapter = ResourceAdapter(resources)
+        rootView.resource_recycler.adapter = ResourceAdapter(resources).attachOnNavigationRequestListener(mListener)
         rootView.resource_recycler.layoutManager = LinearLayoutManager(context)
 
         Snackbar.make(rootView, "Some text", Snackbar.LENGTH_LONG)

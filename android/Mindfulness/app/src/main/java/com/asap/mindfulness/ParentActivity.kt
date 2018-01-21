@@ -130,10 +130,10 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         return false
     }
 
-    override fun onSurveyRequested(url: String): Boolean {
+    override fun onWebViewRequested(url: String): Boolean {
         if (url != "") {
-            val webview = Intent(baseContext, WebViewActivity::class.java)
-            webview.putExtra("url", url)
+            val webView = Intent(baseContext, WebViewActivity::class.java)
+            webView.putExtra("url", url)
             return true
         }
 
