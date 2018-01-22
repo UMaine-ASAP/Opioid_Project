@@ -39,11 +39,11 @@ import kotlinx.android.synthetic.main.card_resource.view.*
 
 class Resource(val title : String, val extra: String, val type: Int, val image: Int) {
     companion object {
-        val WEBSITE = 0
-        val VIDEO = 1
-        val AUDIO = 2
-        val SURVEY = 3
-        val INTRODUCTION = 4
+        const val WEBSITE = 0
+        const val VIDEO = 1
+        const val AUDIO = 2
+        const val SURVEY = 3
+        const val INTRODUCTION = 4
     }
 
     class Holder(itemView : View) : RecyclerView.ViewHolder(itemView) {

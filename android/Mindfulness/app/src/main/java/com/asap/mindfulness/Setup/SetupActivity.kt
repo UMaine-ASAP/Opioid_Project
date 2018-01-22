@@ -14,7 +14,6 @@ import android.util.Log
 import com.asap.mindfulness.ParentActivity
 import com.asap.mindfulness.QuoteActivity
 import com.asap.mindfulness.R
-import com.asap.mindfulness.Retrofit.PREFS_NAME
 import com.asap.mindfulness.SQLite.SQLManager
 import kotlinx.android.synthetic.main.activity_setup.*
 import kotlinx.android.synthetic.main.fragment_setup_patient.*
