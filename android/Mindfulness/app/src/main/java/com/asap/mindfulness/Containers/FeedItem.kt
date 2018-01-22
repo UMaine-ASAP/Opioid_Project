@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.card_feed.view.*
 class FeedItem(val line1: String, val line2: String, val type: Int) {
 
     companion object {
-        val PROGRESS = 0
-        val SURVEY = 1
+        const val PROGRESS = 0
+        const val SURVEY = 1
     }
 
     class Holder(itemView : View) : RecyclerView.ViewHolder(itemView) {

@@ -5,15 +5,19 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.asap.mindfulness.Containers.FeedItem
+import com.asap.mindfulness.Containers.Resource
+import com.asap.mindfulness.Containers.Track
 
 import com.asap.mindfulness.R
 import com.asap.mindfulness.RecyclerViewAdapters.FeedAdapter
+import com.asap.mindfulness.SQLite.DatabaseClass
 import kotlinx.android.synthetic.main.content_scrolling.view.*
 
 /**
@@ -30,11 +34,38 @@ import kotlinx.android.synthetic.main.content_scrolling.view.*
 class FeedFragment : Fragment() {
 
     private var mListener: OnNavigationRequestListener? = null
-    private var feedItems = ArrayList<FeedItem>()
+    private val feedItems = ArrayList<FeedItem>()
+    private val resources = ArrayList<Resource>()
+    private val track: Track? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // TODO: Put database and network requests here
+
+        // Load in resources from SQLite
+        val db = DatabaseClass(context, "Updatables").readableDatabase
+        val cursor = db.query(true, "Resources", arrayOf("Title", "Extra", "Type", "Image"),
+                null, null, "Type", null, null, null)
+
+
+
+        while (!cursor.isLast) {
+            cursor.moveToNext()
+            resources.add(Resource(
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getInt(3),
+                    when(cursor.getInt(3)) {
+//                        Resource.WEBSITE -> getResources().getIdentifier(cursor.getString(4), "drawable", "com.asap.mindfulness.Fragments")
+                        Resource.WEBSITE -> cursor.getInt(4)
+//                        VIDEO -> R.drawable.icon_video
+//                        AUDIO -> R.drawable.icon_audio
+//                        SURVEY -> R.drawable.icon_survey
+//                        INTRODUCTION -> R.drawable.icon_intro
+                        else -> R.drawable.ic_dashboard_black_24dp
+                    }))
+        }
+
+        cursor.close()
 
         feedItems.add(FeedItem("First", "Thing", 0))
         feedItems.add(FeedItem("Second", "Card", 1))
@@ -47,7 +78,21 @@ class FeedFragment : Fragment() {
 
         rootView.feed_recycler.adapter = FeedAdapter(feedItems)
                 .attachOnNavigationRequestListener(mListener)
-        rootView.feed_recycler.layoutManager = LinearLayoutManager(context)
+        // Create grid layout for Cards
+        val gridLayout = GridLayoutManager(context, 2)
+        // Create a SpanSizeLookup to set the sizes for each column
+        gridLayout.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (position) {
+                    0 -> 2
+                    2 -> 1
+                    3 -> 1
+                    4 -> 2
+                    else -> 2
+                }
+            }
+        }
+        rootView.feed_recycler.layoutManager = gridLayout
 
         return rootView
     }
