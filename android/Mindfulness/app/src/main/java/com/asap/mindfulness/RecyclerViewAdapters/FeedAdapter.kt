@@ -50,6 +50,8 @@ class FeedAdapter(private val track: Track,
             FEED -> (holder as FeedItem.Holder).populate(feedItems[position - 1], navigationListener)
             RESOURCE -> (holder as Resource.Holder).populate(resources[position - 3], navigationListener)
         }
+
+
     }
 
     override fun getItemCount(): Int {

@@ -58,9 +58,6 @@ class Track(val title: String, val desc: String, val credits: String, val length
 
                 view.context.startActivity(intent)
             }
-
-            // Set the card to float (backwards compatible)
-            itemView?.card_track?.cardElevation = 8f
         }
     }
 }

@@ -54,12 +54,12 @@ class ResourceFragment : Fragment() {
         while (!cursor.isLast) {
             cursor.moveToNext()
             resources.add(Resource(
+                    cursor.getString(0),
                     cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getInt(3),
-                    when(cursor.getInt(3)) {
+                    cursor.getInt(2),
+                    when(cursor.getInt(2)) {
 //                        Resource.WEBSITE -> getResources().getIdentifier(cursor.getString(4), "drawable", "com.asap.mindfulness.Fragments")
-                        Resource.WEBSITE -> cursor.getInt(4)
+                        Resource.WEBSITE -> cursor.getInt(3)
 //                        VIDEO -> R.drawable.icon_video
 //                        AUDIO -> R.drawable.icon_audio
 //                        SURVEY -> R.drawable.icon_survey

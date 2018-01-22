@@ -134,6 +134,8 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         if (url != "") {
             val webView = Intent(baseContext, WebViewActivity::class.java)
             webView.putExtra("url", url)
+            Log.d("ParentActivity", "Got this far!!!!!!!!!!!!!!!!!!!!!!!!!")
+            startActivity(webView)
             return true
         }
 

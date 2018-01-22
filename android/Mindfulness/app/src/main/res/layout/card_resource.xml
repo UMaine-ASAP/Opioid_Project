@@ -6,7 +6,9 @@
     android:layout_height="100dp"
     android:layout_gravity="center"
     android:layout_margin="10dp"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="@dimen/cardview_radius"
+    card_view:cardElevation="@dimen/cardview_elevation"
+    card_view:contentPadding="@dimen/cardview_padding">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,9 +20,11 @@
             android:id="@+id/resource_icon"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             card_view:srcCompat="@color/colorAccent" />
@@ -30,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="104dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:fontFamily="sans-serif"
             android:gravity="start"
@@ -38,8 +43,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.176"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/resource_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
 

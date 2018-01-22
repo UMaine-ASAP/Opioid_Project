@@ -10,7 +10,7 @@
 
     <application
         android:allowBackup="true"
-        android:hardwareAccelerated="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -43,7 +43,11 @@
             android:name=".QuoteActivity"
             android:label="@string/title_activity_quotes"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".WebViewActivity"></activity>
+        <activity
+            android:name=".WebViewActivity"
+            android:label="@string/title_activity_web"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".ParentActivity"/>
     </application>
 
 </manifest>

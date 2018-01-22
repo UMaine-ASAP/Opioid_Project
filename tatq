@@ -1,0 +1,39 @@
+[33mcommit f56bbbe1eb5479aa6448f90b2eba3f3b08797657[m
+Author: Spencer Ward <swkineo@gmail.com>
+Date:   Sun Jan 21 20:46:11 2018 -0500
+
+    Some minor cleanup
+
+[1mdiff --git a/android/Mindfulness/app/src/main/java/com/asap/mindfulness/Containers/Resource.kt b/android/Mindfulness/app/src/main/java/com/asap/mindfulness/Containers/Resource.kt[m
+[1mindex 9791d49..a3a2cf1 100644[m
+[1m--- a/android/Mindfulness/app/src/main/java/com/asap/mindfulness/Containers/Resource.kt[m
+[1m+++ b/android/Mindfulness/app/src/main/java/com/asap/mindfulness/Containers/Resource.kt[m
+[36m@@ -39,11 +39,11 @@[m [mimport kotlinx.android.synthetic.main.card_resource.view.*[m
+ [m
+ class Resource(val title : String, val extra: String, val type: Int, val image: Int) {[m
+     companion object {[m
+[31m-        val WEBSITE = 0[m
+[31m-        val VIDEO = 1[m
+[31m-        val AUDIO = 2[m
+[31m-        val SURVEY = 3[m
+[31m-        val INTRODUCTION = 4[m
+[32m+[m[32m        const val WEBSITE = 0[m
+[32m+[m[32m        const val VIDEO = 1[m
+[32m+[m[32m        const val AUDIO = 2[m
+[32m+[m[32m        const val SURVEY = 3[m
+[32m+[m[32m        const val INTRODUCTION = 4[m
+     }[m
+ [m
+     class Holder(itemView : View) : RecyclerView.ViewHolder(itemView) {[m
+[1mdiff --git a/android/Mindfulness/app/src/main/java/com/asap/mindfulness/Setup/SetupActivity.kt b/android/Mindfulness/app/src/main/java/com/asap/mindfulness/Setup/SetupActivity.kt[m
+[1mindex 2cbcc78..59d9abc 100644[m
+[1m--- a/android/Mindfulness/app/src/main/java/com/asap/mindfulness/Setup/SetupActivity.kt[m
+[1m+++ b/android/Mindfulness/app/src/main/java/com/asap/mindfulness/Setup/SetupActivity.kt[m
+[36m@@ -14,7 +14,6 @@[m [mimport android.util.Log[m
+ import com.asap.mindfulness.ParentActivity[m
+ import com.asap.mindfulness.QuoteActivity[m
+ import com.asap.mindfulness.R[m
+[31m-import com.asap.mindfulness.Retrofit.PREFS_NAME[m
+ import com.asap.mindfulness.SQLite.SQLManager[m
+ import kotlinx.android.synthetic.main.activity_setup.*[m
+ import kotlinx.android.synthetic.main.fragment_setup_patient.*[m
