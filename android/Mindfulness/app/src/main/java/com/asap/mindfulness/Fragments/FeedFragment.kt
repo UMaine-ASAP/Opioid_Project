@@ -1,13 +1,9 @@
 package com.asap.mindfulness.Fragments
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +32,7 @@ class FeedFragment : Fragment() {
     private var mListener: OnNavigationRequestListener? = null
     private val feedItems = ArrayList<FeedItem>()
     private val resources = ArrayList<Resource>()
-    private val track: Track? = null
+    private var track: Track? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +41,6 @@ class FeedFragment : Fragment() {
         val db = DatabaseClass(context, "Updatables").readableDatabase
         val cursor = db.query(true, "Resources", arrayOf("Title", "Extra", "Type", "Image"),
                 null, null, "Type", null, null, null)
-
-
 
         while (!cursor.isLast) {
             cursor.moveToNext()
@@ -67,8 +61,18 @@ class FeedFragment : Fragment() {
 
         cursor.close()
 
-        feedItems.add(FeedItem("First", "Thing", 0))
-        feedItems.add(FeedItem("Second", "Card", 1))
+        feedItems.add(FeedItem("First", "Thing", FeedItem.PROGRESS))
+        feedItems.add(FeedItem("Second", "Card", FeedItem.SURVEY))
+
+        val trackTitles = getResources().getStringArray(R.array.track_titles)
+        val trackDescriptions = getResources().getStringArray(R.array.track_descs)
+        val trackCredits = getResources().getStringArray(R.array.track_credits)
+        val trackLengths = getResources().getStringArray(R.array.track_lengths)
+
+        val trackNumber = context.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE).
+                getInt(getString(R.string.sp_current_track), 0)
+        track = Track(trackTitles[trackNumber], trackDescriptions[trackNumber],
+                trackCredits[trackNumber], trackLengths[trackNumber])
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -76,7 +80,7 @@ class FeedFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater!!.inflate(R.layout.fragment_feed, container, false)
 
-        rootView.feed_recycler.adapter = FeedAdapter(feedItems)
+        rootView.feed_recycler.adapter = FeedAdapter(track!!, feedItems, resources)
                 .attachOnNavigationRequestListener(mListener)
         // Create grid layout for Cards
         val gridLayout = GridLayoutManager(context, 2)

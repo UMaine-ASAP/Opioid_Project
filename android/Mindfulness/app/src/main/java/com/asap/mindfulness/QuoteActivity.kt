@@ -39,7 +39,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quote)
 
-        prefs = this.getSharedPreferences(getString(R.string.sp_file_key), 0)
+        prefs = this.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE)
 
         setup()
         updateServer()
