@@ -39,7 +39,7 @@ class Track(val title: String, val desc: String, val credits: String, val length
             credits = itemView.track_credits
         }
         
-        fun populate(track: Track, position: Int) {
+        fun populate(track: Track /*position: Int*/) {
             title.text =  track.title
             desc.text = track.desc
             credits.text = track.credits
@@ -52,7 +52,7 @@ class Track(val title: String, val desc: String, val credits: String, val length
                 bundle.putString("title", track.title)
                 bundle.putString("desc", track.desc)
                 bundle.putInt("path", track.path)
-                bundle.putInt("index", position)
+//                bundle.putInt("index", position)
 
                 intent.putExtras(bundle)
 
