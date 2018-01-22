@@ -157,7 +157,8 @@ public class SQLManager
         List<String> columnList = Arrays.asList(columns.trim().split(","));            //Creates an arrayList of the column names by splitting it by commas
         List<String> columnValues = Arrays.asList(values.trim().split(","));           //Creates an arrayList of the new values by splitting it by commas
         for(int i = 0; i < columnList.size(); i++)                              //Loops through the lists, and assembles a key/value content value for each pairing
-            cValues.put(columnList.get(i), columnValues.get(i));
+            cValues.put(columnList.get(i),
+                    columnValues.get(i));
         try {
             databaseStorage.get(db).getSQLiteDatabase().insert(table,null, cValues);
         }

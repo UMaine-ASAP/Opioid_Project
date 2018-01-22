@@ -27,9 +27,9 @@
     <string-array name="resource_images">
         <item>R.drawable.google_favicon</item>
         <item>R.drawable.wikipedia_favicon</item>
-        <item>""</item>
-        <item>""</item>
-        <item>""</item>
-        <item>""</item>
+        <item>"null"</item>
+        <item>"null"</item>
+        <item>"null"</item>
+        <item>"null"</item>
     </string-array>
 </resources>

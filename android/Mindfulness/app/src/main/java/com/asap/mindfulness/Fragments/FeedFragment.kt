@@ -32,7 +32,7 @@ class FeedFragment : Fragment() {
     private var mListener: OnNavigationRequestListener? = null
     private val feedItems = ArrayList<FeedItem>()
     private val resources = ArrayList<Resource>()
-    private var track: Track? = null
+    private lateinit var track: Track
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +45,12 @@ class FeedFragment : Fragment() {
         while (!cursor.isLast) {
             cursor.moveToNext()
             resources.add(Resource(
+                    cursor.getString(0),
                     cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getInt(3),
-                    when(cursor.getInt(3)) {
+                    cursor.getInt(2),
+                    when(cursor.getInt(2)) {
 //                        Resource.WEBSITE -> getResources().getIdentifier(cursor.getString(4), "drawable", "com.asap.mindfulness.Fragments")
-                        Resource.WEBSITE -> cursor.getInt(4)
+                        Resource.WEBSITE -> cursor.getInt(3)
 //                        VIDEO -> R.drawable.icon_video
 //                        AUDIO -> R.drawable.icon_audio
 //                        SURVEY -> R.drawable.icon_survey
@@ -80,7 +80,7 @@ class FeedFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater!!.inflate(R.layout.fragment_feed, container, false)
 
-        rootView.feed_recycler.adapter = FeedAdapter(track!!, feedItems, resources)
+        rootView.feed_recycler.adapter = FeedAdapter(track, feedItems, resources)
                 .attachOnNavigationRequestListener(mListener)
         // Create grid layout for Cards
         val gridLayout = GridLayoutManager(context, 2)

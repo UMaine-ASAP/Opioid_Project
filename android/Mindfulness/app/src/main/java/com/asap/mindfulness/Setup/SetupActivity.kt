@@ -2,6 +2,7 @@ package com.asap.mindfulness.Setup
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -49,11 +50,17 @@ class SetupActivity : AppCompatActivity() {
     private var patientName : String = ""
     private var patientPassword : String = ""
     private var patientId : String = ""
+    lateinit var prefs: SharedPreferences.Editor
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setup)
+
+        Log.d("TESTING", R.mipmap.google_favicon.toString())
+        Log.d("TESTING", R.mipmap.wikipedia_favicon.toString())
+
+        prefs = getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE).edit()
 
         // Initialize ViewPager and give it an instance of SetupPagerAdapter
         setup_pager.adapter = SetupPagerAdapter(supportFragmentManager)
@@ -76,6 +83,7 @@ class SetupActivity : AppCompatActivity() {
                     }
                 } else {
                     if (scrollPatient()) {
+                        prefs.apply()
                         val main = Intent(parent, ParentActivity::class.java)
                         startActivity(main)
                     } else {
@@ -113,6 +121,9 @@ class SetupActivity : AppCompatActivity() {
         prefsEditor.putLong(getString(R.string.sp_start_date), today)
         prefsEditor.apply()
 
+        Log.d("TESTING", R.mipmap.google_favicon.toString())
+        Log.d("TESTING", R.mipmap.wikipedia_favicon.toString())
+
         // Load in Resources to the DB
         val resourceTitles = resources.getStringArray(R.array.resource_titles)
         val resourceExtras = resources.getStringArray(R.array.resource_extras)
@@ -129,17 +140,18 @@ class SetupActivity : AppCompatActivity() {
 
 
         // Create Resources Table
-        db.pushColumn("ID", "INTEGER", "PRIMARY, AUTO INCREMENT")
+        db.pushColumn("ID", "INTEGER", "PRIMARY KEY, AUTO INCREMENT")
         db.pushColumn("Title", "TEXT")
         db.pushColumn("Extra", "TEXT")
         db.pushColumn("Type", "INTEGER")
         db.pushColumn("Image", "TEXT")
         db.createTable("Updatables", "Resources")
 
+
         for (i in 0 until resourceTitles.size) {
             db.insertRow("Updatables", "Resources",
                     "TITLE, Extra, Type, Image",
-                    String.format("%s, %s, %d, %s",
+                    String.format("%s,%s,%d,%s",
                             resourceTitles[i],
                             resourceExtras[i],
                             resourceTypes[i],
@@ -166,7 +178,7 @@ class SetupActivity : AppCompatActivity() {
             return false
         }
 
-        with (getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE).edit()) {
+        with (prefs) {
             putString(getString(R.string.sp_name), patientName)
             putString(getString(R.string.sp_password), patientPassword)
             apply()
@@ -184,7 +196,7 @@ class SetupActivity : AppCompatActivity() {
             return false
         }
 
-        with (getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE).edit()) {
+        with (prefs) {
             putString(getString(R.string.setup_patient_id), patientId)
             apply()
         }

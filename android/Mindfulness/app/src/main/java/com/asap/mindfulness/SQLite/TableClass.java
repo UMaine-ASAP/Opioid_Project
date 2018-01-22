@@ -21,7 +21,7 @@ public class TableClass
         // Cursor result = db.query(tableName, colName, null, null, null, null, null, null);
         //Cursor result = db.rawQuery("SELECT" + colName[0] +" FROM " + tableName, null);
         //if(result.getCount() < 1) {
-            StringBuilder query = new StringBuilder("CREATE TABLE " + tableName + " (");
+            StringBuilder query = new StringBuilder("CREATE TABLE \"" + tableName + "\" (");
             int listLength = col.length;
             for (int i = 0; i < listLength; i++) {
                 query.append(col[i].builder());
