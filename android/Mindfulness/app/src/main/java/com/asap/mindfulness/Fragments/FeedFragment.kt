@@ -1,12 +1,16 @@
 package com.asap.mindfulness.Fragments
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.asap.mindfulness.Containers.FeedItem
 import com.asap.mindfulness.Containers.Resource
 import com.asap.mindfulness.Containers.Track
@@ -15,6 +19,8 @@ import com.asap.mindfulness.R
 import com.asap.mindfulness.RecyclerViewAdapters.FeedAdapter
 import com.asap.mindfulness.SQLite.DatabaseClass
 import kotlinx.android.synthetic.main.content_scrolling.view.*
+import kotlinx.android.synthetic.main.fragment_feed.view.*
+import java.util.*
 
 /**
  * @author Spencer Ward
@@ -30,12 +36,15 @@ import kotlinx.android.synthetic.main.content_scrolling.view.*
 class FeedFragment : Fragment() {
 
     private var mListener: OnNavigationRequestListener? = null
+    private lateinit var mPreferences: SharedPreferences
     private val feedItems = ArrayList<FeedItem>()
     private val resources = ArrayList<Resource>()
     private lateinit var track: Track
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mPreferences = context.getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
 
         // Load in resources from SQLite
         val db = DatabaseClass(context, "Updatables").readableDatabase
@@ -61,16 +70,12 @@ class FeedFragment : Fragment() {
 
         cursor.close()
 
-        feedItems.add(FeedItem("First", "Thing", FeedItem.PROGRESS))
-        feedItems.add(FeedItem("Second", "Card", FeedItem.SURVEY))
-
         val trackTitles = getResources().getStringArray(R.array.track_titles)
         val trackDescriptions = getResources().getStringArray(R.array.track_descs)
         val trackCredits = getResources().getStringArray(R.array.track_credits)
         val trackLengths = getResources().getStringArray(R.array.track_lengths)
 
-        val trackNumber = context.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE).
-                getInt(getString(R.string.sp_current_track), 0)
+        val trackNumber = mPreferences.getInt(getString(R.string.sp_current_track), 0)
         track = Track(trackTitles[trackNumber], trackDescriptions[trackNumber],
                 trackCredits[trackNumber], trackLengths[trackNumber], trackNumber)
     }
@@ -80,7 +85,37 @@ class FeedFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater!!.inflate(R.layout.fragment_feed, container, false)
 
-        // Launch user fragment
+        // Listener to launch the user fragment
+        val openUserFragment = object: View.OnClickListener {
+            override fun onClick(view: View?) {
+                // TODO: Open user fragment
+                Toast.makeText(context, "This will open the user page", Toast.LENGTH_SHORT)
+                        .show()
+            }
+        }
+
+        rootView.fab.setOnClickListener(openUserFragment)
+
+        // Get days passed since start date
+        val startDate = mPreferences.getLong(getString(R.string.sp_start_date), 0)
+        val daysPassed: Int = ((Date().time - startDate) / 1000 / 60 / 60 / 24 + 1).toInt()
+
+        // Get date of the most recent survey
+        val lastSurveyDate = mPreferences.getLong(getString(R.string.sp_last_survey_date), 0)
+        val surveyDate = Date(lastSurveyDate)
+        val surveyMonth = DateFormat.format("MMMM", surveyDate).toString()
+        val surveyDay = Integer.parseInt(DateFormat.format("dd", surveyDate).toString())
+        // Get the link for the most recent survey
+        val surveyLink = mPreferences.getString(getString(R.string.sp_last_survey_link), "")
+
+        feedItems.add(FeedItem(getString(R.string.feed_progress_top),
+                getString(R.string.feed_progress_bottom, daysPassed), FeedItem.PROGRESS, openUserFragment))
+        feedItems.add(FeedItem(getString(R.string.feed_survey_top),
+                getString(R.string.feed_survey_bottom, surveyMonth, surveyDay), FeedItem.SURVEY, object: View.OnClickListener {
+                    override fun onClick(p0: View?) {
+                        mListener?.onWebViewRequested(surveyLink)
+                    }
+        }))
 
 
         rootView.feed_recycler.adapter = FeedAdapter(track, feedItems, resources)
@@ -104,13 +139,12 @@ class FeedFragment : Fragment() {
         return rootView
     }
 
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is OnNavigationRequestListener) {
             mListener = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context!!.toString() + " must implement OnNavigationRequestListener")
         }
     }
 

@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.card_feed.view.*
  *
  */
 
-class FeedItem(val line1: String, val line2: String, val type: Int) {
+class FeedItem(val line1: String, val line2: String, val type: Int, val onClickListener: View.OnClickListener) {
 
     companion object {
         const val PROGRESS = 0
@@ -28,6 +28,7 @@ class FeedItem(val line1: String, val line2: String, val type: Int) {
         fun populate(item: FeedItem, listener: OnNavigationRequestListener?) {
             top.text = item.line1
             bottom.text = item.line2
+            itemView.setOnClickListener(item.onClickListener)
 
             // TODO: Set up listener to navigate the parent to a specific page
         }

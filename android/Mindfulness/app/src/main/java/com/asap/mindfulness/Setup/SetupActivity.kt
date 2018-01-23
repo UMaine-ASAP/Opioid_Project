@@ -3,7 +3,6 @@ package com.asap.mindfulness.Setup
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -50,7 +49,7 @@ class SetupActivity : AppCompatActivity() {
     private var patientName : String = ""
     private var patientPassword : String = ""
     private var patientId : String = ""
-    lateinit var prefs: SharedPreferences.Editor
+    lateinit var mPreferences: SharedPreferences.Editor
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +59,7 @@ class SetupActivity : AppCompatActivity() {
         Log.d("TESTING", R.mipmap.google_favicon.toString())
         Log.d("TESTING", R.mipmap.wikipedia_favicon.toString())
 
-        prefs = getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE).edit()
+        mPreferences = getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE).edit()
 
         // Initialize ViewPager and give it an instance of SetupPagerAdapter
         setup_pager.adapter = SetupPagerAdapter(supportFragmentManager)
@@ -83,7 +82,7 @@ class SetupActivity : AppCompatActivity() {
                     }
                 } else {
                     if (scrollPatient()) {
-                        prefs.apply()
+                        mPreferences.apply()
                         val main = Intent(parent, ParentActivity::class.java)
                         startActivity(main)
                     } else {
@@ -116,10 +115,9 @@ class SetupActivity : AppCompatActivity() {
 
         //Setting the date the user starts treatment
         val today: Long = Date().time
-        val prefs = this.getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
-        val prefsEditor = prefs.edit()
-        prefsEditor.putLong(getString(R.string.sp_start_date), today)
-        prefsEditor.apply()
+        mPreferences.putLong(getString(R.string.sp_start_date), today)
+        mPreferences.putString(getString(R.string.sp_last_survey_link), getString(R.string.survey_link))
+        mPreferences.apply()
 
         Log.d("TESTING", R.mipmap.google_favicon.toString())
         Log.d("TESTING", R.mipmap.wikipedia_favicon.toString())
@@ -178,7 +176,7 @@ class SetupActivity : AppCompatActivity() {
             return false
         }
 
-        with (prefs) {
+        with (mPreferences) {
             putString(getString(R.string.sp_name), patientName)
             putString(getString(R.string.sp_password), patientPassword)
             apply()
@@ -196,7 +194,7 @@ class SetupActivity : AppCompatActivity() {
             return false
         }
 
-        with (prefs) {
+        with (mPreferences) {
             putString(getString(R.string.setup_patient_id), patientId)
             apply()
         }
