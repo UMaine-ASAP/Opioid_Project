@@ -30,7 +30,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="168dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/round_button"
         android:text="@string/welcome_button"
         android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
