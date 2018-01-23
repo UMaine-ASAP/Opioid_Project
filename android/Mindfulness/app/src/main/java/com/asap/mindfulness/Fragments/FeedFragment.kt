@@ -72,7 +72,7 @@ class FeedFragment : Fragment() {
         val trackNumber = context.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE).
                 getInt(getString(R.string.sp_current_track), 0)
         track = Track(trackTitles[trackNumber], trackDescriptions[trackNumber],
-                trackCredits[trackNumber], trackLengths[trackNumber])
+                trackCredits[trackNumber], trackLengths[trackNumber], trackNumber)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,

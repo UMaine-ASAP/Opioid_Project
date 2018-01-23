@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/cardview_margin"
         app:layout_constraintDimensionRatio="h,1:1"
         card_view:cardCornerRadius="@dimen/cardview_radius"
         card_view:cardElevation="@dimen/cardview_elevation"
