@@ -45,17 +45,7 @@ class TracksFragment : Fragment() {
         for (i in 0..5) {
             // Create track from resources
             trackList.add(
-                    Track(trackTitles[i], trackDescriptions[i], trackCredits[i], trackLengths[i]))
-            // Link track to the audio file
-            trackList[i].path = when (i) {
-                0 -> R.raw.track1
-                1 -> R.raw.track2
-                2 -> R.raw.track3
-                3 -> R.raw.track4
-                4 -> R.raw.track5
-                5 -> R.raw.track6
-                else -> R.raw.track1
-            }
+                    Track(trackTitles[i], trackDescriptions[i], trackCredits[i], trackLengths[i], i))
         }
     }
 

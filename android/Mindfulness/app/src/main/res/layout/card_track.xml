@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_track"
     android:layout_width="match_parent"
     android:layout_height="300dp"
@@ -31,26 +32,26 @@
             android:id="@+id/track_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="@font/roboto_bold"
             android:text="@string/track_no_title"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintBottom_toTopOf="@+id/view" />
 
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="2dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="64dp"
             android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/track_title" />
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="@+id/imageView2" />
 
         <TextView
             android:id="@+id/track_desc"
@@ -58,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
+            android:fontFamily="@font/roboto_italic"
             android:gravity="start"
             android:text="@string/track_no_desc"
             android:textAlignment="center"
@@ -66,38 +67,41 @@
             app:layout_constraintEnd_toEndOf="@+id/imageView2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            card_view:layout_constraintBottom_toTopOf="@+id/track_time" />
 
         <TextView
             android:id="@+id/track_credits"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:gravity="start"
             android:text="Credits"
             android:textAlignment="textStart"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="8sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            card_view:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/track_time" />
 
         <Button
             android:id="@+id/track_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/round_button"
             android:elevation="20dp"
             android:text="@string/track_no_time"
             android:textColor="@color/cardview_light_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/track_desc" />
+            card_view:layout_constraintBottom_toBottomOf="@+id/imageView2" />
 
 
     </android.support.constraint.ConstraintLayout>

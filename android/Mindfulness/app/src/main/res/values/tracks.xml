@@ -2,12 +2,12 @@
 <!-- Resource file for storing info on our tracks -->
 <resources>
     <string-array name="track_titles">
-        <item>Breathing slow and low</item>
-        <item>Thoughts as leaves down a stream</item>
-        <item>Breath focused mindfulness</item>
-        <item>Body scan</item>
-        <item>Urge surfing exercise</item>
-        <item>Mindful walking</item>
+        <item>Breathing Slow and Low</item>
+        <item>Thoughts as Leaves Down a Stream</item>
+        <item>Breath Focused Mindfulness</item>
+        <item>Body Scan</item>
+        <item>Urge Surfing Exercise</item>
+        <item>Mindful Walking</item>
     </string-array>
     <string-array name="track_descs">
         <item>Use this exercise frequently in Week 1.</item>
@@ -27,11 +27,11 @@
     </string-array>
     <!-- Just for display, so they don't need to be integers -->
     <string-array name="track_lengths">
-        <item>5 minutes</item>
-        <item>7 minutes</item>
-        <item>10 minutes</item>
-        <item>20 minutes</item>
-        <item>9 minutes</item>
-        <item>10 minutes</item>
+        <item>5\nminutes</item>
+        <item>7\nminutes</item>
+        <item>10\nminutes</item>
+        <item>20\nminutes</item>
+        <item>9\nminutes</item>
+        <item>10\nminutes</item>
     </string-array>
 </resources>
