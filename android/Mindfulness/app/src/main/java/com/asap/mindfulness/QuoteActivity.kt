@@ -34,7 +34,6 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quote)
@@ -84,9 +83,9 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
     fun done(){
         isDoneSending = true
         quoteProgressBar.visibility = View.INVISIBLE
+        continueTextView.visibility = View.VISIBLE
+
     }
-
-
 
     fun addSurvey(survey: Survey){
         val call = service.postSurvey(survey)

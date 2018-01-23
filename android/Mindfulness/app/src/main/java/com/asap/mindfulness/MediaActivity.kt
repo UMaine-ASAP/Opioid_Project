@@ -25,9 +25,9 @@ import java.util.*
 
 import java.util.concurrent.TimeUnit.MILLISECONDS as TUM
 import android.content.Intent
-import android.os.Build
 import android.provider.Settings
 import android.view.MenuItem
+import com.asap.mindfulness.Fragments.RatingFragment
 
 
 class MediaActivity : AppCompatActivity() {
@@ -83,6 +83,10 @@ class MediaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
 
+//        val fm = supportFragmentManager
+//        val editNameDialogFragment = RatingFragment.newInstance()
+//        editNameDialogFragment.show(fm,"dialog")
+        
         deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
 
         Log.d("DeviceID", deviceId)
