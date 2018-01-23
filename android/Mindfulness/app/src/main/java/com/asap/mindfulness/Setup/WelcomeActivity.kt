@@ -3,6 +3,7 @@ package com.asap.mindfulness.Setup
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.asap.mindfulness.ParentActivity
 import com.asap.mindfulness.QuoteActivity
 import com.asap.mindfulness.R
