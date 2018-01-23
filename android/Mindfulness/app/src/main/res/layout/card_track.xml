@@ -57,18 +57,18 @@
             android:id="@+id/track_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginStart="64dp"
             android:fontFamily="@font/roboto_italic"
             android:gravity="start"
             android:text="@string/track_no_desc"
             android:textAlignment="center"
             android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/track_time"
             app:layout_constraintEnd_toEndOf="@+id/imageView2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/view"
-            card_view:layout_constraintBottom_toTopOf="@+id/track_time" />
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <TextView
             android:id="@+id/track_credits"
