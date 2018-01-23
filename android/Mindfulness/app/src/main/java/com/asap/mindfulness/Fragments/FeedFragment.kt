@@ -80,6 +80,9 @@ class FeedFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater!!.inflate(R.layout.fragment_feed, container, false)
 
+        // Launch user fragment
+
+
         rootView.feed_recycler.adapter = FeedAdapter(track, feedItems, resources)
                 .attachOnNavigationRequestListener(mListener)
         // Create grid layout for Cards

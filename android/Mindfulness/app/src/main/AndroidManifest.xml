@@ -46,8 +46,9 @@
         <activity
             android:name=".WebViewActivity"
             android:label="@string/title_activity_web"
-            android:theme="@style/AppTheme"
-            android:parentActivityName=".ParentActivity"/>
+            android:parentActivityName=".ParentActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".IntroductionActivity"></activity>
     </application>
 
 </manifest>

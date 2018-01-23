@@ -59,7 +59,13 @@ class Resource(val title : String, val extra: String, val type: Int, val image: 
 
         fun populate(res: Resource, navigationListener: OnNavigationRequestListener?) {
             title.text = res.title
-            extra.text = res.extra
+
+            if (res.extra.length > 30) {
+                extra.text = res.extra.substring(0, 27) + "..."
+            } else {
+                extra.text = res.extra
+            }
+
             image.setImageResource((res.image))
             itemView.setOnClickListener { _ ->
                 if (res.type < Resource.INTRODUCTION) {
