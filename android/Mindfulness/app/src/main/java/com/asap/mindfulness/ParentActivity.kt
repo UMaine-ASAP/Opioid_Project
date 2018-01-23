@@ -22,7 +22,6 @@ import com.asap.mindfulness.Fragments.ResourceFragment
 import com.asap.mindfulness.Fragments.TracksFragment
 
 import kotlinx.android.synthetic.main.activity_parent.*
-import kotlinx.android.synthetic.main.fragment_parent.view.*
 
 /**
  * @author Spencer Ward
@@ -51,7 +50,9 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parent)
 
-//        setSupportActionBar(toolbar)
+        // Fullscreen hack
+//        window.decorView.systemUiVisibility =
+//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE /*or View.SYSTEM_UI_FLAG_FULLSCREEN*/
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

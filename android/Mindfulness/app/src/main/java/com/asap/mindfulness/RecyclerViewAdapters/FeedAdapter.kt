@@ -11,6 +11,7 @@ import com.asap.mindfulness.Containers.Track
 import com.asap.mindfulness.Fragments.OnNavigationRequestListener
 import com.asap.mindfulness.R
 import kotlinx.android.synthetic.main.card_feed.view.*
+import kotlinx.android.synthetic.main.card_track.view.*
 
 /**
  * @author Spencer Ward

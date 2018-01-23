@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.asap.mindfulness.MediaActivity
+import com.asap.mindfulness.R
 import kotlinx.android.synthetic.main.card_track.view.*
 
 /**
@@ -19,8 +20,21 @@ import kotlinx.android.synthetic.main.card_track.view.*
  * @property length: The length of the track in seconds
  */
 
-class Track(val title: String, val desc: String, val credits: String, val length: String) {
+class Track(val title: String, val desc: String, val credits: String, val length: String, index: Int) {
     var path : Int = 0
+
+    init {
+        // Link track to the audio file
+        path = when (index) {
+            0 -> R.raw.track1
+            1 -> R.raw.track2
+            2 -> R.raw.track3
+            3 -> R.raw.track4
+            4 -> R.raw.track5
+            5 -> R.raw.track6
+            else -> R.raw.track1
+        }
+    }
 
     /**
      * A simple ViewHolder for Track cards

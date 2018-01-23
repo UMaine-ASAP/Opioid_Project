@@ -9,17 +9,21 @@ tools:context="com.asap.mindfulness.MediaActivity">
 
     <ImageButton
         android:id="@+id/pauseButton"
-        android:layout_width="92dp"
-        android:layout_height="84dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="284dp"
         android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
         android:tint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_media_pause" />
+        app:layout_constraintVertical_bias="0.588"
+        app:srcCompat="@drawable/ic_pause_circle_filled_black_48px" />
 
     <TextView
         android:id="@+id/textTitle"
@@ -27,17 +31,20 @@ tools:context="com.asap.mindfulness.MediaActivity">
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="44dp"
+        android:fontFamily="@font/roboto_bold"
         android:text="TextView"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pauseButton" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="164dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -45,7 +52,8 @@ tools:context="com.asap.mindfulness.MediaActivity">
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/pauseButton"
+        app:layout_constraintVertical_bias="0.081" />
 
 </android.support.constraint.ConstraintLayout>
 

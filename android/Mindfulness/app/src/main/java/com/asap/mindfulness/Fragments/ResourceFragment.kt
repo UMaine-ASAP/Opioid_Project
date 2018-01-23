@@ -80,9 +80,6 @@ class ResourceFragment : Fragment() {
                 .attachOnNavigationRequestListener(mListener)
         rootView.resource_recycler.layoutManager = LinearLayoutManager(context)
 
-        Snackbar.make(rootView, "Some text", Snackbar.LENGTH_LONG)
-                .show()
-
         return rootView
     }
 
