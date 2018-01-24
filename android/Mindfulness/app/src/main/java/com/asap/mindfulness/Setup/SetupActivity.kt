@@ -136,6 +136,12 @@ class SetupActivity : AppCompatActivity() {
         db.pushColumn("creation_date", "TIMESTAMP")
         db.createTable("Updatables", "Audio History")
 
+        // Create survey table
+        db.pushColumn("resource_id", "INTEGER")
+        db.pushColumn("rating", "INTEGER")
+        db.pushColumn("creation_date", "TIMESTAMP")
+        db.createTable("Updatables", "Survey History")
+
 
         // Create Resources Table
         db.pushColumn("ID", "INTEGER", "PRIMARY KEY, AUTO INCREMENT")

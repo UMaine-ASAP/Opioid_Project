@@ -10,11 +10,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.asap.mindfulness.Containers.AudioStatus
 import com.asap.mindfulness.Containers.Success
 import com.asap.mindfulness.Containers.Survey
 
 import com.asap.mindfulness.R
 import com.asap.mindfulness.Retrofit.service
+import com.asap.mindfulness.SQLite.SQLManager
 import kotlinx.android.synthetic.main.fragment_rating.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -108,19 +110,12 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
 
             override fun onResponse(call: Call<Success>?, response: Response<Success>?) {
 
-                if (response == null) {
+                if (response == null || response.code() >= 300 || response.body()?.error == true) {
                     Log.d("onResponse", "response is null")
                     addSurveyToDatabase(survey)
                     return
                 }
-
-                if(response.code() >= 300){
-                    Log.d("onResponse", response.body().toString())
-                    addSurveyToDatabase(survey)
-                    return
-                }
                 // was successfull
-
             }
 
             override fun onFailure(call: Call<Success>?, t: Throwable?) {
@@ -131,7 +126,18 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
     }
 
     fun addSurveyToDatabase(survey: Survey){
-        //todo add survey to database
+
+        val db = SQLManager(this)
+        db.registerDatabase("Updatables")
+
+        db.insertRow("Updatables", "Survey History", "resource_id, rating, creation_date",
+                String.format("%d,%b,%s",
+                        survey.resource_id,
+                        survey.rating,
+                        survey.creation_date
+                )
+        )
+
     }
 
 }// Required empty public constructor
