@@ -21,7 +21,7 @@
     </string>
 
     <!-- Welcome -->
-    <string name="welcome_message">welcome,\nyour doctor will\nassist you with\nsetup</string>
+    <string name="welcome_message">Welcome,\nyour doctor will\nassist you with\nsetup.</string>
     <string name="welcome_button">Okay</string>
 
     <!-- Setup -->
@@ -36,6 +36,10 @@
 
     <!-- Quotes -->
     <string name="title_activity_quotes">Mindful Quotes</string>
+
+    <!-- User -->
+    <string name="title_activity_user">Your App</string>
+    <string name="user_category_personal">Your App</string>
 
     <!-- Parent -->
     <string name="bottom_nav_feed">Feed</string>

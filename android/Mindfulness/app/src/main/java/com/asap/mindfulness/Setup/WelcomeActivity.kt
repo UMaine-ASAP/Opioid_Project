@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_welcome.*
 class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Check if user is already set up and skip to ParentActivity
-        if (/* TODO: Logic for the check */ false) {
+        if (/* TODO: Logic for the check */ true) {
             val intent = Intent(this, QuoteActivity::class.java)
             startActivity(intent)
         }
