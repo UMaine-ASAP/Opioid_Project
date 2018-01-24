@@ -28,11 +28,12 @@ import android.content.Intent
 import android.provider.Settings
 import android.view.MenuItem
 import com.asap.mindfulness.Fragments.RatingFragment
+import com.asap.mindfulness.SQLite.SQLManager
 
 
 class MediaActivity : AppCompatActivity() {
 
-    private var deviceId = ""
+    private var deviceId = "12"
 
     // source of the audio to be played
     private var audioSource = R.raw.track1
@@ -87,9 +88,7 @@ class MediaActivity : AppCompatActivity() {
 //        val editNameDialogFragment = RatingFragment.newInstance()
 //        editNameDialogFragment.show(fm,"dialog")
         
-        deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
-
-        Log.d("DeviceID", deviceId)
+        //deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
 
         audioSource = intent.getIntExtra("path", R.raw.track1)
         audioIndex = intent.getIntExtra("index", 0)
@@ -181,34 +180,37 @@ class MediaActivity : AppCompatActivity() {
     }
 
     fun sendAudioHistory(audio: AudioStatus){
+
         val call = service.postAudioHistory(audio)
 
         call.enqueue(object : Callback<Success> {
             override fun onResponse(call: Call<Success>?, response: Response<Success>?) {
-                if (response == null) {
-                    Log.d("onResponse", "response is null")
-                    //TODO("save audio data locally")
+                if (response == null || response.code() >= 300 || response.body()?.error == true) {
+                    addAudioToDatabase(audio)
                     return
                 }
-
-                if(response.code() >= 300){
-                    Log.d("onResponse", response.body().toString())
-                    //TODO("save audio data locally")
-                    return
-                }
-
-                if(response.body()?.error == true) {
-                    //TODO("save audio data locally")
-                }
-
+                //successful
             }
 
             override fun onFailure(call: Call<Success>?, t: Throwable?) {
                 Log.d("onResponse", "Error")
-                //TODO("save audio data locally")
+                addAudioToDatabase(audio)
             }
 
         })
+    }
+
+    fun addAudioToDatabase(audio: AudioStatus) {
+        val db = SQLManager(this)
+        db.registerDatabase("Updatables")
+
+        db.insertRow("Updatables", "Audio History", "track_number, completion_status, creation_date",
+                String.format("%d,%b,%s",
+                        audio.track_number,
+                        audio.completion_status,
+                        audio.creation_date
+                )
+        )
     }
 
 }

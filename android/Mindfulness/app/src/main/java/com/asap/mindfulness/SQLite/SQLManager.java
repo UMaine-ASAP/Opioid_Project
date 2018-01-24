@@ -56,7 +56,6 @@ public class SQLManager
         databaseStorage.put(db, new DatabaseClass(passedContext,db));   //stores a newly created database in our hashmap
     }
 
-
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// DELETE DATABASE
     /*
     Deletes a database.
