@@ -10,7 +10,24 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'website/public')));
 
 app.get('/', function (req, res) {
-  res.render('layout', {subtitle: 'Home'});
+  res.redirect('/login')
+  //res.render('layout', {subtitle: 'Home'});
+});
+
+app.get('/login', function (req, res){
+  res.render('login', {subtitle: 'Login', error: ''});
+});
+
+app.post('/login', function (req, res){
+  res.render('login', {subtitle: 'Login', error: 'In Development!'});
+});
+
+app.get('/register', function (req, res){
+  res.render('register', {subtitle: 'Register', error: ''});
+});
+
+app.post('/register', function (req, res){
+  res.render('register', {subtitle: 'Register', error: 'In Development!'});
 });
 
 app.listen(80);
