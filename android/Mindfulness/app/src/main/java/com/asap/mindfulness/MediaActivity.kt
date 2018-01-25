@@ -25,9 +25,7 @@ import java.util.*
 
 import java.util.concurrent.TimeUnit.MILLISECONDS as TUM
 import android.content.Intent
-import android.provider.Settings
 import android.view.MenuItem
-import com.asap.mindfulness.Fragments.RatingFragment
 import com.asap.mindfulness.SQLite.SQLManager
 
 
@@ -97,6 +95,12 @@ class MediaActivity : AppCompatActivity() {
         //creating mediaplayer and starting the audio
         mediaPlayer = MediaPlayer.create(this, audioSource)
         mediaPlayer.start()
+        mediaPlayer.setOnCompletionListener {
+            // Launch quote page in Media mode
+            val quoteIntent = Intent(baseContext, QuoteActivity::class.java)
+            quoteIntent.putExtra(QuoteActivity.MODE, QuoteActivity.MODE_MEDIA)
+            startActivity(quoteIntent)
+        }
         playerReleased = false
 
         textTitle.text = intent.getStringExtra("title")

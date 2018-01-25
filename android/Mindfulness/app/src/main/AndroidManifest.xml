@@ -44,7 +44,8 @@
         <activity
             android:name=".QuoteActivity"
             android:label="@string/title_activity_quotes"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".ParentActivity"/>
         <activity
             android:name=".WebViewActivity"
             android:label="@string/title_activity_web"
