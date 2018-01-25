@@ -1,21 +1,13 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context="com.asap.mindfulness.Fragments.FeedFragment">
 
     <android.support.v7.widget.RecyclerView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="com.asap.mindfulness.Fragments.FeedFragment"
-        tools:showIn="@layout/fragment_feed"
         android:id="@+id/feed_recycler"
-        android:padding="@dimen/cardview_margin"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android" />
+        android:layout_height="match_parent" />
 
-</android.support.design.widget.CoordinatorLayout>
+</FrameLayout>
 

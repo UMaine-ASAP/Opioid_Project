@@ -48,16 +48,6 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parent)
 
-        // Get the screen size to adjust element sizing
-        val metrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(metrics)
-        // Get the window manager
-        val winManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        winManager.defaultDisplay.getMetrics(metrics)
-
-        // Set the height of the ViewPager
-//        container.layoutParams.height = Math.round(metrics.heightPixels - bottom_nav.measuredHeight - 140 * metrics.density)
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
