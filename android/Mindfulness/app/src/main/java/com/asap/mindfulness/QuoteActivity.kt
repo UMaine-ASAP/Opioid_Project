@@ -3,7 +3,6 @@ package com.asap.mindfulness
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_quote.*
 
 import android.util.Log
 import com.asap.mindfulness.Containers.*
@@ -15,6 +14,8 @@ import android.view.View
 //import sun.plugin2.util.PojoUtil.toJson
 import android.content.SharedPreferences
 import android.support.v4.app.NavUtils
+import com.transitionseverywhere.*
+import kotlinx.android.synthetic.main.activity_quote.*
 import java.util.*
 import kotlin.collections.ArrayList as KotlinList
 
@@ -34,6 +35,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
     var mode: Int = 0
 
     lateinit var quotesList: Array<String>
+    lateinit var quotesListCredits: Array<String>
     val quotesUsed = KotlinList<Int>()
 
     override fun onClick(view: View?) {
@@ -48,35 +50,44 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         prefs = this.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE)
 
-        setup()
-        if (mode == 1) {
-            updateServer()
-        }
-    }
-
-    fun setup() {
+        setup() //-----------//>
+                              //|
+        if (mode == 1) {      //|
+            updateServer()    //|
+        } else {              //|
+            done()            //|
+        }                     //|
+    }                         //|
+                              //|
+    fun setup() {  //<-------//<
 
         quotesList = resources.getStringArray(R.array.quotes_array)
+        quotesListCredits = resources.getStringArray(R.array.quotes_credits)
 
         // Load in the quote depending on the current MODE
-        quoteTextView.text = when (mode) {
+        val quoteNum = when (mode) {
             MODE_LOADING -> {
                 val startDate = Date()
                 startDate.time = prefs.getLong("StartDate", 0)
                 val numOfDays = daysBetween(startDate, Date())
 
-                quotesList[numOfDays % quotesList.size]
+//                numOfDays % quotesList.size
+                0
             }
             MODE_BROWSER -> {
-                if (quotesUsed.size == quotesList.size) {
+                close_quotes.visibility = View.VISIBLE
+                close_quotes.setOnClickListener { _ ->
                     NavUtils.navigateUpFromSameTask(this)
                 }
+
                 grabNewQuote()
             }
             else -> {
-                quotesList[Random().nextInt(quotesList.size)]
+                Random().nextInt(quotesList.size)
             }
         }
+        quoteTextView.text = quotesList[quoteNum]
+        quoteCredits.text = quotesListCredits[quoteNum]
 
         //TODO("use mod to update the quote. day%count")
 
@@ -86,7 +97,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         //TODO("use mod to update the image")
 
         view_quote.setOnClickListener(when(mode) {
-            MODE_LOADING -> { p0: View? ->
+            MODE_LOADING -> { _: View? ->
                 if(isDoneSending) {
                     val intent = Intent(baseContext, ParentActivity::class.java)
                     startActivity(intent)
@@ -95,13 +106,20 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
             MODE_MEDIA -> { p0: View? ->
                 NavUtils.navigateUpFromSameTask(this)
             }
-            else -> { p0: View? ->
-
+            else -> { _: View? ->
+                if (quotesUsed.size == quotesList.size) {
+                    NavUtils.navigateUpFromSameTask(this)
+                } else {
+                    TransitionManager.beginDelayedTransition(view_quote)
+                    val quoteNumber = grabNewQuote()
+                    quoteTextView.text = quotesList[quoteNumber]
+                    quoteCredits.text = quotesListCredits[quoteNumber]
+                }
             }
         })
     }
 
-    fun grabNewQuote() : String {
+    fun grabNewQuote() : Int {
         var nextQuote = -1
 
         do {
@@ -110,7 +128,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         quotesUsed.add(nextQuote)
 
-        return quotesList[nextQuote]
+        return nextQuote
     }
 
     fun updateServer() {

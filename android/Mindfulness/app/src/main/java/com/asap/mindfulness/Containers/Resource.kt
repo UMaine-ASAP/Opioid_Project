@@ -1,13 +1,19 @@
 package com.asap.mindfulness.Containers
 
+import android.content.Intent
 import android.support.v4.content.res.ResourcesCompat
 import com.asap.mindfulness.R
 import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.asap.mindfulness.Fragments.OnNavigationRequestListener
+import com.asap.mindfulness.MediaActivity
+import com.asap.mindfulness.QuoteActivity
+import kotlinx.android.synthetic.main.activity_quote.*
 import kotlinx.android.synthetic.main.card_resource.view.*
 
 /**
@@ -43,7 +49,8 @@ class Resource(val title : String, val extra: String, val type: Int, val image: 
         const val VIDEO = 1
         const val AUDIO = 2
         const val SURVEY = 3
-        const val INTRODUCTION = 4
+        const val QUOTES = 4
+        const val INTRODUCTION = 5
     }
 
     class Holder(itemView : View) : RecyclerView.ViewHolder(itemView) {
@@ -66,15 +73,24 @@ class Resource(val title : String, val extra: String, val type: Int, val image: 
                 extra.text = res.extra
             }
 
-            image.setImageResource((res.image))
-            itemView.setOnClickListener { _ ->
-                if (res.type < Resource.INTRODUCTION) {
-                    navigationListener?.onWebViewRequested(res.extra)
-                } else {
-                    // TODO: Launch Introduction Activity
-                }
+            Log.e("RESOURCEMe", res.image.toString())
+            Log.e("RESOURCE", R.mipmap.wikipedia_favicon.toString())
+            image.setImageResource(res.image)
 
-            }
+            itemView.setOnClickListener(when(res.type) {
+                QUOTES -> { _: View? ->
+                    val quoteIntent = Intent(itemView.context, QuoteActivity::class.java)
+                    quoteIntent.putExtra(QuoteActivity.MODE, QuoteActivity.MODE_BROWSER)
+                    itemView.context.startActivity(quoteIntent)
+                }
+                INTRODUCTION -> { _: View? ->
+                    Toast.makeText(itemView.context, "This will open the intro page", Toast.LENGTH_SHORT)
+                            .show()
+                }
+                else -> { _: View? ->
+                    navigationListener?.onWebViewRequested(res.extra)
+                }
+            })
         }
     }
 }

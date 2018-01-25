@@ -33,16 +33,17 @@ class UserSettingsItem : FrameLayout {
     lateinit var view: View
 
     var title = "No Title"
-        set(value) {
-            view.user_settings_main.text = value
-        }
     var currentValue = "No Value!"
-        set(value) {
-            view.user_settings_current.text = value
-        }
 
     private fun initView() {
         view = View.inflate(context, R.layout.user_settings_item, null)
         addView(view)
+    }
+
+    fun populate(title: String, value: String) {
+        this.title = title
+        currentValue = value
+        view.user_setting.user_settings_main.text = title
+        view.user_setting.user_settings_current.text = value
     }
 }

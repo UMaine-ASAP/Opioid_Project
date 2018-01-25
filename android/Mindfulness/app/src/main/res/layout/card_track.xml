@@ -79,7 +79,7 @@
             android:layout_marginStart="8dp"
             android:gravity="start"
             android:text="Credits"
-            android:textAlignment="textStart"
+            android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="parent"

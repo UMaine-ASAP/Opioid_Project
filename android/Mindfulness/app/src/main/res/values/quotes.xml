@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="quotes_array">
-        <item>Quote 1</item>
+        <item>Believe you can and you’re halfway there.</item>
         <item>Quote 2</item>
         <item>Quote 3</item>
         <item>Quote 4</item>
@@ -9,6 +9,16 @@
         <item>Quote 6</item>
         <item>Quote 7</item>
         <item>Quote 8</item>
+    </string-array>
+    <string-array name="quotes_credits">
+        <item>— Theodore Roosevelt</item>
+        <item>— Need More Quotes</item>
+        <item>— Need More Quotes</item>
+        <item>— Need More Quotes</item>
+        <item>— Need More Quotes</item>
+        <item>— Need More Quotes</item>
+        <item>— Need More Quotes</item>
+        <item>— Need More Quotes</item>
     </string-array>
     <array name="image_array">
         <item>@drawable/beach_stones</item>

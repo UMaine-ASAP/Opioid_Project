@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.asap.mindfulness.Views.UserSettingsItem
 import kotlinx.android.synthetic.main.activity_user.*
+import kotlinx.android.synthetic.main.user_settings_item.*
 
 class UserActivity : AppCompatActivity() {
 
@@ -11,7 +12,6 @@ class UserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
 
-        user_name.title = "Name"
-        user_name.currentValue = "Steve Jobs"
+        user_name.populate("Name", "Jane Doe")
     }
 }

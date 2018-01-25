@@ -5,8 +5,9 @@
         <item>Wikipedia - Mindfulness</item>
         <item>PES - Fresh Guacamole</item>
         <item>Relaxing Songs</item>
-        <item>Survey</item>
-        <item>Introduction</item>
+        <item>Take Last Survey</item>
+        <item>Browse Quotes</item>
+        <item>Take the Intro Again</item>
     </string-array>
     <string-array name="resource_extras">
         <item>https://google.com</item>
@@ -14,7 +15,8 @@
         <item>https://www.youtube.com/watch?v=dNJdJIwCF_Y</item>
         <item>https://renaissancesound.bandcamp.com/track/dont-eat-my-dwarves</item>
         <item>https://survey.emhs.org/TakeSurvey.aspx?SurveyID=92KLl682M</item>
-        <item>"REPLACE WITH CURRENT DATE"</item>
+        <item>" "</item>
+        <item>" "</item>
     </string-array>
     <integer-array name="resource_types">
         <item>0</item>
@@ -23,13 +25,15 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
     </integer-array>
-    <string-array name="resource_images">
-        <item>R.drawable.google_favicon</item>
-        <item>R.drawable.wikipedia_favicon</item>
-        <item>"null"</item>
-        <item>"null"</item>
-        <item>"null"</item>
-        <item>"null"</item>
-    </string-array>
+    <integer-array name="resource_images">
+        <item>2131623937</item>
+        <item>2131623942</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+    </integer-array>
 </resources>
