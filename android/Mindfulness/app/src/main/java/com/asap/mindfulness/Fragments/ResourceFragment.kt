@@ -23,8 +23,6 @@ import com.asap.mindfulness.R
 import com.asap.mindfulness.RecyclerViewAdapters.FeedAdapter
 import com.asap.mindfulness.RecyclerViewAdapters.ResourceAdapter
 import com.asap.mindfulness.SQLite.DatabaseClass
-import com.asap.mindfulness.SQLite.SQLManager
-import kotlinx.android.synthetic.main.content_scrolling.view.*
 import kotlinx.android.synthetic.main.fragment_resource.view.*
 
 /**
