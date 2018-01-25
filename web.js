@@ -10,8 +10,8 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'website/public')));
 
 app.get('/', function (req, res) {
-  res.redirect('/login')
-  //res.render('layout', {subtitle: 'Home'});
+  //res.redirect('/login')
+  res.render('dashboard', {subtitle: 'Dashboard'});
 });
 
 app.get('/login', function (req, res){

@@ -16,6 +16,18 @@ bar {
 bar > h2 {
   line-height: 42px;
   padding-left: 10px;
+  display: inline-block;
+}
+
+bar > ul {
+  height: 48px;
+  display: inline-block;
+}
+
+bar > ul > li {
+  height: calc(48px - 10px);
+  padding: 5px;
+  display: inline-block;
 }
 
 p {
