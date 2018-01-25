@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, 'website/public')));
 
 app.get('/', function (req, res) {
   //res.redirect('/login')
-  res.render('dashboard', {subtitle: 'Dashboard'});
+  res.render('dashboard', {subtitle: 'Dashboard <i class="fa fa-tachometer" aria-hidden="true"></i>'});
 });
 
 app.get('/login', function (req, res){

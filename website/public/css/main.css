@@ -14,19 +14,23 @@ bar {
 }
 
 bar > h2 {
-  line-height: 42px;
+  line-height: 48px;
   padding-left: 10px;
   display: inline-block;
+  vertical-align: middle;
 }
 
 bar > ul {
   height: 48px;
   display: inline-block;
+  vertical-align: middle;
+  float: right;
 }
 
 bar > ul > li {
-  height: calc(48px - 10px);
-  padding: 5px;
+  height: calc(48px - 20px);
+  padding: 10px;
+  line-height: 38px;
   display: inline-block;
 }
 

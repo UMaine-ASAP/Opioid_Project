@@ -7,10 +7,10 @@ html
     link(rel='stylesheet', href='/css/font-awesome.min.css')
   body
     bar
-      h2 Mindfullness Admin | #{subtitle}
+      h2!="Mindfullness Admin | " + subtitle
       ul
         li
-          a Home
+          a Dashboard
         li
           a Tracks
     block content
