@@ -27,11 +27,19 @@ bar > ul {
   float: right;
 }
 
-bar > ul > li {
+bar > ul > a > li {
   height: calc(48px - 20px);
   padding: 10px;
   line-height: 28px;
   display: inline-block;
+}
+
+bar > ul > a {
+  color: #FFFFFF;
+}
+
+bar > ul > a > li:hover {
+  background-color: #00776c;
 }
 
 p {

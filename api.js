@@ -56,7 +56,7 @@ function getUserDB(username, done) {
     done(rows[0]);
   });
 }
-app.post('/user/create', function(req, res) {  
+app.post('/user/create', function(req, res) {
   if (!req.body.username || !req.body.password) {
     return res.status(400).send("You must send the username and the password");
   }
@@ -64,7 +64,7 @@ app.post('/user/create', function(req, res) {
     if(!user) {
       user = {
         username: req.body.username,
-        password: req.body.password
+        password: bcrypt.hashSync(req.body.password)
       };
       db.get().query('INSERT INTO admin SET ?', [user], function(err, result){
         if (err) throw err;
@@ -90,7 +90,7 @@ app.post('/user/login', function(req, res) {
     if (!user) {
       return res.status(400).send({"error": true, "message": "Username doesnt exist"});
     }
-    if (user.password !== req.body.password) {
+    if (!bcrypt.compareSync(req.body.password , user.password) ) {
       return res.status(400).send({"error": true, "message": "The username or password don't match"});
     }
     res.send({
