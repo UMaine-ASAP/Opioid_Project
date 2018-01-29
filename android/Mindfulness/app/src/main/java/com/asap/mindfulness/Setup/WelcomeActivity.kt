@@ -1,5 +1,6 @@
 package com.asap.mindfulness.Setup
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -27,7 +28,8 @@ import kotlinx.android.synthetic.main.activity_welcome.*
 class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Check if user is already set up and skip to ParentActivity
-        if (/* TODO: Logic for the check */ true) {
+        if (getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
+                        .contains(getString(R.string.sp_name))) {
             val intent = Intent(this, QuoteActivity::class.java)
             startActivity(intent)
         }

@@ -1,10 +1,8 @@
 package com.asap.mindfulness
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_quote.*
 
 import android.util.Log
 import com.asap.mindfulness.Containers.*
@@ -13,47 +11,83 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.view.View
-import android.widget.RelativeLayout
 //import sun.plugin2.util.PojoUtil.toJson
-import com.google.gson.Gson
-import android.R.id.edit
 import android.content.SharedPreferences
+import android.support.v4.app.NavUtils
+import com.transitionseverywhere.*
+import kotlinx.android.synthetic.main.activity_quote.*
 import java.util.*
+import kotlin.collections.ArrayList as KotlinList
 
 
 class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
+    companion object {
+        const val MODE = "mode"
+        const val MODE_LOADING = 0
+        const val MODE_MEDIA = 1
+        const val MODE_BROWSER = 2
+    }
+
     var isDoneSending = false
 
     lateinit var prefs: SharedPreferences
+    var mode: Int = 0
+
+    lateinit var quotesList: Array<String>
+    lateinit var quotesListCredits: Array<String>
+    val quotesUsed = KotlinList<Int>()
 
     override fun onClick(view: View?) {
-        if(isDoneSending) {
-            val intent = Intent(this, ParentActivity::class.java)
-            startActivity(intent)
-        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quote)
 
+        mode = intent.getIntExtra(MODE, 0)
+
         prefs = this.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE)
 
-        setup()
-        updateServer()
-    }
+        setup() //-----------//>
+                              //|
+        if (mode == 1) {      //|
+            updateServer()    //|
+        } else {              //|
+            done()            //|
+        }                     //|
+    }                         //|
+                              //|
+    fun setup() {  //<-------//<
 
-    fun setup() {
+        quotesList = resources.getStringArray(R.array.quotes_array)
+        quotesListCredits = resources.getStringArray(R.array.quotes_credits)
 
-        val startDate = Date()
-        startDate.time = prefs.getLong("StartDate", 0)
+        // Load in the quote depending on the current MODE
+        val quoteNum = when (mode) {
+            MODE_LOADING -> {
+                val startDate = Date()
+                startDate.time = prefs.getLong("StartDate", 0)
+                val numOfDays = daysBetween(startDate, Date())
 
-        val numOfDays = daysBetween(startDate, Date())
+//                numOfDays % quotesList.size
+                0
+            }
+            MODE_BROWSER -> {
+                close_quotes.visibility = View.VISIBLE
+                close_quotes.setOnClickListener { _ ->
+                    NavUtils.navigateUpFromSameTask(this)
+                }
 
-        val quotes = resources.getStringArray(R.array.quotes_array)
-        quoteTextView.text = quotes[(numOfDays % quotes.size.toLong()).toInt()]
-
+                grabNewQuote()
+            }
+            else -> {
+                Random().nextInt(quotesList.size)
+            }
+        }
+        quoteTextView.text = quotesList[quoteNum]
+        quoteCredits.text = quotesListCredits[quoteNum]
 
         //TODO("use mod to update the quote. day%count")
 
@@ -62,7 +96,39 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         //quoteImageView.setImageResource(R.drawable.wood_grain)
         //TODO("use mod to update the image")
 
-        view_quote.setOnClickListener(this)
+        view_quote.setOnClickListener(when(mode) {
+            MODE_LOADING -> { _: View? ->
+                if(isDoneSending) {
+                    val intent = Intent(baseContext, ParentActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            MODE_MEDIA -> { p0: View? ->
+                NavUtils.navigateUpFromSameTask(this)
+            }
+            else -> { _: View? ->
+                if (quotesUsed.size == quotesList.size) {
+                    NavUtils.navigateUpFromSameTask(this)
+                } else {
+                    TransitionManager.beginDelayedTransition(view_quote)
+                    val quoteNumber = grabNewQuote()
+                    quoteTextView.text = quotesList[quoteNumber]
+                    quoteCredits.text = quotesListCredits[quoteNumber]
+                }
+            }
+        })
+    }
+
+    fun grabNewQuote() : Int {
+        var nextQuote = -1
+
+        do {
+            nextQuote = Random().nextInt(quotesList.size)
+        } while (nextQuote in quotesUsed)
+
+        quotesUsed.add(nextQuote)
+
+        return nextQuote
     }
 
     fun updateServer() {
@@ -268,7 +334,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
 
 
-    fun daysBetween(startDate: Date, endDate: Date): Long {
+    fun daysBetween(startDate: Date, endDate: Date): Int {
 
         fun getDatePart(date:Date):Calendar {
             val cal = Calendar.getInstance() // get calendar instance
@@ -283,7 +349,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         val sDate = getDatePart(startDate)
         val eDate = getDatePart(endDate)
 
-        var daysBetween: Long = 0
+        var daysBetween = 0
         while (sDate.before(eDate)) {
             sDate.add(Calendar.DAY_OF_MONTH, 1)
             daysBetween++

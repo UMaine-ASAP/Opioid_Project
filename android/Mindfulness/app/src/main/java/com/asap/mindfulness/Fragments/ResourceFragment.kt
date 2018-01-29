@@ -23,8 +23,6 @@ import com.asap.mindfulness.R
 import com.asap.mindfulness.RecyclerViewAdapters.FeedAdapter
 import com.asap.mindfulness.RecyclerViewAdapters.ResourceAdapter
 import com.asap.mindfulness.SQLite.DatabaseClass
-import com.asap.mindfulness.SQLite.SQLManager
-import kotlinx.android.synthetic.main.content_scrolling.view.*
 import kotlinx.android.synthetic.main.fragment_resource.view.*
 
 /**
@@ -59,7 +57,7 @@ class ResourceFragment : Fragment() {
                     cursor.getInt(2),
                     when(cursor.getInt(2)) {
 //                        Resource.WEBSITE -> getResources().getIdentifier(cursor.getString(4), "drawable", "com.asap.mindfulness.Fragments")
-                        Resource.WEBSITE -> cursor.getInt(3)
+                        Resource.WEBSITE -> R.mipmap.wikipedia_favicon_round
 //                        VIDEO -> R.drawable.icon_video
 //                        AUDIO -> R.drawable.icon_audio
 //                        SURVEY -> R.drawable.icon_survey

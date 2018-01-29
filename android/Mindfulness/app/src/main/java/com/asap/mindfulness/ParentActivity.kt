@@ -10,12 +10,10 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
+import android.util.DisplayMetrics
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.asap.mindfulness.Fragments.FeedFragment
 import com.asap.mindfulness.Fragments.OnNavigationRequestListener
 import com.asap.mindfulness.Fragments.ResourceFragment
@@ -49,10 +47,6 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parent)
-
-        // Fullscreen hack
-//        window.decorView.systemUiVisibility =
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE /*or View.SYSTEM_UI_FLAG_FULLSCREEN*/
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -95,6 +89,11 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
                 }
                 else -> false
             }
+        }
+
+        fab.setOnClickListener {
+            val intent = Intent(this, UserActivity::class.java)
+            startActivity(intent)
         }
     }
 

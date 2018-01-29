@@ -1,6 +1,7 @@
 package com.asap.mindfulness.Fragments
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -18,7 +19,7 @@ import com.asap.mindfulness.Containers.Track
 import com.asap.mindfulness.R
 import com.asap.mindfulness.RecyclerViewAdapters.FeedAdapter
 import com.asap.mindfulness.SQLite.DatabaseClass
-import kotlinx.android.synthetic.main.content_scrolling.view.*
+import com.asap.mindfulness.UserActivity
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 import java.util.*
 
@@ -88,13 +89,10 @@ class FeedFragment : Fragment() {
         // Listener to launch the user fragment
         val openUserFragment = object: View.OnClickListener {
             override fun onClick(view: View?) {
-                // TODO: Open user fragment
-                Toast.makeText(context, "This will open the user page", Toast.LENGTH_SHORT)
-                        .show()
+                val intent = Intent(context, UserActivity::class.java)
+                startActivity(intent)
             }
         }
-
-        rootView.fab.setOnClickListener(openUserFragment)
 
         // Get days passed since start date
         val startDate = mPreferences.getLong(getString(R.string.sp_start_date), 0)

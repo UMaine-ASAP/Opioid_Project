@@ -127,7 +127,7 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
 
     fun addSurveyToDatabase(survey: Survey){
 
-        val db = SQLManager(this)
+        val db = SQLManager(context)
         db.registerDatabase("Updatables")
 
         db.insertRow("Updatables", "Survey History", "resource_id, rating, creation_date",

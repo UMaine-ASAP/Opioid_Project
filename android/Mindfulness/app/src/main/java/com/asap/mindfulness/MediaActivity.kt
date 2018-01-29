@@ -25,15 +25,21 @@ import java.util.*
 
 import java.util.concurrent.TimeUnit.MILLISECONDS as TUM
 import android.content.Intent
-import android.provider.Settings
 import android.view.MenuItem
-import com.asap.mindfulness.Fragments.RatingFragment
+import com.asap.mindfulness.Containers.Track
 import com.asap.mindfulness.SQLite.SQLManager
 
 
 class MediaActivity : AppCompatActivity() {
 
+    companion object {
+        const val TRACK_INTENT = "track"
+        const val INDEX_INTENT = "index"
+    }
+
     private var deviceId = "12"
+
+    private lateinit var mTrack: Track
 
     // source of the audio to be played
     private var audioSource = R.raw.track1
@@ -90,16 +96,27 @@ class MediaActivity : AppCompatActivity() {
         
         //deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
 
-        audioSource = intent.getIntExtra("path", R.raw.track1)
-        audioIndex = intent.getIntExtra("index", 0)
+        mTrack = intent.getParcelableExtra(TRACK_INTENT)
+
+        audioSource = mTrack.path
+        audioIndex = intent.getIntExtra(INDEX_INTENT, 0)
 
 
         //creating mediaplayer and starting the audio
         mediaPlayer = MediaPlayer.create(this, audioSource)
+
         mediaPlayer.start()
+
+        mediaPlayer.setOnCompletionListener {
+            // Launch quote page in Media mode
+            val quoteIntent = Intent(baseContext, QuoteActivity::class.java)
+            quoteIntent.putExtra(QuoteActivity.MODE, QuoteActivity.MODE_MEDIA)
+            startActivity(quoteIntent)
+        }
+
         playerReleased = false
 
-        textTitle.text = intent.getStringExtra("title")
+        textTitle.text = mTrack.title
         textTime.post(mUpdateTime)
 
         pauseButton.setOnClickListener { _ ->

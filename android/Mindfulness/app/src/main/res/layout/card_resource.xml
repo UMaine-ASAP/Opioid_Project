@@ -23,10 +23,12 @@
             android:layout_height="70dp"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:background="@android:color/white"
             card_view:srcCompat="@color/colorAccent" />
 
         <TextView
@@ -57,6 +59,7 @@
             android:maxLength="30"
             android:text="https://renaissancesound.bandcamp.com/track/dont-eat-my-dwarves"
             android:textAlignment="viewStart"
+            android:textColor="@color/colorPrimary"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/resource_title"
             app:layout_constraintTop_toBottomOf="@+id/resource_title" />
