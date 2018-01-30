@@ -5,16 +5,14 @@ const request = require('request');
 
 const app = express();
 
-console.log('logging')
-request('http://localhost:4300/test', function(error, response, body) {
-  console.log('error:', error);
-  console.log(body);
-});
-
 app.set('views', path.join(__dirname, 'website/views'));
 app.set('view engine', 'pug');
 
 app.use(express.static(path.join(__dirname, 'website/public')));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
   //res.redirect('/login')
@@ -26,11 +24,16 @@ app.get('/login', function (req, res){
 });
 
 app.post('/login', function (req, res){
-  request.post('http://localhost:4300/login', {form:{username:req.body.username, passowrd: req.body.password}}, function(err, response, body) {
-    console.log('error:', err);
-    console.log(body);
+  request.post('http://localhost:4300/user/login', {form:{username:req.body.username, password: req.body.password}}, function(err, resp, body) {
+    let data = JSON.parse(body);
+    if(err) {
+      res.render('login', {subtitle: 'Login', error: err, icon: ''});
+    } else if(data.error) {
+      res.render('login', {subtitle: 'Login', error: data.messege, icon: ''});
+    } else {
+      res.render('login', {subtitle: 'Login', error: 'In Development!', icon: ''});
+    }
   });
-  res.render('login', {subtitle: 'Login', error: 'In Development!', icon: ''});
 });
 
 app.get('/register', function (req, res){

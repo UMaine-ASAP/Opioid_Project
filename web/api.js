@@ -84,14 +84,14 @@ app.post('/user/create', function(req, res) {
 
 app.post('/user/login', function(req, res) {
   if (!req.body.username || !req.body.password) {
-    return res.status(400).send({"error": true, "message": "Must enter in password and username"});
+    return res.status(400).send({"error": true, "messege": "Must enter in password and username"});
   }
   getUserDB(req.body.username, function(user){
     if (!user) {
-      return res.status(400).send({"error": true, "message": "Username doesnt exist"});
+      return res.status(400).send({"error": true, "messege": "Username doesnt exist"});
     }
     if (!bcrypt.compareSync(req.body.password , user.password) ) {
-      return res.status(400).send({"error": true, "message": "The username or password don't match"});
+      return res.status(400).send({"error": true, "messege": "The username or password don't match"});
     }
     res.send({
       id_token: createToken(user)
