@@ -34,7 +34,7 @@ class TrackAdapter(private val items: List<Track>): RecyclerView.Adapter<Track.H
 
     override fun onBindViewHolder(holder: Track.Holder?, position: Int) {
         // Initialize card components
-        holder?.populate(items[position], position)
+        holder?.populate(items[position])
     }
 
     override fun getItemCount(): Int {

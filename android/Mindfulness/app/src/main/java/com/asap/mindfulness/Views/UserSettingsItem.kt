@@ -24,6 +24,10 @@ class UserSettingsItem : FrameLayout {
         initView()
     }
 
+    constructor(context: Context, attr: AttributeSet) : super(context, attr) {
+        initView()
+    }
+
     constructor(context: Context, title: String, currentValue: String) : super(context) {
         this.title = title
         this.currentValue = currentValue

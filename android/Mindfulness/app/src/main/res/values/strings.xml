@@ -21,7 +21,7 @@
     </string>
 
     <!-- Welcome -->
-    <string name="welcome_message">Welcome,\nyour doctor will\nassist you with\nsetup</string>
+    <string name="welcome_message">Welcome,\nsomeone will\nassist you with\nsetup</string>
     <string name="welcome_button">Okay</string>
 
     <!-- Setup -->
@@ -31,7 +31,7 @@
     <string name="setup_name_hint"></string>
     <string name="setup_password_prompt">Would you like to set a password?</string>
     <string name="setup_password_hint"></string>
-    <string name="setup_patient_id">Please enter your Patient ID</string>
+    <string name="setup_patient_id">Please enter your study ID</string>
     <string name="setup_patient_id_hint"></string>
 
     <!-- Quotes -->
@@ -39,7 +39,7 @@
 
     <!-- User -->
     <string name="title_activity_user">Your App</string>
-    <string name="user_category_personal">Your App</string>
+    <string name="user_category_personal">About You</string>
 
     <!-- Parent -->
     <string name="bottom_nav_feed">Feed</string>
@@ -54,8 +54,8 @@
     <!-- Feed -->
     <string name="feed_no_top">No Top Text</string>
     <string name="feed_no_bottom">No Bottom Text</string>
-    <string name="feed_progress_top">Welcome to</string>
-    <string name="feed_progress_bottom">Day %1$d</string>
+    <string name="feed_progress_top">Welcome</string>
+    <string name="feed_progress_bottom">To Day %1$d</string>
     <string name="feed_survey_top">Take Survey</string>
     <string name="feed_survey_bottom">(%1$s %2$d)</string>
 

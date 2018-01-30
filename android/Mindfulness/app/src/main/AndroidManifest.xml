@@ -30,7 +30,7 @@
         <activity
             android:name=".Setup.SetupActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible"/>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ParentActivity"
             android:label="@string/app_name"
@@ -53,7 +53,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".IntroductionActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"
