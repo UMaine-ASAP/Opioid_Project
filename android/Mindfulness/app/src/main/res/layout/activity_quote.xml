@@ -25,20 +25,25 @@
 
     <TextView
         android:id="@+id/quoteTextView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="228dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto_italic"
-        android:text="TextView"
+        android:text="Believe you can and you’re halfway there."
         android:textAlignment="center"
         android:textColor="@android:color/primary_text_dark"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/quoteProgressBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/continueTextView"
@@ -62,6 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:visibility="invisible"
@@ -71,19 +77,19 @@
 
     <TextView
         android:id="@+id/quoteCredits"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="48dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto_italic"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
+        android:text="— Theodore Roosevelt"
+        android:textAlignment="textEnd"
+        android:gravity="end"
+        android:textColor="@android:color/primary_text_dark"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/quoteTextView"
+        app:layout_constraintEnd_toEndOf="@+id/quoteTextView"
         app:layout_constraintTop_toBottomOf="@+id/quoteTextView" />
 
     <!--<TextView-->
