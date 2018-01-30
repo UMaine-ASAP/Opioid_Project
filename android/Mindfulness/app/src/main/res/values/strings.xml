@@ -39,7 +39,7 @@
 
     <!-- User -->
     <string name="title_activity_user">Your App</string>
-    <string name="user_category_personal">Your App</string>
+    <string name="user_category_personal">About You</string>
 
     <!-- Parent -->
     <string name="bottom_nav_feed">Feed</string>

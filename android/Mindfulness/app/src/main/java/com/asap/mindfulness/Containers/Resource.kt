@@ -69,6 +69,8 @@ class Resource(val title : String, val extra: String, val type: Int, val image: 
 
             if (res.extra.length > 30) {
                 extra.text = res.extra.substring(0, 27) + "..."
+            } else if (res.extra == "None") {
+                extra.visibility = View.GONE
             } else {
                 extra.text = res.extra
             }

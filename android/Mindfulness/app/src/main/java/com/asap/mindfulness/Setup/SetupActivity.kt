@@ -31,7 +31,7 @@ import java.util.*
  * This activity consists of two parts: a ViewPager to scroll through the setup fragments, and
  * a button to move to the next step.
  *
- * The fragments are currently SetupUserFragment and SetupPatientIdFragment.
+ * The fragments are currently SetupUserFragment and SetupPatientFragment.
  * The button starts out as "Move On" and changes to "FinishSetup" when the pager's on the last
  * setup step.
  */
@@ -46,10 +46,6 @@ import java.util.*
 class SetupActivity : AppCompatActivity() {
 
     // Use patient_password_switch.isChecked for the password checkbox
-
-    private var patientName : String = ""
-    private var patientPassword : String = ""
-    private var patientId : String = ""
     lateinit var mPager: ViewPager
     lateinit var mPreferences: SharedPreferences.Editor
 
@@ -171,8 +167,9 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun scrollUser() : Boolean {
-        patientName = mPager.patient_name.text.toString()
-        patientPassword = patient_password.toString()
+        val patientName = patient_name.text.toString()
+        val patientPasswordEnabled = patient_password_switch.isChecked
+        val patientPassword = patient_password.text.toString()
 
         if (patientName == "") {
             Snackbar.make(activity_setup, "Please enter a name for yourself",
@@ -184,16 +181,28 @@ class SetupActivity : AppCompatActivity() {
             return false
         }
 
+        mPreferences
+                .putString(getString(R.string.sp_name), patientName)
+//                .putBoolean(getString(R.string.sp_password_enabled), patientPasswordEnabled)
+//                .putString(getString(R.string.sp_password), patientPassword)
+                .putBoolean(getString(R.string.sp_password_enabled), false)
+                .putString(getString(R.string.sp_password), "")
+                .apply()
+
         return true
     }
 
     private fun scrollPatient() : Boolean {
-        patientId = patient_id.text.toString()
+        val patientId = patient_id.text.toString()
 
         if (patientId == "") {
             Snackbar.make(activity_setup, "Please enter a patient ID",
                     Snackbar.LENGTH_SHORT).show()
             return false
+        } else {
+            mPreferences
+                    .putInt(getString(R.string.sp_study_id), Integer.parseInt(patientId))
+                    .apply()
         }
 
         return true
@@ -203,7 +212,7 @@ class SetupActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment {
             return when (position) {
                 0 -> SetupUserFragment.newInstance()
-                1 -> SetupPatientIdFragment.newInstance()
+                1 -> SetupPatientFragment.newInstance()
                 else -> SetupUserFragment.newInstance()
             }
         }

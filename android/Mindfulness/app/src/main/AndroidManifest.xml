@@ -30,7 +30,7 @@
         <activity
             android:name=".Setup.SetupActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible"/>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ParentActivity"
             android:label="@string/app_name"

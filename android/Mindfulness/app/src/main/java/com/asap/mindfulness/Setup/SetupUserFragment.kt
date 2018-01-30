@@ -24,7 +24,8 @@ class SetupUserFragment : Fragment() {
     private var patientName: String = ""
         get() = rootView.patient_name.text.toString()
     private var patientPasswordEnabled = true
-        get() = rootView.patient_password_switch.isChecked
+        get() = false
+//        get() = rootView.patient_password_switch.isChecked
     private var patientPassword: String = ""
         get() = rootView.patient_password.text.toString()
     lateinit var rootView: View

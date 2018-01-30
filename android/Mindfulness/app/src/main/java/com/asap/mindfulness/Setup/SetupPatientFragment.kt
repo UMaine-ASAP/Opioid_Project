@@ -4,6 +4,7 @@ package com.asap.mindfulness.Setup
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +13,14 @@ import android.view.inputmethod.InputMethodManager
 
 import com.asap.mindfulness.R
 import kotlinx.android.synthetic.main.fragment_setup_patient.view.*
-import kotlinx.android.synthetic.main.fragment_setup_user.view.*
 
 
 /**
  * A simple [Fragment] subclass.
- * Use the [SetupPatientIdFragment.newInstance] factory method to
+ * Use the [SetupPatientFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SetupPatientIdFragment : Fragment() {
+class SetupPatientFragment : Fragment() {
     private var patientId: String = ""
         get() = rootView.patient_id.text.toString()
     private lateinit var rootView: View
@@ -48,11 +48,15 @@ class SetupPatientIdFragment : Fragment() {
                 val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT)
             } else {
+                if (patientId != "") {
+                    val patientIdInt = Integer.parseInt(patientId)
+                    mPrefs.edit()
+                            .putInt(getString(com.asap.mindfulness.R.string.sp_study_id), patientIdInt)
+                            .apply()
+                }
+
                 val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(v.windowToken, 0)
-                mPrefs.edit()
-                    .putString(getString(com.asap.mindfulness.R.string.sp_name), patientId)
-                    .apply()
 
             }
 
@@ -62,7 +66,7 @@ class SetupPatientIdFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = SetupPatientIdFragment()
+        fun newInstance() = SetupPatientFragment()
     }
 
 }// Required empty public constructor
