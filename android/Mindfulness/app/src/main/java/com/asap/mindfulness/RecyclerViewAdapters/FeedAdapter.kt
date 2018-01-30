@@ -47,9 +47,9 @@ class FeedAdapter(private val track: Track,
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when (holder?.itemViewType) {
-            TRACK -> (holder as Track.Holder).populate(track, -1)
+            TRACK -> (holder as Track.Holder).populate(track)
             FEED -> (holder as FeedItem.Holder).populate(feedItems[position - 1], navigationListener)
-            RESOURCE -> (holder as Resource.Holder).populate(resources[position - 3], navigationListener)
+            RESOURCE -> (holder as Resource.Holder).populate(resources[position - feedItems.size - 1], navigationListener)
         }
     }
 

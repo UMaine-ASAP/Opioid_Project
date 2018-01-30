@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.card_track.view.*
  * @property length: The length of the track in seconds
  */
 
-class Track(val title: String, val desc: String, val credits: String, val length: String, index: Int) : Parcelable {
+class Track(val title: String, val desc: String, val credits: String, val length: String, val index: Int) : Parcelable {
     var path : Int = 0
 
     init {
@@ -39,13 +39,16 @@ class Track(val title: String, val desc: String, val credits: String, val length
     }
 
     constructor(parcel: Parcel): this(parcel.readString(), parcel.readString(), parcel.readString(),
-            parcel.readString(), parcel.readInt())
+            parcel.readString(), parcel.readInt()) {
+        path = parcel.readInt()
+    }
 
     override fun writeToParcel(out: Parcel, flags: Int) {
         out.writeString(title)
         out.writeString(desc)
         out.writeString(credits)
         out.writeString(length)
+        out.writeInt(index)
         out.writeInt(path)
     }
 
@@ -76,6 +79,7 @@ class Track(val title: String, val desc: String, val credits: String, val length
         val desc: TextView
         val time: TextView
         val credits: TextView
+        lateinit var mTrack: Track
 
         init {
             title = itemView.track_title
@@ -84,19 +88,19 @@ class Track(val title: String, val desc: String, val credits: String, val length
             credits = itemView.track_credits
         }
         
-        fun populate(track: Track, position: Int) {
-            title.text =  track.title
-            desc.text = track.desc
-            credits.text = track.credits
-            time.text = track.length
+        fun populate(track: Track) {
+            mTrack = track
+            title.text =  mTrack.title
+            desc.text = mTrack.desc
+            credits.text = mTrack.credits
+            time.text = mTrack.length
 
             time.setOnClickListener { view ->
                 val bundle = Bundle()
                 val intent = Intent(view.context, MediaActivity::class.java)
 
                 with(bundle) {
-                    putParcelable(MediaActivity.TRACK_INTENT, track)
-                    putInt(MediaActivity.INDEX_INTENT, position)
+                    putParcelable(MediaActivity.TRACK_INTENT, mTrack)
                 }
 
                 intent.putExtras(bundle)

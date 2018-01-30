@@ -18,6 +18,7 @@ import com.asap.mindfulness.SQLite.SQLManager
 import kotlinx.android.synthetic.main.activity_setup.*
 import kotlinx.android.synthetic.main.fragment_setup_patient.*
 import kotlinx.android.synthetic.main.fragment_setup_user.*
+import kotlinx.android.synthetic.main.fragment_setup_user.view.*
 import java.util.*
 
 /**
@@ -49,6 +50,7 @@ class SetupActivity : AppCompatActivity() {
     private var patientName : String = ""
     private var patientPassword : String = ""
     private var patientId : String = ""
+    lateinit var mPager: ViewPager
     lateinit var mPreferences: SharedPreferences.Editor
 
 
@@ -62,8 +64,9 @@ class SetupActivity : AppCompatActivity() {
         mPreferences = getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE).edit()
 
         // Initialize ViewPager and give it an instance of SetupPagerAdapter
-        setup_pager.adapter = SetupPagerAdapter(supportFragmentManager)
-        setup_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        mPager = setup_pager
+        mPager.adapter = SetupPagerAdapter(supportFragmentManager)
+        mPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {}
 
@@ -72,21 +75,20 @@ class SetupActivity : AppCompatActivity() {
             // TODO: This is only half finished
             override fun onPageSelected(position: Int) {
                 // Checking the current page
-                val current = setup_pager.currentItem
+                val current = mPager.currentItem
                 if (current == 1) {
                     if (scrollUser()) {
-                        setup_pager.currentItem = 1
+                        mPager.currentItem = 1
                         setup_button.text = getString(R.string.setup_finish)
                     } else {
-                        setup_pager.currentItem = 0
+                        mPager.currentItem = 0
                     }
                 } else {
                     if (scrollPatient()) {
-                        mPreferences.apply()
                         val main = Intent(parent, ParentActivity::class.java)
                         startActivity(main)
                     } else {
-                        setup_pager.currentItem = 0
+                        mPager.currentItem = 0
                     }
                 }
             }
@@ -94,15 +96,15 @@ class SetupActivity : AppCompatActivity() {
         })
 
         // Add the view pager to the progress bubbles
-        setup_progress.setViewPager(setup_pager)
+        setup_progress.setViewPager(mPager)
 
         // Set up the button to scroll to the next page and grab the information from the last page
         setup_button.setOnClickListener {
             // Checking the current page
-            val current = setup_pager.currentItem
+            val current = mPager.currentItem
             if (current == 0) {
                 if (scrollUser()) {
-                    setup_pager.currentItem = 1
+                    mPager.currentItem = 1
                     setup_button.text = getString(R.string.setup_finish)
                 }
             } else {
@@ -169,7 +171,7 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun scrollUser() : Boolean {
-        patientName = patient_name.text.toString()
+        patientName = mPager.patient_name.text.toString()
         patientPassword = patient_password.toString()
 
         if (patientName == "") {
@@ -182,12 +184,6 @@ class SetupActivity : AppCompatActivity() {
             return false
         }
 
-        with (mPreferences) {
-            putString(getString(R.string.sp_name), patientName)
-            putString(getString(R.string.sp_password), patientPassword)
-            apply()
-        }
-
         return true
     }
 
@@ -198,11 +194,6 @@ class SetupActivity : AppCompatActivity() {
             Snackbar.make(activity_setup, "Please enter a patient ID",
                     Snackbar.LENGTH_SHORT).show()
             return false
-        }
-
-        with (mPreferences) {
-            putString(getString(R.string.setup_patient_id), patientId)
-            apply()
         }
 
         return true
