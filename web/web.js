@@ -24,7 +24,11 @@ app.get('/login', function (req, res){
 });
 
 app.post('/login', function (req, res){
-  request.post('http://localhost:4300/user/login', {form:{username:req.body.username, password: req.body.password}}, function(err, resp, body) {
+  let newForm = {
+    username:req.body.username,
+    password: req.body.password
+  }
+  request.post('http://localhost:4300/user/login', { form: newForm }, function(err, resp, body) {
     let data = JSON.parse(body);
     if(err) {
       res.render('login', {subtitle: 'Login', error: err, icon: ''});
@@ -41,7 +45,27 @@ app.get('/register', function (req, res){
 });
 
 app.post('/register', function (req, res){
-  res.render('register', {subtitle: 'Register', error: 'In Development!', icon: ''});
+  // Confirming passwords match
+  if (req.body.password === req.body.confirm_password) {
+    // create form
+    let newForm = {
+      username:req.body.username,
+      password: req.body.password
+    }
+    // send to API
+    request.post('http://localhost:4300/user/create', { form: newForm }, function(err, resp, body) {
+      let data = JSON.parse(body);
+      if(err) {
+        res.render('register', {subtitle: 'Register', error: err, icon: ''});
+      } else if(data.error) {
+        res.render('register', {subtitle: 'Register', error: data.messege, icon: ''});
+      } else {
+        res.render('register', {subtitle: 'Register', error: 'In Development!', icon: ''});
+      }
+    });
+  } else {
+    res.render('register', {subtitle: 'Register', error: 'Passwords do not match!', icon: ''});
+  }
 });
 
 app.listen(80);

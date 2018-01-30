@@ -58,7 +58,7 @@ function getUserDB(username, done) {
 }
 app.post('/user/create', function(req, res) {
   if (!req.body.username || !req.body.password) {
-    return res.status(400).send("You must send the username and the password");
+    return res.status(400).send({"error": true, "messege": "Send both username and password"});
   }
   getUserDB(req.body.username, function(user){
     if(!user) {
@@ -78,7 +78,7 @@ app.post('/user/create', function(req, res) {
         });
       });
     }
-    else res.status(400).send("A user with that username already exists");
+    else res.status(400).send({"error": true, "messege": "A user with that username already exists"});
   });
 });
 
