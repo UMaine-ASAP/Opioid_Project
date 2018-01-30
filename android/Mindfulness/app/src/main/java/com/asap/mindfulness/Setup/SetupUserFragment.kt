@@ -9,12 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.asap.mindfulness.R
-import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
-import com.asap.mindfulness.R.id.view
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
 import kotlinx.android.synthetic.main.fragment_setup_user.view.*
 

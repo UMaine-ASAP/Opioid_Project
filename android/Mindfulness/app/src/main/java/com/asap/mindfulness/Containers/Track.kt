@@ -87,6 +87,11 @@ class Track(val title: String, val desc: String, val credits: String, val length
             time = itemView.track_time
             credits = itemView.track_credits
         }
+
+        fun shrink() {
+            val density = itemView.context.resources.displayMetrics.density
+            itemView.layoutParams.height = Math.round(250 * density + 0.5f)
+        }
         
         fun populate(track: Track) {
             mTrack = track
