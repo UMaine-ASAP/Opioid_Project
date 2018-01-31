@@ -30,52 +30,68 @@ app.get('/', function (req, res) {
 });
 
 app.get('/login', function (req, res){
-  res.render('login', {subtitle: 'Login', error: '', icon: ''});
+  if (req.session.token) {
+    res.redirect('/');
+  } else {
+    res.render('login', {subtitle: 'Login', error: '', icon: ''});
+  }
 });
 
 app.post('/login', function (req, res){
-  let newForm = {
-    username:req.body.username,
-    password: req.body.password
-  }
-  request.post('http://localhost:4300/user/login', { form: newForm }, function(err, resp, body) {
-    let data = JSON.parse(body);
-    if (err) {
-      res.render('login', {subtitle: 'Login', error: err, icon: ''});
-    } else if(data.error) {
-      res.render('login', {subtitle: 'Login', error: data.messege, icon: ''});
-    } else {
-      req.session.token = data.id_token;
-      res.redirect('/');
-    }
-  });
-});
-
-app.get('/register', function (req, res){
-  res.render('register', {subtitle: 'Register', error: '', icon: ''});
-});
-
-app.post('/register', function (req, res){
-  // Confirming passwords match
-  if (req.body.password === req.body.confirm_password) {
-    // create form
+  if (req.session.token) {
+    res.redirect('/');
+  } else {
     let newForm = {
       username:req.body.username,
       password: req.body.password
     }
-    // send to API
-    request.post('http://localhost:4300/user/create', { form: newForm }, function(err, resp, body) {
+    request.post('http://localhost:4300/user/login', { form: newForm }, function(err, resp, body) {
       let data = JSON.parse(body);
       if (err) {
-        res.render('register', {subtitle: 'Register', error: err, icon: ''});
+        res.render('login', {subtitle: 'Login', error: err, icon: ''});
       } else if(data.error) {
-        res.render('register', {subtitle: 'Register', error: data.messege, icon: ''});
+        res.render('login', {subtitle: 'Login', error: data.messege, icon: ''});
       } else {
-        res.render('register', {subtitle: 'Register', error: 'In Development!', icon: ''});
+        req.session.token = data.id_token;
+        res.redirect('/');
       }
     });
+  }
+});
+
+app.get('/register', function (req, res){
+  if (req.session.token) {
+    res.redirect('/');
   } else {
-    res.render('register', {subtitle: 'Register', error: 'Passwords do not match!', icon: ''});
+    res.render('register', {subtitle: 'Register', error: '', icon: ''});
+  }
+});
+
+app.post('/register', function (req, res){
+  if (req.session.token) {
+    res.redirect('/');
+  } else {
+    // Confirming passwords match
+    if (req.body.password === req.body.confirm_password) {
+      // create form
+      let newForm = {
+        username:req.body.username,
+        password: req.body.password
+      }
+      // send to API
+      request.post('http://localhost:4300/user/create', { form: newForm }, function(err, resp, body) {
+        let data = JSON.parse(body);
+        if (err) {
+          res.render('register', {subtitle: 'Register', error: err, icon: ''});
+        } else if(data.error) {
+          res.render('register', {subtitle: 'Register', error: data.messege, icon: ''});
+        } else {
+          res.render('register', {subtitle: 'Register', error: 'In Development!', icon: ''});
+        }
+      });
+    } else {
+      res.render('register', {subtitle: 'Register', error: 'Passwords do not match!', icon: ''});
+    }
   }
 });
 
@@ -111,6 +127,13 @@ app.post('/device', (req, res) => {
   } else {
     res.redirect('/login');
   }
+});
+
+app.get('/logout', (req, res) => {
+  if (req.session.token) {
+    delete req.session.token;
+  }
+  res.redirect('/');
 });
 
 app.listen(80);
