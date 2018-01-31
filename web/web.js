@@ -87,4 +87,30 @@ app.get('/device', (req, res) => {
   }
 });
 
+app.post('/device', (req, res) => {
+  if (req.session.token) {
+    if (req.body.device_id) {
+      // create form
+      let newForm = {
+        device_id: req.body.device_id
+      }
+      // send to API
+      request.post('http://localhost:4300/register_device', { form: newForm }, function(err, resp, body) {
+        let data = JSON.parse(body);
+        if (err) {
+          res.render('device', {subtitle: 'Register Device', error: err, icon: ''});
+        } else if(data.error) {
+          res.render('device', {subtitle: 'Register Device', error: "Device could not be added!", icon: ''});
+        } else {
+          res.render('device', {subtitle: 'Register Device', error: 'Device has been added!', icon: ''});
+        }
+      });
+    } else {
+      res.render('device', {subtitle: 'Register Device', error: 'Please input a device ID', icon: ''});
+    }
+  } else {
+    res.redirect('/login');
+  }
+});
+
 app.listen(80);
