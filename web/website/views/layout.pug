@@ -8,13 +8,14 @@ html
   body
     bar
       h2!="Mindfullness Admin | " + subtitle + " " + icon
-      ul
-        a(href='/')
-          li Dashboard
-        a
-          li Reports
-        a(href='/device')
-          li Register
-        a(href='/logout')
-          li Logout
+      //- Adjusting nav based on if user is signed in
+      if token
+        ul
+          a(href='/')
+            li Dashboard
+          a(href='/reports')
+            li Reports
+          a(href='/logout')
+            li Logout
+
     block content
