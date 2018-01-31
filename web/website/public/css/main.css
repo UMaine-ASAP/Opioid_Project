@@ -75,3 +75,34 @@ form > input {
 form > h1, form > h3 {
     text-align: center;
 }
+
+opt {
+  display: block;
+  width: calc(100% - 20px);
+  padding: 10px;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+}
+
+opt > name {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20%;
+}
+
+opt > span {
+  display: inline-block;
+  vertical-align: middle;
+  width: 80%;
+  text-align: right;
+}
+
+opt > span > a {
+  vertical-align: middle;
+  display: inline-block;
+  padding: 5px 10px;
+  color: #FFFFFF;
+  background-color: #009688;
+  margin: 0 5px;
+  border-radius: 5px;
+}

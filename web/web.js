@@ -37,6 +37,14 @@ app.get('/', function (req, res) {
   }
 });
 
+app.get('/reports', (req, res) => {
+  if (req.session.token) { // redirect if no access token
+    res.render('reports', {subtitle: 'Reports', icon: '<i class="fa fa-file-text-o" aria-hidden="true"></i>', token: true});
+  } else {
+    res.redirect('/login');
+  }
+});
+
 app.get('/login', function (req, res){
   if (req.session.token) { // redirect if no access token
     res.redirect('/');
