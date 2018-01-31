@@ -10,11 +10,10 @@ app.set('views', path.join(__dirname, 'website/views'));
 app.set('view engine', 'pug');
 
 app.use(session({
-  secret: "ASAP's Keyboard Cat",
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}))
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}));
 app.use(express.static(path.join(__dirname, 'website/public')));
 app.use(bodyParser.urlencoded({
     extended: true
