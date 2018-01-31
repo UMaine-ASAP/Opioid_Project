@@ -2,23 +2,23 @@
 <resources>
     <string-array name="quotes_array">
         <item>Believe you can and you’re halfway there.</item>
-        <item>Quote 2</item>
-        <item>Quote 3</item>
-        <item>Quote 4</item>
-        <item>Quote 5</item>
-        <item>Quote 6</item>
-        <item>Quote 7</item>
-        <item>Quote 8</item>
+        <item>All things are delicately interconnected.</item>
+        <item>Quiet the mind and the soul will speak.</item>
+        <item>The darker the experience, the greater the opportunity for inner illumination.</item>
+        <item>In the end, only three things matter: how much you loved, how gently you lived, and how gracefully you let go of things not meant for you.</item>
+        <item>Don't let your past determine your destiny.</item>
+        <item>Life isn't about finding yourself. Life is about creating yourself.</item>
+        <item>Do one thing every day that scares you.</item>
     </string-array>
     <string-array name="quotes_credits">
         <item>— Theodore Roosevelt</item>
-        <item>— Need More Quotes</item>
-        <item>— Need More Quotes</item>
-        <item>— Need More Quotes</item>
-        <item>— Need More Quotes</item>
-        <item>— Need More Quotes</item>
-        <item>— Need More Quotes</item>
-        <item>— Need More Quotes</item>
+        <item>— Holzer's Truisms</item>
+        <item>— Ma Jaya Sati Bhagavati</item>
+        <item>— Natasha McKenna</item>
+        <item>— Buddha</item>
+        <item>— Confucius</item>
+        <item>— George Bernard Shaw</item>
+        <item>— Eleanor Roosevelt</item>
     </string-array>
     <array name="image_array">
         <item>@drawable/beach_stones</item>

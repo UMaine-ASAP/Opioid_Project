@@ -8,6 +8,10 @@
     <string name="sp_password_enabled">SP_USER_PASSWORD_ENABLED</string>
     <string name="sp_study_id">SP_USER_PATIENT_ID</string>
     <string name="sp_start_date">SP_START_DATE</string>
+    <string name="sp_days_passed">SP_DAYS_PASSED</string>
+    <string name="sp_notification_day">SP_NOTIFY_DAY</string>
+    <string name="sp_notification_hour">SP_NOTIFY HOUR</string>
+    <string name="sp_notification_minute">SP_NOTIFY_MINUTE</string>
     <!-- Track Info -->
     <string name="sp_current_track">SP_CURRENT_TRACK</string>
     <!-- Survey Info -->

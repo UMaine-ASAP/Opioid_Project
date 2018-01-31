@@ -31,7 +31,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
     var isDoneSending = false
 
-    lateinit var prefs: SharedPreferences
+    lateinit var mPrefs: SharedPreferences
     var mode: Int = 0
 
     lateinit var quotesList: Array<String>
@@ -48,8 +48,9 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         mode = intent.getIntExtra(MODE, 0)
 
-        prefs = this.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE)
+        mPrefs = this.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE)
 
+        refreshFields()
         setup() //-----------//>
                               //|
         if (mode == 1) {      //|
@@ -68,7 +69,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         val quoteNum = when (mode) {
             MODE_LOADING -> {
                 val startDate = Date()
-                startDate.time = prefs.getLong("StartDate", 0)
+                startDate.time = mPrefs.getLong("StartDate", 0)
                 val numOfDays = daysBetween(startDate, Date())
 
 //                numOfDays % quotesList.size
@@ -129,6 +130,21 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         quotesUsed.add(nextQuote)
 
         return nextQuote
+    }
+
+    fun refreshFields() {
+        val prefsEditor = mPrefs.edit()
+
+        // Get days passed since start date
+        val startDate = mPrefs.getLong(getString(R.string.sp_start_date), 0)
+//        val daysPassed: Int = ((Date().time - startDate) / 1000 / 60 / 60 / 24 + 1).toInt()
+        val daysPassed = daysBetween(Date(startDate), Date())
+        prefsEditor.putInt(getString(R.string.sp_days_passed), daysPassed)
+
+        val currentTrack = daysPassed / 7 + 1
+        prefsEditor.putInt(getString(R.string.sp_current_track), currentTrack)
+
+        prefsEditor.apply()
     }
 
     fun updateServer() {

@@ -34,6 +34,10 @@
     <string name="setup_patient_id">Please enter your study ID</string>
     <string name="setup_patient_id_hint"></string>
 
+    <!-- Notifications -->
+    <string name="notify_channel_name">Mindful Thinking</string>
+    <string name="notify_channel_desc">Paying attention, on purpose, without judgement, to the present moment.</string>
+
     <!-- Quotes -->
     <string name="title_activity_quotes">Mindful Quotes</string>
 

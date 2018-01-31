@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.asap.mindfulness.Containers.FeedItem
 import com.asap.mindfulness.Containers.Resource
 import com.asap.mindfulness.Containers.Track
@@ -37,7 +35,7 @@ import java.util.*
 class FeedFragment : Fragment() {
 
     private var mListener: OnNavigationRequestListener? = null
-    private lateinit var mPreferences: SharedPreferences
+    private lateinit var mPrefs: SharedPreferences
     private val feedItems = ArrayList<FeedItem>()
     private val resources = ArrayList<Resource>()
     private lateinit var track: Track
@@ -45,7 +43,7 @@ class FeedFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mPreferences = context.getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
+        mPrefs = context.getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
 
         // Load in resources from SQLite
         val db = DatabaseClass(context, "Updatables").readableDatabase
@@ -76,7 +74,7 @@ class FeedFragment : Fragment() {
         val trackCredits = getResources().getStringArray(R.array.track_credits)
         val trackLengths = getResources().getStringArray(R.array.track_lengths)
 
-        val trackNumber = mPreferences.getInt(getString(R.string.sp_current_track), 0)
+        val trackNumber = mPrefs.getInt(getString(R.string.sp_current_track), 0)
         track = Track(trackTitles[trackNumber], trackDescriptions[trackNumber],
                 trackCredits[trackNumber], trackLengths[trackNumber], trackNumber)
     }
@@ -95,16 +93,15 @@ class FeedFragment : Fragment() {
         }
 
         // Get days passed since start date
-        val startDate = mPreferences.getLong(getString(R.string.sp_start_date), 0)
-        val daysPassed: Int = ((Date().time - startDate) / 1000 / 60 / 60 / 24 + 1).toInt()
+        val daysPassed = mPrefs.getInt(getString(R.string.sp_days_passed), 1)
 
         // Get date of the most recent survey
-        val lastSurveyDate = mPreferences.getLong(getString(R.string.sp_last_survey_date), 0)
+        val lastSurveyDate = mPrefs.getLong(getString(R.string.sp_last_survey_date), 0)
         val surveyDate = Date(lastSurveyDate)
         val surveyMonth = DateFormat.format("MMMM", surveyDate).toString()
         val surveyDay = Integer.parseInt(DateFormat.format("dd", surveyDate).toString())
         // Get the link for the most recent survey
-        val surveyLink = mPreferences.getString(getString(R.string.sp_last_survey_link), "")
+        val surveyLink = mPrefs.getString(getString(R.string.sp_last_survey_link), "")
 
         feedItems.add(FeedItem(getString(R.string.feed_progress_top),
                 getString(R.string.feed_progress_bottom, daysPassed), FeedItem.PROGRESS, openUserFragment))

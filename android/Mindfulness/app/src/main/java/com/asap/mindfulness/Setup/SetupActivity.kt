@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.util.Log
-import com.asap.mindfulness.Notifications.scheduleNotifications
+import com.asap.mindfulness.Notifications.NotificationScheduler
 import com.asap.mindfulness.ParentActivity
 import com.asap.mindfulness.QuoteActivity
 import com.asap.mindfulness.R
@@ -113,7 +113,7 @@ class SetupActivity : AppCompatActivity() {
             }
         }
 
-        scheduleNotifications(this)
+        NotificationScheduler.scheduleNotifications(this)
 
         //Setting the date the user starts treatment
         val today: Long = Date().time

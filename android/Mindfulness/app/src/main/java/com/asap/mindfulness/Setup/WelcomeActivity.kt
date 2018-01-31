@@ -31,8 +31,7 @@ class WelcomeActivity : AppCompatActivity() {
         // Check if user is already set up and skip to ParentActivity
         if (!getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
                         .getString(getString(R.string.sp_name), "").equals("", false)) {
-            Log.d("WelcomeActivity", getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
-                    .getString(getString(R.string.sp_name), ""))
+
             val intent = Intent(this, QuoteActivity::class.java)
             startActivity(intent)
         }
