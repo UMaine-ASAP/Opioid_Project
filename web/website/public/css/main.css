@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   font-family: "Trebuchet MS", san-serif;
-  color: #808080;
+  color: #606060;
 }
 
 bar {
@@ -81,33 +81,39 @@ form > h1, form > h3 {
 opt {
   display: block;
   width: calc(100% - 20px);
-  padding: 10px;
   border-radius: 3px;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
   margin-bottom: 10px;
+  overflow: hidden;
 }
 
 opt > name {
   display: inline-block;
   vertical-align: middle;
-  width: 20%;
+  width: calc(50% - 30px);
+  padding: 15px;
+  font-weight: bold;
 }
 
 opt > span {
   display: inline-block;
   vertical-align: middle;
-  width: 80%;
+  width: 50%;
   text-align: right;
 }
 
 opt > span > a {
   vertical-align: middle;
   display: inline-block;
-  padding: 5px 10px;
+  padding: 15px;
   color: #FFFFFF;
   background-color: #009688;
-  margin: 0 5px;
-  border-radius: 5px;
+  margin: 0;
+}
+
+opt > span > a:hover {
+  background-color: #00776c;
+  cursor: pointer;
 }
 
 cards {
