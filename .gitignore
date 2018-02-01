@@ -6,3 +6,5 @@ web/db.js
 android/Mindfulness/.idea/misc.xml
 android/Mindfulness/app/app.iml
 android/Mindfulness/Mindfulness.iml
+.DS_Store
+android/Mindfulness/app/app.iml
