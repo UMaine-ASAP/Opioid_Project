@@ -4,10 +4,9 @@ html
     title= "Mindfullness Admin | " + subtitle
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     link(rel='stylesheet', href='/css/main.css')
-    link(rel='stylesheet', href='/css/font-awesome.min.css')
   body
     bar
-      h2!="Mindfullness Admin | " + subtitle + " " + icon
+      h2!="Mindfullness Admin | " + subtitle
       //- Adjusting nav based on if user is signed in
       if token
         ul
@@ -15,6 +14,8 @@ html
             li Dashboard
           a(href='/reports')
             li Reports
+          a(href='/accounts')
+            li Accounts
           a(href='/logout')
             li Logout
 

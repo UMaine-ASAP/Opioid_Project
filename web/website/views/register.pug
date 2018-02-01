@@ -7,10 +7,7 @@ block content
             br
             err(style="color: #f00; font-size: 0.9em; text-align: center; display: block;") #{error}
             br
-            input(placeholder="Username" name="username")
+            input(placeholder="Username" name="username" value=username)
             input(type="password" name="password" placeholder="Password")
             input(type="password" name="confirm_password" placeholder="Confirm Password")
-            // input(type="password" name="code" placeholder="Access Code")
             input(type="submit" value="Register" style="background-color: #555555; color: #ffffff; width: 25%; min-width: 100px; margin: 5px calc(10% + 10px) 5px 0; float: right;")
-            span(style="display: inline-block; margin: 5px 0 5px 40px; line-height: 32px;") Already have an account?&nbsp;
-                a(href="/login") Login!

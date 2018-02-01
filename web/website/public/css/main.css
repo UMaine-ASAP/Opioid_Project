@@ -82,6 +82,7 @@ opt {
   padding: 10px;
   border-radius: 3px;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+  margin-bottom: 10px;
 }
 
 opt > name {
@@ -105,4 +106,46 @@ opt > span > a {
   background-color: #009688;
   margin: 0 5px;
   border-radius: 5px;
+}
+
+cards {
+  display: block;
+  width: 100%
+}
+
+cards > card {
+  margin: 3%;
+  padding: 10px;
+  min-width: 180px;
+  text-align: center;
+  display: inline-block;
+  vertical-align: text-top;
+  width: calc(30% - 3% - 20px);
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+}
+
+cards > card > name, cards > card > desc, cards > card > a {
+  display: block;
+  width: calc(100% - 10px);
+  padding: 5px;
+}
+
+cards > card > name {
+  font-weight: bold;
+}
+
+cards > card > desc {
+  text-align: left;
+  text-indent: 2em;
+}
+
+cards > card > a {
+  display: inline-block;
+  text-align: center;
+  color: #FFFFFF;
+  background-color: #009688;
+  border-radius: 3px;
+  max-width: 200px;
+  margin-top: 15px;
+  text-decoration: none;
 }

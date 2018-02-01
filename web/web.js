@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 // Main page
 app.get('/', function (req, res) {
   if (req.session.token) { // redirect if no access token
-    res.render('dashboard', {subtitle: 'Dashboard', icon: '<i class="fa fa-tachometer" aria-hidden="true"></i>', token: true});
+    res.render('dashboard', {subtitle: 'Dashboard', token: true, username: req.session.username});
   } else {
     res.redirect('/login');
   }
@@ -39,7 +39,7 @@ app.get('/', function (req, res) {
 
 app.get('/reports', (req, res) => {
   if (req.session.token) { // redirect if no access token
-    res.render('reports', {subtitle: 'Reports', icon: '<i class="fa fa-file-text-o" aria-hidden="true"></i>', token: true});
+    res.render('reports', {subtitle: 'Reports', token: true});
   } else {
     res.redirect('/login');
   }
@@ -49,8 +49,9 @@ app.get('/login', function (req, res){
   if (req.session.token) { // redirect if no access token
     res.redirect('/');
   } else {
-    req.session.token =  true;
-    res.render('login', {subtitle: 'Login', error: '', icon: ''});
+    req.session.token =  true; // current work-around for login system
+    req.session.username = "Test User";
+    res.render('login', {subtitle: 'Login', error: ''});
   }
 });
 
@@ -66,31 +67,38 @@ app.post('/login', function (req, res){
     request.post('http://localhost:4300/user/login', { form: newForm }, function(err, resp, body) {
       let data = JSON.parse(body);
       if (err) { // if err, report it, otherwise continue
-        res.render('login', {subtitle: 'Login', error: err, icon: ''});
+        res.render('login', {subtitle: 'Login', error: err});
       } else if(data.error) {
-        res.render('login', {subtitle: 'Login', error: data.messege, icon: ''});
+        res.render('login', {subtitle: 'Login', error: data.messege});
       } else {
         req.session.token = data.id_token;
+        req.session.username = req.body.username;
         res.redirect('/');
       }
     });
   }
 });
 
-app.get('/register', function (req, res){
-  if (req.session.token) { // redirect if there is an access token
+app.get('/accounts', function (req, res){
+  if (!req.session.token) { // redirect if no access token
     res.redirect('/');
   } else {
-    res.render('register', {subtitle: 'Register', error: '', icon: ''});
+    res.render('register', {subtitle: 'Add Account', error: '', token: true});
   }
 });
 
-app.post('/register', function (req, res){
-  if (req.session.token) { // redirect if there is an access token
+app.post('/accounts', function (req, res){
+  if (!req.session.token) { // redirect if no access token
     res.redirect('/');
   } else {
-    // Confirming passwords match
-    if (req.body.password === req.body.confirm_password) {
+    // Confirming fields are not blank
+    if (req.body.username == '' || req.body.password == ''){
+      res.render('register', {subtitle: 'Add Account', error: 'Please enter a username and password!', token: true});
+    }
+    // Confirming password fields match
+    else if (req.body.password != req.body.confirm_password) {
+      res.render('register', {subtitle: 'Add Account', error: 'Passwords do not match!', token: true, username: req.body.username});
+    } else {
       // create form
       let newForm = {
         username:req.body.username,
@@ -100,15 +108,13 @@ app.post('/register', function (req, res){
       request.post('http://localhost:4300/user/create', { form: newForm }, function(err, resp, body) {
         let data = JSON.parse(body);
         if (err) {
-          res.render('register', {subtitle: 'Register', error: err, icon: ''});
+          res.render('register', {subtitle: 'Add Account', error: err, token: true});
         } else if(data.error) {
-          res.render('register', {subtitle: 'Register', error: data.messege, icon: ''});
+          res.render('register', {subtitle: 'Add Account', error: data.messege, token: true});
         } else {
-          res.render('register', {subtitle: 'Register', error: 'In Development!', icon: ''});
+          res.render('register', {subtitle: 'Add Account', error: 'Account has been registered!', token: true});
         }
       });
-    } else {
-      res.render('register', {subtitle: 'Register', error: 'Passwords do not match!', icon: ''});
     }
   }
 });
@@ -137,7 +143,6 @@ if (app.get('env') === 'development') {
         res.status(err.status);
         res.render('error', {
             subtitle: 'Error',
-            icon: '',
             message: err.message,
             error: err
         });
@@ -151,7 +156,6 @@ app.use(function (err, req, res, next) {
     res.status(err.status);
     res.render('error', {
         subtitle: 'Error',
-        icon: '',
         message: err.message,
         error: { error: { status: err.status } }
     });
