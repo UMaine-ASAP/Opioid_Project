@@ -1,5 +1,6 @@
 package com.asap.mindfulness
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -13,7 +14,9 @@ import retrofit2.Response
 import android.view.View
 //import sun.plugin2.util.PojoUtil.toJson
 import android.content.SharedPreferences
+import android.provider.Settings
 import android.support.v4.app.NavUtils
+import com.asap.mindfulness.SQLite.DatabaseClass
 import com.transitionseverywhere.*
 import kotlinx.android.synthetic.main.activity_quote.*
 import java.util.*
@@ -52,8 +55,11 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         refreshFields()
         setup() //-----------//>
+
+         Log.d("SQL Debug", "Mode: " + mode.toString())
+
                               //|
-        if (mode == 1) {      //|
+        if (mode == 0) {      //|
             updateServer()    //|
         } else {              //|
             done()            //|
@@ -153,12 +159,31 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         // call addAudioHistory for each audio track in local db
         //TODO("Intergrate local SQL LITE DB")
 
-        if(false){ // if sql has data
+        //val deviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
 
-            // call retrofit functions to update data
+        val db = DatabaseClass(this, "Updatables").readableDatabase
+        val cursor = db.query(true, "Audio_History", arrayOf("track_number, completion_status, creation_date"), null, null, null, null, null, null)
 
+        Log.d("SQL Debug", "Checking the db")
+
+        if (cursor != null ) {
+            Log.d("SQL Debug", "# of rows = " + cursor.count)
+            if(cursor.count > 0) {
+                while (!cursor.isLast) {
+                    cursor.moveToNext()
+                    Log.d("SQL Debug", "Reading a row to table")
+
+                    Log.d("SQL Debig", "track number: " + cursor.getInt(0) + " completion status: " + cursor.getInt(1) + " date: "+ cursor.getLong(2))
+
+                        //sendAudioHistory(AudioStatus(deviceid,cursor.getInt(0), complete, Date()))
+                }
+
+            }
 
         }
+
+        cursor.close()
+
         done()
     }
 
@@ -201,27 +226,18 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun sendAudioHistory(audio: AudioStatus){
+
         val call = service.postAudioHistory(audio)
 
         call.enqueue(object : Callback<Success> {
             override fun onResponse(call: Call<Success>?, response: Response<Success>?) {
-                if (response == null) {
-                    done()
-                    Log.d("onResponse", "response is null")
+                if (response == null || response.code() >= 300 || response.body()?.error == true) {
                     return
                 }
-
-                if(response.code() >= 300){
-                    done()
-                    Log.d("onResponse", response.body().toString())
-                    return
-                }
-
-                done()
+                //successful
             }
 
             override fun onFailure(call: Call<Success>?, t: Throwable?) {
-                done()
                 Log.d("onResponse", "Error")
             }
 

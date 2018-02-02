@@ -1,5 +1,4 @@
 package com.asap.mindfulness
-
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -25,6 +24,7 @@ import java.util.*
 
 import java.util.concurrent.TimeUnit.MILLISECONDS as TUM
 import android.content.Intent
+import android.provider.Settings
 import android.view.MenuItem
 import com.asap.mindfulness.Containers.Track
 import com.asap.mindfulness.SQLite.SQLManager
@@ -94,7 +94,7 @@ class MediaActivity : AppCompatActivity() {
 //        val editNameDialogFragment = RatingFragment.newInstance()
 //        editNameDialogFragment.show(fm,"dialog")
         
-        //deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
+        deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
 
         mTrack = intent.getParcelableExtra(TRACK_INTENT)
 
@@ -127,6 +127,7 @@ class MediaActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        Log.d("SQL Debug","Back button pressed")
         goBack()
     }
 
@@ -220,12 +221,12 @@ class MediaActivity : AppCompatActivity() {
     fun addAudioToDatabase(audio: AudioStatus) {
         val db = SQLManager(this)
         db.registerDatabase("Updatables")
-
-        db.insertRow("Updatables", "Audio History", "track_number, completion_status, creation_date",
-                String.format("%d,%b,%s",
+        Log.d("SQL Debug", "Adding a row to table")
+        db.insertRow("Updatables", "Audio_History", "track_number, completion_status, creation_date",
+                String.format("%d,%b,%d",
                         audio.track_number,
                         audio.completion_status,
-                        audio.creation_date
+                        audio.creation_date.time
                 )
         )
     }

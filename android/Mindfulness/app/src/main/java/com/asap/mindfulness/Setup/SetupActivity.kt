@@ -135,14 +135,14 @@ class SetupActivity : AppCompatActivity() {
         // Create audio table
         db.pushColumn("track_number", "INTEGER")
         db.pushColumn("completion_status", "INTEGER")
-        db.pushColumn("creation_date", "TIMESTAMP")
-        db.createTable("Updatables", "Audio History")
+        db.pushColumn("creation_date", "LONG")
+        db.createTable("Updatables", "Audio_History")
 
         // Create survey table
         db.pushColumn("resource_id", "INTEGER")
         db.pushColumn("rating", "INTEGER")
-        db.pushColumn("creation_date", "TIMESTAMP")
-        db.createTable("Updatables", "Survey History")
+        db.pushColumn("creation_date", "LONG")
+        db.createTable("Updatables", "Survey_History")
 
 
         // Create Resources Table
