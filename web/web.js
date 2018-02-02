@@ -49,8 +49,6 @@ app.get('/login', function (req, res){
   if (req.session.token) { // redirect if no access token
     res.redirect('/');
   } else {
-    req.session.token =  true; // current work-around for login system
-    req.session.username = "Test User";
     res.render('login', {subtitle: 'Login', error: ''});
   }
 });
@@ -122,6 +120,7 @@ app.post('/accounts', function (req, res){
 app.get('/logout', (req, res) => {
   if (req.session.token) { // redirect if no access token
     delete req.session.token;
+    delete req.session.username;
   }
   res.redirect('/');
 });

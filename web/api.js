@@ -5,6 +5,8 @@ var ejwt = require('express-jwt');
 var config  = require('./config.json');
 var bcrypt = require('bcrypt-nodejs');
 var jwt = require('jsonwebtoken');
+var csv = require('csv-stringify');
+var fs = require('fs');
 
 var app = module.exports = express.Router();
 
@@ -172,4 +174,46 @@ app.get('/survey/:device_id', function (req, res) {
     if(err){ return res.status(400).send({"error": true});}
     res.send(rows);
   });
+});
+
+app.get('/survey/report/:method/:type', (req, res) => {
+  // PRE: Client must send their token to gain access
+  if (req.body.token) {
+    switch (req.params.method) {
+      case 'view':
+        if (req.params.type == 'audio') {
+          // testing CSV generater.
+          let data = [];
+          let columns = {
+            id: 'id',
+            name: 'Name'
+          };
+
+          for (var i = 0; i < 10; i++) {
+            data.push([i, 'Name ' + i]);
+          }
+
+          csv(data, { header: true, columns: columns }, (err, output) => {
+            if (err) throw err;
+            console.log(typeof(output));
+            let oMyBlob = new Blob([output], {type : 'text/html'});
+            res.send({blob: oMyBlob});
+          });
+        } else if (req.params.type == 'survey') {
+
+        }
+        break;
+      case 'download':
+        if (req.params.type == 'audio') {
+
+        } else if (req.params.type == 'survey') {
+
+        }
+        break;
+      default:
+        return res.send({error: true, messege: 'Invalid URL'});
+    }
+  } else {
+    return res.send({error: true, messege: "You must send your Auth token to gain access"});
+  }
 });
