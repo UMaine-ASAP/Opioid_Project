@@ -68,6 +68,7 @@ class SetupUserFragment : Fragment() {
                 mPrefs.edit()
                     .putString(getString(R.string.sp_password), patientPassword)
                     .apply()
+
             }
 
         }
@@ -101,5 +102,6 @@ class SetupUserFragment : Fragment() {
     companion object {
         fun newInstance() = SetupUserFragment()
     }
+
 
 }// Required empty public constructor

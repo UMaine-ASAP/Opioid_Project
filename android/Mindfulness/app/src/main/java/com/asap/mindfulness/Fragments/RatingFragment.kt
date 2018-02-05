@@ -1,6 +1,7 @@
 package com.asap.mindfulness.Fragments
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -39,16 +40,22 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
     private var prompt: String = "How are you feeling?"
     private var resourceId: Int = -1
 
+    lateinit var mPrefs: SharedPreferences
+    var deviceId = ""
+
     private var mListener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        submitButton.setOnClickListener(this)
-        promtTextView.text = prompt
+        //submitButton.setOnClickListener(this)
+
+        mPrefs = this.activity.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE)
+        deviceId =  mPrefs.getString(getString(R.string.sp_name), "None")
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        //promtTextView.text = prompt
         return inflater!!.inflate(R.layout.fragment_rating, container, false)
     }
 
@@ -76,7 +83,6 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         if(view == submitButton) {
             //submit survey to server, if good submit using retrofit else submit to local sql lite
-            val deviceId = Settings.Secure.getString(activity.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
             val survey = Survey(deviceId, resourceId,ratingBar.numStars, Calendar.getInstance().getTime())
             addSurvey(survey)
         }
@@ -130,7 +136,7 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
         val db = SQLManager(context)
         db.registerDatabase("Updatables")
 
-        db.insertRow("Updatables", "Survey History", "resource_id, rating, creation_date",
+        db.insertRow("Updatables", "Survey_History", "resource_id, rating, creation_date",
                 String.format("%d,%b,%s",
                         survey.resource_id,
                         survey.rating,

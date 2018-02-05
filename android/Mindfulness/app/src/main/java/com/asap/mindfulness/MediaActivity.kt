@@ -24,20 +24,25 @@ import java.util.*
 
 import java.util.concurrent.TimeUnit.MILLISECONDS as TUM
 import android.content.Intent
+import android.content.SharedPreferences
 import android.provider.Settings
 import android.view.MenuItem
 import com.asap.mindfulness.Containers.Track
+import com.asap.mindfulness.Fragments.RatingFragment
 import com.asap.mindfulness.SQLite.SQLManager
 
 
 class MediaActivity : AppCompatActivity() {
+
+
+    lateinit var mPrefs: SharedPreferences
 
     companion object {
         const val TRACK_INTENT = "track"
         const val INDEX_INTENT = "index"
     }
 
-    private var deviceId = "12"
+    private var deviceId = ""
 
     private lateinit var mTrack: Track
 
@@ -90,17 +95,19 @@ class MediaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
 
-//        val fm = supportFragmentManager
-//        val editNameDialogFragment = RatingFragment.newInstance()
-//        editNameDialogFragment.show(fm,"dialog")
-        
-        deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
+        mPrefs = getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
 
         mTrack = intent.getParcelableExtra(TRACK_INTENT)
 
         audioSource = mTrack.path
         audioIndex = intent.getIntExtra(INDEX_INTENT, 0)
 
+        deviceId = mPrefs.getString(getString(R.string.sp_name), "None")
+
+
+        //val fm = supportFragmentManager
+//        val editNameDialogFragment = RatingFragment.newInstance()
+//        editNameDialogFragment.show(fm,"dialog")
 
         //creating mediaplayer and starting the audio
         mediaPlayer = MediaPlayer.create(this, audioSource)
@@ -133,19 +140,23 @@ class MediaActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         goBack()
-        finish()
+        //finish()
         return true
     }
 
     fun goBack(){
-        if(mediaPlayer.duration * 0.95 > mediaPlayer.currentPosition){
+        if(mediaPlayer.duration * 0.1 > mediaPlayer.currentPosition){
             // allow user to exit
 
             val audioStatus = AudioStatus(deviceId, audioIndex, true, Calendar.getInstance().getTime())
             sendAudioHistory(audioStatus)
 
-            val myIntent = Intent(applicationContext, ParentActivity::class.java)
-            startActivityForResult(myIntent, 0)
+            //val myIntent = Intent(applicationContext, ParentActivity::class.java)
+            //startActivityForResult(myIntent, 0)
+
+            val fm = supportFragmentManager
+            val editNameDialogFragment = RatingFragment.newInstance()
+            editNameDialogFragment.show(fm,"dialog")
 
         }else{
             // prompt user that seession will not count

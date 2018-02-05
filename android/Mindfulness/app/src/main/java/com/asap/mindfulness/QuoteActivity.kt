@@ -35,6 +35,9 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
     var isDoneSending = false
 
     lateinit var mPrefs: SharedPreferences
+
+    var deviceId = ""
+
     var mode: Int = 0
 
     lateinit var quotesList: Array<String>
@@ -51,7 +54,9 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         mode = intent.getIntExtra(MODE, 0)
 
-        mPrefs = this.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE)
+        mPrefs = getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
+
+        deviceId = mPrefs.getString(getString(R.string.sp_name), "None")
 
         refreshFields()
         setup() //-----------//>
@@ -162,7 +167,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         //val deviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
 
         val db = DatabaseClass(this, "Updatables").readableDatabase
-        val cursor = db.query(true, "Audio_History", arrayOf("track_number, completion_status, creation_date"), null, null, null, null, null, null)
+        var cursor = db.query(true, "Audio_History", arrayOf("track_number, completion_status, creation_date"), null, null, null, null, null, null)
 
         Log.d("SQL Debug", "Checking the db")
 
@@ -171,11 +176,17 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
             if(cursor.count > 0) {
                 while (!cursor.isLast) {
                     cursor.moveToNext()
-                    Log.d("SQL Debug", "Reading a row to table")
+                    var completion = false
 
-                    Log.d("SQL Debig", "track number: " + cursor.getInt(0) + " completion status: " + cursor.getInt(1) + " date: "+ cursor.getLong(2))
+                    if(cursor.getInt(1) > 0){
+                        completion = true
+                    }
 
-                        //sendAudioHistory(AudioStatus(deviceid,cursor.getInt(0), complete, Date()))
+                    var date: Date = Date()
+
+                    date.time = cursor.getLong(2)
+
+                    sendAudioHistory(AudioStatus(deviceId,cursor.getInt(0), completion, date))
                 }
 
             }
@@ -183,6 +194,23 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         cursor.close()
+
+        cursor = db.query(true, "Survey_History", arrayOf("resource_id, rating, creation_date"), null, null, null, null, null, null)
+
+        if(cursor != null){
+            if(cursor.count > 0){
+                while(!cursor.isLast){
+                    cursor.moveToNext()
+
+                    var date: Date = Date()
+
+                    date.time = cursor.getLong(2)
+
+                    addSurvey(Survey(deviceId, cursor.getInt(0), cursor.getInt(1), date))
+
+                }
+            }
+        }
 
         done()
     }
@@ -201,14 +229,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onResponse(call: Call<Success>?, response: Response<Success>?) {
 
-                if (response == null) {
-                    Log.d("onResponse", "response is null")
-                    done()
-                    return
-                }
-
-                if(response.code() >= 300){
-                    Log.d("onResponse", response.body().toString())
+                if (response == null || response.code() >= 300 || response.body()?.error == true){
                     done()
                     return
                 }
@@ -232,17 +253,27 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         call.enqueue(object : Callback<Success> {
             override fun onResponse(call: Call<Success>?, response: Response<Success>?) {
                 if (response == null || response.code() >= 300 || response.body()?.error == true) {
+                    done()
                     return
                 }
+
+                done()
                 //successful
             }
 
             override fun onFailure(call: Call<Success>?, t: Throwable?) {
+                done()
                 Log.d("onResponse", "Error")
             }
 
         })
     }
+
+
+
+
+
+
 
 //
 //    fun completedSurveys(deviceId: String){
