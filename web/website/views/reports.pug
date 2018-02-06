@@ -5,10 +5,22 @@ block content
     opt
       name= "Audio Log"
       span
-        a= "View"
-        a= "Download"
+        form(action="" method="post")
+          input(type="hidden" name="type" value="audio")
+          input(type="hidden" name="method" value="view")
+          button(type="submit") View
+        form(action="" method="post")
+          input(type="hidden" name="type" value="audio")
+          input(type="hidden" name="method" value="download")
+          button(type="submit") Download
     opt
       name= "Survey Log"
       span
-        a= "View"
-        a= "Download"
+        form(action="" method="post")
+          input(type="hidden" name="type" value="survey")
+          input(type="hidden" name="method" value="view")
+          button(type="submit") View
+        form(action="" method="post")
+          input(type="hidden" name="type" value="survey")
+          input(type="hidden" name="method" value="download")
+          button(type="submit") Download

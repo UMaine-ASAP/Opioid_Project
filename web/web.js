@@ -45,6 +45,27 @@ app.get('/reports', (req, res) => {
   }
 });
 
+app.post('/reports', (req, res) => {
+  if (req.session.token) { // redirect if no access token
+    if (req.body.method == "view") {
+      switch (req.body.type) {
+        case "audio":
+          res.render('viewReport', {subtitle: 'View Report | Audio', token: true});
+          break;
+        case "survey":
+          res.render('viewReport', {subtitle: 'View Report | Survey', token: true});
+          break;
+        default:
+          res.render('viewReport', {subtitle: 'View Report | Error', token: true});
+      }
+    } else {
+      res.render('viewReport', {subtitle: 'View Report | Download', token: true});
+    }
+  } else {
+    res.redirect('/login');
+  }
+});
+
 app.get('/login', function (req, res){
   if (req.session.token) { // redirect if no access token
     res.redirect('/');
