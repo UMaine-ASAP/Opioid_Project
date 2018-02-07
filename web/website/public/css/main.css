@@ -80,7 +80,6 @@ page > form > h1, form > h3 {
 
 opt {
   display: block;
-  width: calc(100% - 20px);
   border-radius: 3px;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
   margin-bottom: 10px;
@@ -162,4 +161,24 @@ cards > card > a {
   max-width: 200px;
   margin-top: 15px;
   text-decoration: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+  overflow: hidden;
+}
+
+table > thead {
+  text-align: left;
+}
+
+table > thead > tr, table > tbody > tr:nth-child(even) {
+  background: #dedede;
+}
+
+table > thead > tr > th, table > tbody > tr > td {
+  padding: 5px;
 }

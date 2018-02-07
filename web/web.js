@@ -98,7 +98,6 @@ var report = (req, method, type, callback) => {
     try {
       data = JSON.parse(body);
     } catch (e) {}
-    console.log(data);
     if (err) { // if err, report it, otherwise continue
       return callback({error: true, messege: err});
     } else if(data && data.error) {
@@ -116,7 +115,12 @@ var report = (req, method, type, callback) => {
 
 /* Converts CSV given from API to a table */
 var csvToHTML = (data) => {
+  // Create an array of each row of data
   let allRows = data.split(/\r?\n|\r/);
+  // Remove the last row (it's always empty);
+  allRows.pop();
+
+  // Create a string containing the table
   let table = '<table>';
   for (let singleRow = 0; singleRow < allRows.length; singleRow++) {
     if (singleRow === 0) {
@@ -147,6 +151,8 @@ var csvToHTML = (data) => {
   }
   table += '</tbody>';
   table += '</table>';
+
+  // return the table to be displayed
   return table;
 }
 
@@ -266,3 +272,15 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(80);
+
+/* Setup Green-Lock for SSL Cert
+
+require('greenlock-express').create({
+  server: 'staging',
+  email: 'email@example.com',
+  agreeTos: true,
+  approveDomains: [ 'example.com' ],
+  app: app
+}).listen(80, 443);
+
+*/
