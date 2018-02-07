@@ -2,4 +2,11 @@ extends layout
 
 block content
   page
-    p= "New view for displaying reports"
+    opt
+      name= "New view for displaying reports"
+      span
+        form(action="" method="post")
+          input(type="hidden" name="type" value="audio")
+          input(type="hidden" name="method" value="download")
+          button(type="submit") Download
+    p!= data

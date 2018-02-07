@@ -50,21 +50,105 @@ app.post('/reports', (req, res) => {
     if (req.body.method == "view") {
       switch (req.body.type) {
         case "audio":
-          res.render('viewReport', {subtitle: 'View Report | Audio', token: true});
+          report(req, req.body.method, req.body.type, (data) => {
+            if (data.error) {
+              res.render('viewReport', {subtitle: 'View Report - Error', token: true, data: data.messege});
+            } else {
+              let table = csvToHTML(data.data.toString('utf8'));
+              res.render('viewReport', {subtitle: 'Audio Report', token: true, data: table});
+            }
+          });
           break;
         case "survey":
-          res.render('viewReport', {subtitle: 'View Report | Survey', token: true});
+          report(req, req.body.method, req.body.type, (data) => {
+            if (data.error) {
+              res.render('viewReport', {subtitle: 'View Report - Error', token: true, data: data.messege});
+            } else {
+              let table = csvToHTML(data.data.toString('utf8'));
+              res.render('viewReport', {subtitle: 'Survey Report', token: true, data: table});
+            }
+          });
           break;
         default:
-          res.render('viewReport', {subtitle: 'View Report | Error', token: true});
+          res.render('viewReport', {subtitle: 'View Report - Error', token: true});
       }
     } else {
-      res.render('viewReport', {subtitle: 'View Report | Download', token: true});
+      report(req, req.body.method, req.body.type, (data) => {
+        if (data.error) {
+          res.render('viewReport', {subtitle: 'View Report - Error', token: true, data: data.messege});
+        } else {
+          res.setHeader('Content-disposition', 'attachment; filename=report.csv');
+          res.setHeader('Content-type', 'text/csv');
+          res.send(data.data.toString('utf8'));
+        }
+      });
     }
   } else {
     res.redirect('/login');
   }
 });
+
+var report = (req, method, type, callback) => {
+  let newForm = {
+    token:req.session.token
+  }
+  // sending data to API
+  request.get('http://localhost:4300/survey/report/'+type, { form: newForm }, function(err, resp, body) {
+    let data = false;
+    try {
+      data = JSON.parse(body);
+    } catch (e) {}
+    console.log(data);
+    if (err) { // if err, report it, otherwise continue
+      return callback({error: true, messege: err});
+    } else if(data && data.error) {
+      return callback({error: true, messege: data.messege});
+    } else {
+      try {
+        let buff = new Buffer(data.buffer);
+        return callback({error: false, data: buff});
+      } catch (e) {
+        return callback({error: true, messege: e});
+      }
+    }
+  });
+}
+
+/* Converts CSV given from API to a table */
+var csvToHTML = (data) => {
+  let allRows = data.split(/\r?\n|\r/);
+  let table = '<table>';
+  for (let singleRow = 0; singleRow < allRows.length; singleRow++) {
+    if (singleRow === 0) {
+      table += '<thead>';
+      table += '<tr>';
+    } else {
+      table += '<tr>';
+    }
+    let rowCells = allRows[singleRow].split(',');
+    for (let rowCell = 0; rowCell < rowCells.length; rowCell++) {
+      if (singleRow === 0) {
+        table += '<th>';
+        table += rowCells[rowCell];
+        table += '</th>';
+      } else {
+        table += '<td>';
+        table += rowCells[rowCell];
+        table += '</td>';
+      }
+    }
+    if (singleRow === 0) {
+      table += '</tr>';
+      table += '</thead>';
+      table += '<tbody>';
+    } else {
+      table += '</tr>';
+    }
+  }
+  table += '</tbody>';
+  table += '</table>';
+  return table;
+}
 
 app.get('/login', function (req, res){
   if (req.session.token) { // redirect if no access token

@@ -176,44 +176,72 @@ app.get('/survey/:device_id', function (req, res) {
   });
 });
 
-app.get('/survey/report/:method/:type', (req, res) => {
+app.get('/survey/report/:type', (req, res) => {
   // PRE: Client must send their token to gain access
   if (req.body.token) {
-    switch (req.params.method) {
-      case 'view':
-        if (req.params.type == 'audio') {
-          // testing CSV generater.
-          let data = [];
-          let columns = {
-            id: 'id',
-            name: 'Name'
-          };
-
-          for (var i = 0; i < 10; i++) {
-            data.push([i, 'Name ' + i]);
-          }
-
-          csv(data, { header: true, columns: columns }, (err, output) => {
-            if (err) throw err;
-            console.log(typeof(output));
-            let oMyBlob = new Blob([output], {type : 'text/html'});
-            res.send({blob: oMyBlob});
-          });
-        } else if (req.params.type == 'survey') {
-
-        }
-        break;
-      case 'download':
-        if (req.params.type == 'audio') {
-
-        } else if (req.params.type == 'survey') {
-
-        }
-        break;
-      default:
-        return res.send({error: true, messege: 'Invalid URL'});
+    if (req.params.type == 'audio' || req.params.type == 'survey') {
+      genReport(req.params.type, (data) => {
+        res.json(data);
+      });
+    } else {
+      return res.send({error: true, messege: 'Invalid URL'});
     }
   } else {
     return res.send({error: true, messege: "You must send your Auth token to gain access"});
   }
 });
+
+var genReport = (type, callback) => {
+  // CSV generater.
+  let table;
+
+  if (type == 'audio') {
+    table = "audio_report";
+  } else if (type = 'survey') {
+    table = "survey_responces";
+  }
+
+  // Get report from database
+  db.get().query('SELECT * FROM ' + table, (err, rows) => {
+    if(err){
+      return callback({"error": true, messege: err});
+    } else {
+      // Set up data array
+      let data = [];
+      let columns = {};
+      if (type == 'audio') {
+        columns = {
+          id: 'ID',
+          user_id: 'User ID',
+          track_number: 'Track Number',
+          completion_status: 'Completion Status',
+          date: 'Date Created'
+        };
+
+        // Reformate rows
+        for (let i = 0; i < rows.length; i++) {
+          data.push([rows[i].id, rows[i].user_id, rows[i].track_number, rows[i].completion_status, ""+rows[i].creation_date]);
+        }
+      } else if (type = 'survey') {
+        columns = {
+          id: 'ID',
+          user_id: 'User ID',
+          resource_id: 'Resource ID',
+          rating: 'Rating',
+          date: 'Date Created'
+        };
+
+        // Reformate rows
+        for (let i = 0; i < rows.length; i++) {
+          data.push([rows[i].id, rows[i].user_id, rows[i].resource_id, rows[i].rating, ""+rows[i].creation_date]);
+        }
+      }
+
+      csv(data, { header: true, columns: columns }, (err, output) => {
+        if (err) throw err;
+        let csvFile = Buffer.from(output, 'utf8');
+        return callback({buffer: csvFile});
+      });
+    }
+  })
+}
