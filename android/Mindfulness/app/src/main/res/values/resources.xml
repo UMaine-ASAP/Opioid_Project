@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="resource_titles">
-        <item>Google</item>
         <item>Wikipedia - Mindfulness</item>
         <item>PES - Fresh Guacamole</item>
         <item>Relaxing Songs</item>
-        <item>Take Last Survey</item>
-        <item>Browse Quotes</item>
-        <item>Take the Intro Again</item>
+        <item>Most recent survey</item>
+        <item>Thoughtful quotes</item>
+        <item>Read the intro again</item>
 
-        <item>Maine Narcotics Anonymous Meeting Schedule</item>
-        <item>Bangor Area Recovery Network (find events, peer services/recovery coaching, stories, and other resources)</item>
-        <item>Crossroads Maine (gender responsive addiction treatment services, information page about understanding opioid addiction)</item>
-        <item>National Institute on Drug Abuse (facts about addiction and recovery, additional resources)</item>
+        <item>Maine Narcotics Anonymous meeting schedule</item>
+        <item>Bangor Area Recovery Network</item>
+        <item>Crossroads Maine</item>
+        <item>National Institute on Drug Abuse</item>
 
         <item>Maine Recovery Stories</item>
         <item>Everything You Think You Know about Addiction is Wrong – Johann Hari</item>
         <item>The Power of Addiction and the Addiction of Power – Gabor Mate</item>
-        <item>Guided meditation for sleep (floating among the stars – 1 hour)</item>
-        <item>Peaceful sleep music/calming music (2 hours)</item>
-        <item>20 minute mindfulness meditation</item>
-        <item>Ted talk Addiction 101 Raj Mehta</item>
+        <item>Guided Meditation for Sleep (1 hour)</item>
+        <item>Calming Music (2 hours)</item>
+        <item>Twenty Minute Mindfulness Meditation</item>
+        <item>Ted Talk Addiction 101 – Raj Mehta</item>
     </string-array>
     <string-array name="resource_extras">
-        <item>https://google.com</item>
         <item>https://en.wikipedia.org/wiki/Mindfulness</item>
         <item>https://www.youtube.com/watch?v=dNJdJIwCF_Y</item>
         <item>https://renaissancesound.bandcamp.com/track/dont-eat-my-dwarves</item>
@@ -46,7 +44,6 @@
     </string-array>
     <integer-array name="resource_types">
         <item>0</item>
-        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -61,12 +58,11 @@
         <item>1</item>
         <item>1</item>
         <item>1</item>
-        <item>1</item>
+        <item>2</item>
         <item>1</item>
         <item>1</item>
     </integer-array>
     <integer-array name="resource_images">
-        <item>2131623937</item>
         <item>2131623942</item>
         <item>-1</item>
         <item>-1</item>

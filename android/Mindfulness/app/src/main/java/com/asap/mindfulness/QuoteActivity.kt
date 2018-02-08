@@ -66,7 +66,6 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
                               //|
         if (mode == 0) {      //|
             updateServer()    //|
-        } else {              //|
             done()            //|
         }                     //|
     }                         //|
@@ -79,12 +78,12 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         // Load in the quote depending on the current MODE
         val quoteNum = when (mode) {
             MODE_LOADING -> {
-                val startDate = Date()
-                startDate.time = mPrefs.getLong("StartDate", 0)
-                val numOfDays = daysBetween(startDate, Date())
-
-//                numOfDays % quotesList.size
-                0
+                val daysPassed = mPrefs.getInt(getString(R.string.sp_days_passed), 0)
+                if (daysPassed == 0) {
+                    52
+                } else {
+                    Random().nextInt(quotesList.size)
+                }
             }
             MODE_BROWSER -> {
                 close_quotes.visibility = View.VISIBLE
@@ -219,7 +218,6 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         isDoneSending = true
         quoteProgressBar.visibility = View.INVISIBLE
         continueTextView.visibility = View.VISIBLE
-
     }
 
     fun addSurvey(survey: Survey){

@@ -3,5 +3,6 @@
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00776c</color>
     <color name="colorAccent">#ffffff</color>
+    <color name="colorTextFaded">#74ffffff</color>
     <color name="background_material_light">#b11a1a</color>
 </resources>

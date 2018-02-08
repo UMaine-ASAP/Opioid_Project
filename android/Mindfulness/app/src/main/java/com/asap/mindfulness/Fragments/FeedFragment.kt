@@ -12,6 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.asap.mindfulness.Containers.FeedItem
 import com.asap.mindfulness.Containers.Resource
+import com.asap.mindfulness.Containers.Resource.Companion.AUDIO
+import com.asap.mindfulness.Containers.Resource.Companion.INTRODUCTION
+import com.asap.mindfulness.Containers.Resource.Companion.QUOTES
+import com.asap.mindfulness.Containers.Resource.Companion.SURVEY
+import com.asap.mindfulness.Containers.Resource.Companion.VIDEO
 import com.asap.mindfulness.Containers.Track
 
 import com.asap.mindfulness.R
@@ -58,11 +63,12 @@ class FeedFragment : Fragment() {
                     cursor.getInt(2),
                     when(cursor.getInt(2)) {
 //                        Resource.WEBSITE -> getResources().getIdentifier(cursor.getString(4), "drawable", "com.asap.mindfulness.Fragments")
-                        Resource.WEBSITE -> cursor.getInt(3)
-//                        VIDEO -> R.drawable.icon_video
-//                        AUDIO -> R.drawable.icon_audio
-//                        SURVEY -> R.drawable.icon_survey
-//                        INTRODUCTION -> R.drawable.icon_intro
+                        Resource.WEBSITE -> R.drawable.resource_web_temp
+                        VIDEO -> R.drawable.resource_video_temp
+                        AUDIO -> R.drawable.resource_audio_temp
+                        SURVEY -> R.drawable.resource_survey_temp
+                        INTRODUCTION -> R.drawable.resource_intro_temp
+                        QUOTES -> R.drawable.resource_quotes_temp
                         else -> R.drawable.ic_dashboard_black_24dp
                     }))
         }
@@ -93,7 +99,7 @@ class FeedFragment : Fragment() {
         }
 
         // Get days passed since start date
-        val daysPassed = mPrefs.getInt(getString(R.string.sp_days_passed), 1)
+        val daysPassed = mPrefs.getInt(getString(R.string.sp_days_passed), 0)
 
         // Get date of the most recent survey
         val lastSurveyDate = mPrefs.getLong(getString(R.string.sp_last_survey_date), 0)
@@ -104,7 +110,7 @@ class FeedFragment : Fragment() {
         val surveyLink = mPrefs.getString(getString(R.string.sp_last_survey_link), "")
 
         feedItems.add(FeedItem(getString(R.string.feed_progress_top),
-                getString(R.string.feed_progress_bottom, daysPassed), FeedItem.PROGRESS, openUserFragment))
+                getString(R.string.feed_progress_bottom, daysPassed + 1), FeedItem.PROGRESS, openUserFragment))
         feedItems.add(FeedItem(getString(R.string.feed_survey_top),
                 getString(R.string.feed_survey_bottom, surveyMonth, surveyDay), FeedItem.SURVEY, object: View.OnClickListener {
                     override fun onClick(p0: View?) {
