@@ -78,6 +78,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         // Load in the quote depending on the current MODE
         val quoteNum = when (mode) {
             MODE_LOADING -> {
+                quoteProgressBar.visibility = View.VISIBLE
                 val daysPassed = mPrefs.getInt(getString(R.string.sp_days_passed), 0)
                 if (daysPassed == 0) {
                     52
