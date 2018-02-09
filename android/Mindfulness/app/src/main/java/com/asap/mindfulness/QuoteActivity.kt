@@ -12,10 +12,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.view.View
-//import sun.plugin2.util.PojoUtil.toJson
 import android.content.SharedPreferences
-import android.provider.Settings
 import android.support.v4.app.NavUtils
+import com.asap.mindfulness.Notifications.NotificationScheduler
 import com.asap.mindfulness.SQLite.DatabaseClass
 import com.asap.mindfulness.SQLite.SQLManager
 import com.transitionseverywhere.*
@@ -145,6 +144,8 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun refreshFields() {
+        NotificationScheduler.scheduleNotifications(this)
+
         val prefsEditor = mPrefs.edit()
 
         // Get days passed since start date

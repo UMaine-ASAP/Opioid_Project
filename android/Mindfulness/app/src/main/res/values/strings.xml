@@ -37,6 +37,7 @@
     <!-- Notifications -->
     <string name="notify_channel_name">Mindful Thinking</string>
     <string name="notify_channel_desc">Paying attention, on purpose, without judgement, to the present moment.</string>
+    <string name="notify_reminder_title">Keeping Mindful</string>
 
     <!-- Quotes -->
     <string name="title_activity_quotes">Mindful Quotes</string>
