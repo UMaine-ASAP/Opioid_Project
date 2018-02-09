@@ -152,8 +152,28 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         val daysPassed = daysBetween(Date(startDate), Date())
         prefsEditor.putInt(getString(R.string.sp_days_passed), daysPassed)
 
-        val currentTrack = daysPassed / 7 + 1
+        val weekNum = daysPassed / 7
+
+        val currentTrack = when (weekNum) {
+            0 -> 0
+            1 -> 1
+            2 -> 2
+            3 -> 3
+            4 -> 4
+            5 -> 5
+            else -> 5
+        }
         prefsEditor.putInt(getString(R.string.sp_current_track), currentTrack)
+
+        val currentSurvey = when (weekNum) {
+            // 0 -> TODO: Enrollment survey here
+            // 8 -> TODO: Final survey here
+            else -> "https://survey.emhs.org/TakeSurvey.aspx?SurveyID=92KLl682M"
+        }
+        prefsEditor.putString(getString(R.string.sp_last_survey_link), currentSurvey)
+        // Set the survey assignment date at the start of the week, relative to when the user first
+        // enrolled
+        prefsEditor.putLong(getString(R.string.sp_last_survey_date), weekNum * 7 + startDate)
 
         prefsEditor.apply()
     }
