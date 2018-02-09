@@ -133,15 +133,19 @@ class SetupActivity : AppCompatActivity() {
         db.registerDatabase("Updatables")
 
         // Create audio table
+        db.pushColumn("ID", "INTEGER", "PRIMARY KEY, AUTO INCREMENT")
         db.pushColumn("track_number", "INTEGER")
         db.pushColumn("completion_status", "INTEGER")
         db.pushColumn("creation_date", "LONG")
+        db.pushColumn("server_pushed", "INTEGER")
         db.createTable("Updatables", "Audio_History")
 
         // Create survey table
+        db.pushColumn("ID", "INTEGER", "PRIMARY KEY, AUTO INCREMENT")
         db.pushColumn("resource_id", "INTEGER")
         db.pushColumn("rating", "INTEGER")
         db.pushColumn("creation_date", "LONG")
+        db.pushColumn("server_pushed", "INTEGER")
         db.createTable("Updatables", "Survey_History")
 
 
@@ -205,7 +209,7 @@ class SetupActivity : AppCompatActivity() {
             return false
         } else {
             mPreferences
-                    .putInt(getString(R.string.sp_study_id), Integer.parseInt(patientId))
+                    .putString(getString(R.string.sp_study_id), patientId)
                     .apply()
         }
 

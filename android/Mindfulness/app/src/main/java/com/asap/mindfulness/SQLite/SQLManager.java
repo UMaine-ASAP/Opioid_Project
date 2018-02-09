@@ -133,12 +133,12 @@ public class SQLManager
     Takes a string database name, string table name, comma separated string of columns, comma separated string of values, and a WHERE statement to determine which column to update.
     The WHERE statement can contain '?' wildcards, which are replaced in order with the values in wildCards[].
      */
-    public void updateTable(String db, String table, String columns, String values, String whereClause, String wildCards)
+    public void updateTable(String db, String table, String[] columns, String[] values, String whereClause, String[] wildCards)
     {
         ContentValues cValues = new ContentValues();                     //creates a ContentValues object
-        List<String> columnNames = Arrays.asList(columns.trim().split(","));   //creates an arrayList of the column names list by splitting it by commas
-        List<String> newValues  = Arrays.asList(values.trim().split(","));    //creates an arrayList of the new values list by splitting it by commas
-        String[] whereWildCards = wildCards.trim().split(",");
+        List<String> columnNames = Arrays.asList(columns);   //creates an arrayList of the column names list by splitting it by commas
+        List<String> newValues  = Arrays.asList(values);    //creates an arrayList of the new values list by splitting it by commas
+        String[] whereWildCards = wildCards;
         for(int i = 0; i < columnNames.size(); i++)                     //Loops through the lists, and assembles a key/value ContentValue for each paring
             cValues.put(columnNames.get(i), newValues.get(i));
         Log.d("TELLMESTUFF", cValues.toString());

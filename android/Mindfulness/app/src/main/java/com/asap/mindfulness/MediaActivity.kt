@@ -28,11 +28,14 @@ import android.content.SharedPreferences
 import android.provider.Settings
 import android.view.MenuItem
 import com.asap.mindfulness.Containers.Track
+import com.asap.mindfulness.Containers.CompletionHandeler
 import com.asap.mindfulness.Fragments.RatingFragment
 import com.asap.mindfulness.SQLite.SQLManager
 
 
-class MediaActivity : AppCompatActivity() {
+class MediaActivity : AppCompatActivity(), CompletionHandeler {
+
+
 
 
     lateinit var mPrefs: SharedPreferences
@@ -91,6 +94,13 @@ class MediaActivity : AppCompatActivity() {
         }
     }
 
+
+    override fun complete() {
+        val myIntent = Intent(applicationContext, ParentActivity::class.java)
+        startActivityForResult(myIntent, 0)
+        finish()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
@@ -102,7 +112,7 @@ class MediaActivity : AppCompatActivity() {
         audioSource = mTrack.path
         audioIndex = intent.getIntExtra(INDEX_INTENT, 0)
 
-        deviceId = mPrefs.getString(getString(R.string.sp_name), "None")
+        deviceId = mPrefs.getString(getString(R.string.sp_study_id), "None")
 
 
         //val fm = supportFragmentManager
@@ -140,29 +150,29 @@ class MediaActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         goBack()
-        //finish()
         return true
     }
 
     fun goBack(){
-        if(mediaPlayer.duration * 1.1 > mediaPlayer.currentPosition){
+        if(mediaPlayer.duration * 0.9 < mediaPlayer.currentPosition){
             // allow user to exit
 
             val audioStatus = AudioStatus(deviceId, audioIndex, true, Calendar.getInstance().getTime())
             sendAudioHistory(audioStatus)
 
-            //val myIntent = Intent(applicationContext, ParentActivity::class.java)
-            //startActivityForResult(myIntent, 0)
-
             val fm = supportFragmentManager
-            val editNameDialogFragment = RatingFragment.newInstance("How was this exercise?", audioSource)
+            val editNameDialogFragment = RatingFragment.newInstance("How was this exercise?", audioSource, this)
             editNameDialogFragment.show(fm,"dialog")
 
         }else{
             // prompt user that seession will not count
             val audioStatus = AudioStatus(deviceId, audioIndex, false, Calendar.getInstance().getTime())
             sendAudioHistory(audioStatus)
-            TODO("Prompt user that exiting will not count")
+
+            val fm = supportFragmentManager
+            val editNameDialogFragment = RatingFragment.newInstance("How was this exercise?", audioSource, this)
+
+            editNameDialogFragment.show(fm,"dialog")
         }
     }
 
@@ -236,11 +246,12 @@ class MediaActivity : AppCompatActivity() {
         val db = SQLManager(this)
         db.registerDatabase("Updatables")
         Log.d("SQL Debug", "Adding a row to table")
-        db.insertRow("Updatables", "Audio_History", "track_number, completion_status, creation_date",
-                String.format("%d,%b,%d",
+        db.insertRow("Updatables", "Audio_History", "track_number, completion_status, creation_date, server_pushed",
+                String.format("%d,%b,%d,%d",
                         audio.track_number,
                         audio.completion_status,
-                        audio.creation_date.time
+                        audio.creation_date.time,
+                        0
                 )
         )
     }

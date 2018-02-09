@@ -14,9 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import com.asap.mindfulness.Containers.AudioStatus
-import com.asap.mindfulness.Containers.Success
-import com.asap.mindfulness.Containers.Survey
 
 import com.asap.mindfulness.R
 import com.asap.mindfulness.Retrofit.service
@@ -27,7 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import android.widget.TextView
-
+import com.asap.mindfulness.Containers.*
 
 
 /**
@@ -41,6 +38,9 @@ import android.widget.TextView
 class RatingFragment : DialogFragment(), View.OnClickListener {
 
 
+
+
+    private lateinit var completionHandeler: CompletionHandeler
 
     // TODO: Rename and change types of parameters
     private var prompt: String = "How would you rate that exercise?"
@@ -68,10 +68,10 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         mPrefs = this.activity.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE)
-        deviceId =  mPrefs.getString(getString(R.string.sp_name), "None")
+        deviceId =  mPrefs.getString(getString(R.string.sp_study_id), "None")
 
         submitButton.setOnClickListener(this)
-        promtTextView.text = prompt
+        promptTextView.text = prompt
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -103,6 +103,7 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
             val survey = Survey(deviceId, resourceId,ratingBar.numStars, Date())
             addSurvey(survey)
             dismiss()
+            completionHandeler.complete()
         }
     }
 
@@ -121,10 +122,11 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
     }
 
     companion object {
-        fun newInstance(p: String, r: Int): RatingFragment {
+        fun newInstance(p: String, r: Int, completionHandeler: CompletionHandeler): RatingFragment {
             val fragment = RatingFragment()
             fragment.prompt = p
             fragment.resourceId = r
+            fragment.completionHandeler = completionHandeler
             return fragment
         }
     }
@@ -158,11 +160,12 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
         val db = SQLManager(context)
         db.registerDatabase("Updatables")
 
-        db.insertRow("Updatables", "Survey_History", "resource_id, rating, creation_date",
+        db.insertRow("Updatables", "Survey_History", "resource_id, rating, creation_date, server_pushed",
                 String.format("%d,%b,%d",
                         survey.resource_id,
                         survey.rating,
-                        survey.creation_date.time
+                        survey.creation_date.time,
+                        0
                 )
         )
 

@@ -17,6 +17,7 @@ import android.content.SharedPreferences
 import android.provider.Settings
 import android.support.v4.app.NavUtils
 import com.asap.mindfulness.SQLite.DatabaseClass
+import com.asap.mindfulness.SQLite.SQLManager
 import com.transitionseverywhere.*
 import kotlinx.android.synthetic.main.activity_quote.*
 import java.util.*
@@ -56,7 +57,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         mPrefs = getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
 
-        deviceId = mPrefs.getString(getString(R.string.sp_name), "None")
+        deviceId = mPrefs.getString(getString(R.string.sp_study_id), "None")
 
         refreshFields()
         setup() //-----------//>
@@ -187,7 +188,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         //val deviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)
 
         val db = DatabaseClass(this, "Updatables").readableDatabase
-        var cursor = db.query(true, "Audio_History", arrayOf("track_number, completion_status, creation_date"), null, null, null, null, null, null)
+        var cursor = db.query(true, "Audio_History", arrayOf("track_number, completion_status, creation_date, server_pushed, ID"), null, null, null, null, null, null)
 
         Log.d("SQL Debug", "Checking the db")
 
@@ -208,7 +209,11 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
                     Log.d(" Note ", "Getting audio")
 
-                    sendAudioHistory(AudioStatus(deviceId,cursor.getInt(0), completion, date))
+                    if(cursor.getInt(3) == 0) {
+
+                        sendAudioHistory(AudioStatus(deviceId, cursor.getInt(0), completion, date), cursor.getInt(4))
+
+                    }
                 }
 
             }
@@ -217,7 +222,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         cursor.close()
 
-        cursor = db.query(true, "Survey_History", arrayOf("resource_id, rating, creation_date"), null, null, null, null, null, null)
+        cursor = db.query(true, "Survey_History", arrayOf("resource_id, rating, creation_date, server_pushed, ID"), null, null, null, null, null, null)
 
         if(cursor != null){
             if(cursor.count > 0){
@@ -230,7 +235,11 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
                     Log.d(" Note ", "Getting survey")
 
-                    addSurvey(Survey(deviceId, cursor.getInt(0), cursor.getInt(1), date))
+                    if(cursor.getInt(3) == 0) {
+
+                        addSurvey(Survey(deviceId, cursor.getInt(0), cursor.getInt(1), date), cursor.getInt(4))
+
+                    }
 
                 }
             }
@@ -245,7 +254,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         continueTextView.visibility = View.VISIBLE
     }
 
-    fun addSurvey(survey: Survey){
+    fun addSurvey(survey: Survey, id: Int){
         val call = service.postSurvey(survey)
 
         call.enqueue(object : Callback<Success> {
@@ -256,6 +265,15 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
                     done()
                     return
                 }
+
+                val db = SQLManager(this@QuoteActivity)
+                db.registerDatabase("Updatables")
+
+                val col = Array<String>(1, {"server_pushed"})
+                val vals = Array<String>(1, {"1"})
+
+                db.updateTable("Updatables","Survey_History", col, vals, "ID=" + id, null)
+
 
                 done()
                 // was successfull
@@ -269,7 +287,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-    fun sendAudioHistory(audio: AudioStatus){
+    fun sendAudioHistory(audio: AudioStatus, id: Int){
 
         val call = service.postAudioHistory(audio)
 
@@ -280,6 +298,13 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
                     return
                 }
 
+                val db = SQLManager(this@QuoteActivity)
+                db.registerDatabase("Updatables")
+
+                val col = Array<String>(1, {"server_pushed"})
+                val vals = Array<String>(1, {"1"})
+
+                db.updateTable("Updatables","Audio_History", col, vals, "ID=" + id, null)
                 done()
                 //successful
             }
@@ -291,132 +316,6 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         })
     }
-
-
-
-
-
-
-
-//
-//    fun completedSurveys(deviceId: String){
-//        val call = service.getSurvey(deviceId)
-//
-//        call.enqueue(object : Callback<List<Survey>> {
-//
-//            override fun onResponse(c: Call<List<Survey>>?, response: Response<List<Survey>>?) {
-//                if (response == null) {
-//                    Log.d("onResponse", "response is null")
-//                    return
-//                }
-//
-//                if (response.code() >= 300) {
-//                    Log.d("onResponse", "response is null")
-//                    return
-//                }
-//
-//                if (response.body() != null) {
-//                    for (response in response.body()!!) {
-//                        Log.d("Print out", response.toString())
-//                    }
-//                }
-//
-//            }
-//
-//            override fun onFailure(c: Call<List<Survey>>?, t: Throwable?) {
-//                Log.d("onResponse", "error")
-//            }
-//
-//        })
-//    }
-//
-//    fun getAudioHistory(deviceId: String){
-//        val call = service.getAudioHistory(deviceId)
-//
-//        call.enqueue(object: Callback<List<AudioStatus>> {
-//
-//            override fun onResponse(call: Call<List<AudioStatus>>?, response: Response<List<AudioStatus>>?) {
-//                if (response == null) {
-//                    Log.d("onResponse", "response is null")
-//                    return
-//                }
-//
-//                if(response.code() >= 300){
-//                    Log.d("onResponse", response.body().toString())
-//                    return
-//                }
-//
-//                // successfull
-//            }
-//
-//            override fun onFailure(call: Call<List<AudioStatus>>?, t: Throwable?) {
-//                Log.d("onResponse", "Error")
-//            }
-//        })
-//    }
-//
-//    // need to fix date json conversion
-//
-//    // works
-//    fun checkDevice(deviceId: String) {
-//
-//        val call = service.isRegistered(deviceId)
-//
-//        call.enqueue(object : Callback<Exists> {
-//
-//            override fun onResponse(call: Call<Exists>?, response: Response<Exists>?) {
-//                if (response == null) {
-//                    Log.d("onResponse", "response is null")
-//                    return
-//                }
-//
-//                if(response.code() >= 300){
-//                    Log.d("onResponse", "response is null")
-//                    return
-//                }
-//
-//                Log.d("Print out", response.body().toString())
-//
-//            }
-//
-//            override fun onFailure(call: Call<Exists>?, t: Throwable?) {
-//                Log.d("onResponse", "Error")
-//            }
-//        })
-//    }
-//
-//    //works but json conversion needs work
-//    fun resources() {
-//
-//        val call = service.getResources()
-//
-//        call.enqueue(object : Callback<List<Resource>> {
-//
-//            override fun onResponse(c: Call<List<Resource>>?, response: Response<List<Resource>>?) {
-//                if (response == null) {
-//                    Log.d("onResponse", "response is null")
-//                    return
-//                }
-//
-//                if(response.code() >= 300){
-//                    Log.d("onResponse", "response is null")
-//                    return
-//                }
-//
-//                if(response.body() != null) {
-//                    for (response in response.body()!!) {
-//                        Log.d("Print out", response.toString())
-//                    }
-//                }
-//
-//            }
-//
-//            override fun onFailure(c: Call<List<Resource>>?, t: Throwable?) {
-//                Log.d("onResponse", "error")
-//            }
-//
-//        })
-//    }
 
 
 
