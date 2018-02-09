@@ -206,6 +206,8 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
                     date.time = cursor.getLong(2)
 
+                    Log.d(" Note ", "Getting audio")
+
                     sendAudioHistory(AudioStatus(deviceId,cursor.getInt(0), completion, date))
                 }
 
@@ -225,6 +227,8 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
                     var date: Date = Date()
 
                     date.time = cursor.getLong(2)
+
+                    Log.d(" Note ", "Getting survey")
 
                     addSurvey(Survey(deviceId, cursor.getInt(0), cursor.getInt(1), date))
 

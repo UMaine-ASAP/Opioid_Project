@@ -22,8 +22,13 @@
         app:layout_constraintTop_toBottomOf="@+id/promptTextView" />
 
     <TextView
+<<<<<<< Updated upstream
         android:id="@+id/promptTextView"
         android:layout_width="0dp"
+=======
+        android:id="@+id/promtTextView"
+        android:layout_width="wrap_content"
+>>>>>>> Stashed changes
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"

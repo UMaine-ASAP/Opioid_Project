@@ -145,7 +145,7 @@ class MediaActivity : AppCompatActivity() {
     }
 
     fun goBack(){
-        if(mediaPlayer.duration * 0.1 > mediaPlayer.currentPosition){
+        if(mediaPlayer.duration * 1.1 > mediaPlayer.currentPosition){
             // allow user to exit
 
             val audioStatus = AudioStatus(deviceId, audioIndex, true, Calendar.getInstance().getTime())
@@ -155,7 +155,7 @@ class MediaActivity : AppCompatActivity() {
             //startActivityForResult(myIntent, 0)
 
             val fm = supportFragmentManager
-            val editNameDialogFragment = RatingFragment.newInstance()
+            val editNameDialogFragment = RatingFragment.newInstance("How was this exercise?", audioSource)
             editNameDialogFragment.show(fm,"dialog")
 
         }else{
@@ -230,6 +230,9 @@ class MediaActivity : AppCompatActivity() {
     }
 
     fun addAudioToDatabase(audio: AudioStatus) {
+
+        Log.d(" Note ", "Adding audio")
+
         val db = SQLManager(this)
         db.registerDatabase("Updatables")
         Log.d("SQL Debug", "Adding a row to table")

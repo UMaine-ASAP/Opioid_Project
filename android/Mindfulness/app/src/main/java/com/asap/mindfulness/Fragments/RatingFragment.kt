@@ -1,5 +1,7 @@
 package com.asap.mindfulness.Fragments
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
@@ -11,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.asap.mindfulness.Containers.AudioStatus
 import com.asap.mindfulness.Containers.Success
 import com.asap.mindfulness.Containers.Survey
@@ -23,6 +26,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import android.widget.TextView
+
+
 
 /**
  * A simple [Fragment] subclass.
@@ -37,7 +43,7 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
 
 
     // TODO: Rename and change types of parameters
-    private var prompt: String = "How are you feeling?"
+    private var prompt: String = "How would you rate that exercise?"
     private var resourceId: Int = -1
 
     lateinit var mPrefs: SharedPreferences
@@ -49,14 +55,23 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         //submitButton.setOnClickListener(this)
 
-        mPrefs = this.activity.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE)
-        deviceId =  mPrefs.getString(getString(R.string.sp_name), "None")
+
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         //promtTextView.text = prompt
         return inflater!!.inflate(R.layout.fragment_rating, container, false)
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        mPrefs = this.activity.getSharedPreferences(getString(R.string.sp_file_key), android.content.Context.MODE_PRIVATE)
+        deviceId =  mPrefs.getString(getString(R.string.sp_name), "None")
+
+        submitButton.setOnClickListener(this)
+        promtTextView.text = prompt
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -68,6 +83,7 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        //submitButton.setOnClickListener(this)
 //        if (context is OnFragmentInteractionListener) {
 //            mListener = context
 //        } else {
@@ -82,9 +98,11 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
 
     override fun onClick(view: View?) {
         if(view == submitButton) {
+            Log.d("Clicked", "button")
             //submit survey to server, if good submit using retrofit else submit to local sql lite
-            val survey = Survey(deviceId, resourceId,ratingBar.numStars, Calendar.getInstance().getTime())
+            val survey = Survey(deviceId, resourceId,ratingBar.numStars, Date())
             addSurvey(survey)
+            dismiss()
         }
     }
 
@@ -103,8 +121,10 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
     }
 
     companion object {
-        fun newInstance(): RatingFragment {
+        fun newInstance(p: String, r: Int): RatingFragment {
             val fragment = RatingFragment()
+            fragment.prompt = p
+            fragment.resourceId = r
             return fragment
         }
     }
@@ -133,14 +153,16 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
 
     fun addSurveyToDatabase(survey: Survey){
 
+        Log.d(" Note ", "Adding survey")
+
         val db = SQLManager(context)
         db.registerDatabase("Updatables")
 
         db.insertRow("Updatables", "Survey_History", "resource_id, rating, creation_date",
-                String.format("%d,%b,%s",
+                String.format("%d,%b,%d",
                         survey.resource_id,
                         survey.rating,
-                        survey.creation_date
+                        survey.creation_date.time
                 )
         )
 
