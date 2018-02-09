@@ -67,7 +67,7 @@ class Resource(context: Context, val title : String, var extra: String, val type
             VIDEO -> R.drawable.ic_resource_video
             AUDIO -> R.drawable.ic_resource_audio
             SURVEY -> R.drawable.ic_resource_survey
-            INTRODUCTION -> R.drawable.ic_resource_intro_temp
+            INTRODUCTION -> R.drawable.ic_resource_intro
             QUOTES -> R.drawable.ic_resource_quotes
             else -> R.drawable.ic_dashboard_black_24dp
         }
@@ -100,7 +100,7 @@ class Resource(context: Context, val title : String, var extra: String, val type
             }
 
             Log.d("Resources", res.type.toString())
-            if (res.type == WEBSITE || res.type == INTRODUCTION) {
+            if (res.type == WEBSITE) {
                 Log.d("Resources", "Changing Tint!")
                 ImageViewCompat.setImageTintList(itemView.resource_icon,
                         ColorStateList.valueOf(ContextCompat.getColor(itemView.context, R.color.colorHighlight)))

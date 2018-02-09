@@ -34,14 +34,14 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:background="@drawable/ic_account_circle_black_48px"
                 android:clickable="true"
+                android:elevation="8dp"
                 android:focusable="true"
-                app:fabSize="normal"
                 app:layout_constraintBottom_toBottomOf="@+id/view3"
                 app:layout_constraintEnd_toEndOf="@+id/view3"
                 app:layout_constraintStart_toStartOf="@+id/view3"
-                app:layout_constraintTop_toTopOf="@+id/view3"
-                app:srcCompat="@drawable/ic_account_circle_black_48px" />
+                app:layout_constraintTop_toTopOf="@+id/view3" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -75,10 +75,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <com.asap.mindfulness.Views.UserSettingsItem
-                android:id="@+id/device_id"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <!--<com.asap.mindfulness.Views.UserSettingsItem-->
+                <!--android:id="@+id/device_id"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent" />-->
 
 
             </LinearLayout>

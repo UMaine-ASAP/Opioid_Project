@@ -1,8 +1,6 @@
 package com.asap.mindfulness
 
-import android.content.Context
 import android.content.Intent
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 
 import android.support.v4.app.Fragment
@@ -10,8 +8,6 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
 import com.asap.mindfulness.Fragments.FeedFragment
@@ -91,7 +87,7 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
             }
         }
 
-        fab.setOnClickListener {
+        button_user.setOnClickListener {
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
