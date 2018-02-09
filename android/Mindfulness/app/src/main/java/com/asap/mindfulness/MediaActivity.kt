@@ -204,7 +204,7 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
             val inflater: LayoutInflater = LayoutInflater.from(this@MediaActivity)
             getSystemService(Context.LAYOUT_INFLATER_SERVICE)
             val layout = inflater.inflate(R.layout.pause_popup_window, popup_1)
-            popupWindow = PopupWindow(layout, 300, 370, true)
+            popupWindow = PopupWindow(layout, 500, 500, true)
             popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0)
             popupResumeButton =  layout.resumeButton
             popupResumeButton.setOnClickListener { _ ->
