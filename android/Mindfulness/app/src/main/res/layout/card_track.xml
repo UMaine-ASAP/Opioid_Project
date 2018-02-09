@@ -10,7 +10,10 @@
     android:layout_margin="@dimen/cardview_margin"
     card_view:cardCornerRadius="@dimen/cardview_radius"
     card_view:cardElevation="@dimen/cardview_elevation"
-    card_view:contentPadding="@dimen/cardview_padding">
+    card_view:contentPadding="@dimen/cardview_padding"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
@@ -26,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            card_view:srcCompat="@color/colorAccent" />
+            card_view:srcCompat="@android:color/white" />
 
         <TextView
             android:id="@+id/track_title"
