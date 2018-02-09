@@ -1,9 +1,11 @@
 package com.asap.mindfulness.Containers
 
+import android.content.Context
 import android.content.Intent
-import android.support.v4.content.res.ResourcesCompat
+import android.content.res.ColorStateList
 import com.asap.mindfulness.R
-import android.content.res.Resources
+import android.support.v4.content.ContextCompat
+import android.support.v4.widget.ImageViewCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
@@ -11,9 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.asap.mindfulness.Fragments.OnNavigationRequestListener
-import com.asap.mindfulness.MediaActivity
 import com.asap.mindfulness.QuoteActivity
-import kotlinx.android.synthetic.main.activity_quote.*
 import kotlinx.android.synthetic.main.card_resource.view.*
 
 /**
@@ -43,7 +43,7 @@ import kotlinx.android.synthetic.main.card_resource.view.*
  *
  */
 
-class Resource(val title : String, val extra: String, val type: Int, val image: Int) {
+class Resource(context: Context, val title : String, var extra: String, val type: Int) {
     companion object {
         const val WEBSITE = 0
         const val VIDEO = 1
@@ -51,6 +51,26 @@ class Resource(val title : String, val extra: String, val type: Int, val image: 
         const val SURVEY = 3
         const val QUOTES = 4
         const val INTRODUCTION = 5
+    }
+    val image: Int
+
+    init {
+        if (type == SURVEY) {
+            extra = context.getSharedPreferences(context.getString(R.string.sp_file_key),
+                    Context.MODE_PRIVATE).getString(context.getString(R.string.sp_last_survey_link),
+                    "No survey assigned!")
+        }
+
+        image = when(type) {
+//                        Resource.WEBSITE -> getResources().getIdentifier(cursor.getString(4), "drawable", "com.asap.mindfulness.Fragments")
+            WEBSITE -> R.drawable.ic_resource_web_temp
+            VIDEO -> R.drawable.ic_resource_video
+            AUDIO -> R.drawable.ic_resource_audio
+            SURVEY -> R.drawable.ic_resource_survey
+            INTRODUCTION -> R.drawable.ic_resource_intro_temp
+            QUOTES -> R.drawable.ic_resource_quotes
+            else -> R.drawable.ic_dashboard_black_24dp
+        }
     }
 
     class Holder(itemView : View) : RecyclerView.ViewHolder(itemView) {
@@ -67,12 +87,25 @@ class Resource(val title : String, val extra: String, val type: Int, val image: 
         fun populate(res: Resource, navigationListener: OnNavigationRequestListener?) {
             title.text = res.title
 
-            if (res.extra.length > 30) {
-                extra.text = res.extra.substring(0, 27) + "..."
-            } else if (res.extra == "None") {
-                extra.visibility = View.GONE
+            extra.visibility = if (res.extra == "None") {
+                View.GONE
             } else {
-                extra.text = res.extra
+                View.VISIBLE
+            }
+
+            extra.text = if (res.extra.length > 30) {
+                res.extra.substring(0, 27) + "..."
+            } else {
+                res.extra
+            }
+
+            Log.d("Resources", res.type.toString())
+            if (res.type == WEBSITE || res.type == INTRODUCTION) {
+                Log.d("Resources", "Changing Tint!")
+                ImageViewCompat.setImageTintList(itemView.resource_icon,
+                        ColorStateList.valueOf(ContextCompat.getColor(itemView.context, R.color.colorHighlight)))
+            } else {
+                ImageViewCompat.setImageTintList(itemView.resource_icon,null)
             }
 
             Log.e("RESOURCEMe", res.image.toString())

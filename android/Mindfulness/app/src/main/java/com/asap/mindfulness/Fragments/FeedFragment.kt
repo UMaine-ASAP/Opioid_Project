@@ -12,11 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.asap.mindfulness.Containers.FeedItem
 import com.asap.mindfulness.Containers.Resource
-import com.asap.mindfulness.Containers.Resource.Companion.AUDIO
-import com.asap.mindfulness.Containers.Resource.Companion.INTRODUCTION
-import com.asap.mindfulness.Containers.Resource.Companion.QUOTES
-import com.asap.mindfulness.Containers.Resource.Companion.SURVEY
-import com.asap.mindfulness.Containers.Resource.Companion.VIDEO
 import com.asap.mindfulness.Containers.Track
 
 import com.asap.mindfulness.R
@@ -53,24 +48,15 @@ class FeedFragment : Fragment() {
         // Load in resources from SQLite
         val db = DatabaseClass(context, "Updatables").readableDatabase
         val cursor = db.query(true, "Resources", arrayOf("Title", "Extra", "Type", "Image"),
-                null, null, "Type", null, null, null)
+                null, null, null, null, "Type", null)
 
         while (!cursor.isLast) {
             cursor.moveToNext()
             resources.add(Resource(
+                    context,
                     cursor.getString(0),
                     cursor.getString(1),
-                    cursor.getInt(2),
-                    when(cursor.getInt(2)) {
-//                        Resource.WEBSITE -> getResources().getIdentifier(cursor.getString(4), "drawable", "com.asap.mindfulness.Fragments")
-                        Resource.WEBSITE -> R.drawable.resource_web_temp
-                        VIDEO -> R.drawable.resource_video_temp
-                        AUDIO -> R.drawable.resource_audio_temp
-                        SURVEY -> R.drawable.resource_survey_temp
-                        INTRODUCTION -> R.drawable.resource_intro_temp
-                        QUOTES -> R.drawable.resource_quotes_temp
-                        else -> R.drawable.ic_dashboard_black_24dp
-                    }))
+                    cursor.getInt(2)))
         }
 
         cursor.close()
