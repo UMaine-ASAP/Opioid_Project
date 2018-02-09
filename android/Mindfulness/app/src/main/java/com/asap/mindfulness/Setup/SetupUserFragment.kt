@@ -23,9 +23,8 @@ import kotlinx.android.synthetic.main.fragment_setup_user.view.*
 class SetupUserFragment : Fragment() {
     private var patientName: String = ""
         get() = rootView.patient_name.text.toString()
-    private var patientPasswordEnabled = true
-        get() = false
-//        get() = rootView.patient_password_switch.isChecked
+    private var patientPasswordEnabled = false
+        get() = rootView.patient_password_switch.isChecked
     private var patientPassword: String = ""
         get() = rootView.patient_password.text.toString()
     lateinit var rootView: View

@@ -156,7 +156,7 @@ class SetupActivity : AppCompatActivity() {
 
         for (i in 0 until resourceTitles.size) {
             db.insertRow("Updatables", "Resources",
-                    "TITLE, Extra, Type, Image",
+                    "Title, Extra, Type, Image",
                     String.format("%s,%s,%d,%s",
                             resourceTitles[i],
                             resourceExtras[i],
