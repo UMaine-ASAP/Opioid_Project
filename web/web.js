@@ -159,6 +159,8 @@ var csvToHTML = (data) => {
 app.get('/login', function (req, res){
   if (req.session.token) { // redirect if no access token
     res.redirect('/');
+    req.session.username = 'Test User';
+    req.session.token = true;
   } else {
     res.render('login', {subtitle: 'Login', error: ''});
   }
@@ -273,14 +275,12 @@ app.use(function (err, req, res, next) {
 
 app.listen(80);
 
-/* Setup Green-Lock for SSL Cert
+/* Setup Green-Lock for SSL Cert */
 
 require('greenlock-express').create({
   server: 'staging',
-  email: 'email@example.com',
+  email: 'dylan.bulmer@maine.edu',
   agreeTos: true,
-  approveDomains: [ 'example.com' ],
+  approveDomains: [ 'emac.asap.um.maine.edu' ],
   app: app
-}).listen(80, 443);
-
-*/
+}).listen(443);
