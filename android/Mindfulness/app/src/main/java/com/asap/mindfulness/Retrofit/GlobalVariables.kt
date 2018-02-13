@@ -7,7 +7,7 @@ import android.content.SharedPreferences
 
 
 
-val url = "http://emac.asap.um.maine.edu:4300"
+val url = "https://emac.asap.um.maine.edu:1337"
 
 val gson = GsonBuilder()
         .setDateFormat("yyyy-MM-dd HH:mm:ss")

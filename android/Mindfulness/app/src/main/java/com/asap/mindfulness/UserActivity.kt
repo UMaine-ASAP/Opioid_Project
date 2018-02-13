@@ -18,7 +18,7 @@ class UserActivity : AppCompatActivity() {
         mPrefs = getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
 
         user_name.populate("Your Name", mPrefs.getString(getString(R.string.sp_name), "None"))
-        user_id.populate("Your Study ID", mPrefs.getInt(getString(R.string.sp_study_id), 0).toString())
+        user_id.populate("Your Study ID", mPrefs.getString(getString(R.string.sp_study_id), "None"))
 //        device_id.populate("Device ID", Secure.getString(contentResolver, Secure.ANDROID_ID))
     }
 }
