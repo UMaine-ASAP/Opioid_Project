@@ -19,7 +19,7 @@ module.exports = app;
 var db = require('./db.js');
 db.connect();
 
-var port = 4300;
+var port = 1337;
 app.set('port', port);
 
 var key = fs.readFileSync('/var/www/Opioid/Opioid_Project/web/private.key');

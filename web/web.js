@@ -160,9 +160,9 @@ var csvToHTML = (data) => {
 app.get('/login', function (req, res){
   if (req.session.token) { // redirect if no access token
     res.redirect('/');
+  } else {
     req.session.username = 'Test User';
     req.session.token = true;
-  } else {
     res.render('login', {subtitle: 'Login', error: ''});
   }
 });
