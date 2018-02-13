@@ -4,7 +4,8 @@ const path = require('path');
 const request = require('request');
 const session  = require('express-session');
 const logger = require('morgan')
-
+const https = require('https');
+const fs = require('fs');
 const app = express();
 
 // Setting up page renderer
@@ -93,7 +94,7 @@ var report = (req, method, type, callback) => {
     token:req.session.token
   }
   // sending data to API
-  request.get('http://localhost:4300/survey/report/'+type, { form: newForm }, function(err, resp, body) {
+  request.get('https://localhost:4300/survey/report/'+type, { form: newForm }, function(err, resp, body) {
     let data = false;
     try {
       data = JSON.parse(body);
@@ -175,7 +176,7 @@ app.post('/login', function (req, res){
       password: req.body.password
     }
     // sending data to API
-    request.post('http://localhost:4300/user/login', { form: newForm }, function(err, resp, body) {
+    request.post('https://localhost:4300/user/login', { form: newForm }, function(err, resp, body) {
       let data = JSON.parse(body);
       if (err) { // if err, report it, otherwise continue
         res.render('login', {subtitle: 'Login', error: err});
@@ -216,7 +217,7 @@ app.post('/accounts', function (req, res){
         password: req.body.password
       }
       // send to API
-      request.post('http://localhost:4300/user/create', { form: newForm }, function(err, resp, body) {
+      request.post('https://localhost:4300/user/create', { form: newForm }, function(err, resp, body) {
         let data = JSON.parse(body);
         if (err) {
           res.render('register', {subtitle: 'Add Account', error: err, token: true});
@@ -277,10 +278,26 @@ app.use(function (err, req, res, next) {
 
 /* Setup Green-Lock for SSL Cert */
 
-require('greenlock-express').create({
-  server: 'staging',
-  email: 'dylan.bulmer@maine.edu',
-  agreeTos: true,
-  approveDomains: [ 'emac.asap.um.maine.edu' ],
-  app: app
-}).listen(443);
+//require('greenlock-express').create({
+//  server: 'staging',
+//  email: 'dylan.bulmer@maine.edu',
+//  agreeTos: true,
+//  approveDomains: [ 'emac.asap.um.maine.edu' ],
+//  app: app
+//}).listen(443);
+var port = 443;
+app.set('port', port);
+
+var key = fs.readFileSync('/var/www/Opioid/Opioid_Project/web/private.key');
+var cert = fs.readFileSync( '/var/www/Opioid/Opioid_Project/web/certificate.crt' );
+var ca = fs.readFileSync( '/var/www/Opioid/Opioid_Project/web/certificate.crt' );
+
+var options = {
+  key: key,
+  cert: cert,
+  ca: ca
+};
+
+var server = https.createServer(options, app);
+
+server.listen(port);
