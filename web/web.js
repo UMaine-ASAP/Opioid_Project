@@ -78,7 +78,12 @@ app.post('/reports', (req, res) => {
         if (data.error) {
           res.render('viewReport', {subtitle: 'View Report - Error', token: true, data: data.messege});
         } else {
-          res.setHeader('Content-disposition', 'attachment; filename=report.csv');
+          let d = new Date();
+          let curr_date = d.getDate();
+          let curr_month = d.getMonth() + 1;
+          let curr_year = d.getFullYear();
+          let formet = curr_month + "-" + curr_date + "-" + curr_year;
+          res.setHeader('Content-disposition', 'attachment; filename='+req.body.type+'-report-'+format+'.csv');
           res.setHeader('Content-type', 'text/csv');
           res.send(data.data.toString('utf8'));
         }
@@ -94,7 +99,7 @@ var report = (req, method, type, callback) => {
     token:req.session.token
   }
   // sending data to API
-  request.get('https://localhost:4300/survey/report/'+type, { form: newForm }, function(err, resp, body) {
+  request.get('https://emac.asap.um.maine.edu:1337/survey/report/'+type, { form: newForm }, function(err, resp, body) {
     let data = false;
     try {
       data = JSON.parse(body);
@@ -161,8 +166,6 @@ app.get('/login', function (req, res){
   if (req.session.token) { // redirect if no access token
     res.redirect('/');
   } else {
-    req.session.username = 'Test User';
-    req.session.token = true;
     res.render('login', {subtitle: 'Login', error: ''});
   }
 });
@@ -176,7 +179,7 @@ app.post('/login', function (req, res){
       password: req.body.password
     }
     // sending data to API
-    request.post('https://localhost:4300/user/login', { form: newForm }, function(err, resp, body) {
+    request.post('https://emac.asap.um.maine.edu:1337/user/login', { form: newForm }, function(err, resp, body) {
       let data = JSON.parse(body);
       if (err) { // if err, report it, otherwise continue
         res.render('login', {subtitle: 'Login', error: err});
@@ -217,7 +220,7 @@ app.post('/accounts', function (req, res){
         password: req.body.password
       }
       // send to API
-      request.post('https://localhost:4300/user/create', { form: newForm }, function(err, resp, body) {
+      request.post('https://emac.um.maine.edu:1337/user/create', { form: newForm }, function(err, resp, body) {
         let data = JSON.parse(body);
         if (err) {
           res.render('register', {subtitle: 'Add Account', error: err, token: true});
@@ -290,13 +293,17 @@ app.set('port', port);
 
 var key = fs.readFileSync('/var/www/Opioid/Opioid_Project/web/private.key');
 var cert = fs.readFileSync( '/var/www/Opioid/Opioid_Project/web/certificate.crt' );
-var ca = fs.readFileSync( '/var/www/Opioid/Opioid_Project/web/certificate.crt' );
+
 
 var options = {
   key: key,
   cert: cert,
-  ca: ca
+  ca: [
+    fs.readFileSync('/var/www/Opioid/Opioid_Project/web/isgrootx1.pem'),
+    fs.readFileSync('/var/www/Opioid/Opioid_Project/web/lets-encrypt-x3-cross-signed.pem')
+  ]
 };
+
 
 var server = https.createServer(options, app);
 

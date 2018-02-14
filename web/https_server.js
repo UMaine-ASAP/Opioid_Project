@@ -24,12 +24,14 @@ app.set('port', port);
 
 var key = fs.readFileSync('/var/www/Opioid/Opioid_Project/web/private.key');
 var cert = fs.readFileSync( '/var/www/Opioid/Opioid_Project/web/certificate.crt' );
-var ca = fs.readFileSync( '/var/www/Opioid/Opioid_Project/web/certificate.crt' );
 
 var options = {
   key: key,
   cert: cert,
-  ca: ca
+  ca: [
+    fs.readFileSync('/var/www/Opioid/Opioid_Project/web/isgrootx1.pem'),
+    fs.readFileSync('/var/www/Opioid/Opioid_Project/web/lets-encrypt-x3-cross-signed.pem')
+  ]
 };
 
 var server = https.createServer(options, app);
