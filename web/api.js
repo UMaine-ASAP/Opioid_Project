@@ -141,7 +141,10 @@ app.post('/audio_history', function (req, res) {
   var table = ["audio_report", req.body.device_id, req.body.track_number, req.body.completion_status, req.body.creation_date];
 
   db.get().query(query, table, function(err, rows) {
-    if(err){ return res.status(400).send({"error": true});}
+    if(err){ 
+    	console.log(err);
+    	return res.status(400).send({"error": true});
+    }
       res.send({"error": false});
   });
 });
@@ -161,7 +164,10 @@ app.post('/survey', function (req, res) {
   var table = ["survey_responces", req.body.device_id, req.body.resource_id, req.body.creation_date, req.body.rating];
 
   db.get().query(query, table, function(err, rows) {
-    if(err){ return res.status(400).send({"error": true});}
+    if(err){ 
+    	console.log(err);
+    	return res.status(400).send({"error": true});
+    }
       res.send({"error": false});
   });
 });

@@ -49,7 +49,10 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
     lateinit var mPrefs: SharedPreferences
     var deviceId = ""
 
+    private var thiContext: Context? = null
+
     private var mListener: OnFragmentInteractionListener? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,7 +103,7 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
         if(view == submitButton) {
             Log.d("Clicked", "button")
             //submit survey to server, if good submit using retrofit else submit to local sql lite
-            val survey = Survey(deviceId, resourceId,ratingBar.numStars, Date())
+            val survey = Survey(deviceId, resourceId,ratingBar.rating.toInt(), Date())
             addSurvey(survey)
             dismiss()
             completionHandeler.complete()
@@ -122,11 +125,12 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
     }
 
     companion object {
-        fun newInstance(p: String, r: Int, completionHandeler: CompletionHandeler): RatingFragment {
+        fun newInstance(p: String, r: Int, completionHandeler: CompletionHandeler, context: Context): RatingFragment {
             val fragment = RatingFragment()
             fragment.prompt = p
             fragment.resourceId = r
             fragment.completionHandeler = completionHandeler
+            fragment.thiContext = context
             return fragment
         }
     }
@@ -157,11 +161,11 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
 
         Log.d(" Note ", "Adding survey")
 
-        val db = SQLManager(context)
+        val db = SQLManager(thiContext)
         db.registerDatabase("Updatables")
 
         db.insertRow("Updatables", "Survey_History", "resource_id, rating, creation_date, server_pushed",
-                String.format("%d,%b,%d",
+                String.format("%d,%d,%d,%d",
                         survey.resource_id,
                         survey.rating,
                         survey.creation_date.time,

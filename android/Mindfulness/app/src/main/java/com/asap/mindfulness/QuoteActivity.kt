@@ -223,28 +223,30 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
 
         cursor.close()
 
-        cursor = db.query(true, "Survey_History", arrayOf("resource_id, rating, creation_date, server_pushed, ID"), null, null, null, null, null, null)
+        val cursor2 = db.query(true, "Survey_History", arrayOf("resource_id, rating, creation_date, server_pushed, ID"), null, null, null, null, null, null)
 
-        if(cursor != null){
-            if(cursor.count > 0){
-                while(!cursor.isLast){
-                    cursor.moveToNext()
+        if(cursor2 != null){
+            if(cursor2.count > 0){
+                while(!cursor2.isLast){
+                    cursor2.moveToNext()
 
                     var date: Date = Date()
 
-                    date.time = cursor.getLong(2)
+                    date.time = cursor2.getLong(2)
 
                     Log.d(" Note ", "Getting survey")
 
-                    if(cursor.getInt(3) == 0) {
+                    if(cursor2.getInt(3) == 0) {
 
-                        addSurvey(Survey(deviceId, cursor.getInt(0), cursor.getInt(1), date), cursor.getInt(4))
+                        addSurvey(Survey(deviceId, cursor2.getInt(0), cursor2.getInt(1), date), cursor2.getInt(4))
 
                     }
 
                 }
             }
         }
+
+        cursor2.close()
 
         done()
     }

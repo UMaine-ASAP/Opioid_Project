@@ -31,6 +31,9 @@ import com.asap.mindfulness.Containers.Track
 import com.asap.mindfulness.Containers.CompletionHandeler
 import com.asap.mindfulness.Fragments.RatingFragment
 import com.asap.mindfulness.SQLite.SQLManager
+import android.graphics.drawable.BitmapDrawable
+
+
 
 
 class MediaActivity : AppCompatActivity(), CompletionHandeler {
@@ -80,17 +83,21 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
         }
     }
 
-    // counter for the media player
+    // counter for the media player 300000 = 5 min
     var cd: CountDownTimer = object: CountDownTimer(300000, 1000) {
         override fun onTick(millisUntilFinished:Long) {
-            popupCounterTextView.text = getString(R.string.media_popup_timer,
+            popupCounterTextView.text = "Pausing for more than 5 minutes will result in a incomplete listen. \n \n You have been listening for " + getString(R.string.media_popup_timer,
                     TUM.toMinutes(millisUntilFinished),
-                    TUM.toSeconds(millisUntilFinished) % 60)
+                    TUM.toSeconds(millisUntilFinished) % 60) + " minutes."
 
         }
         override fun onFinish() {
-            val audioStatus = AudioStatus(deviceId, audioIndex, true, Calendar.getInstance().getTime())
+            val audioStatus = AudioStatus(deviceId, mTrack.index, true, Calendar.getInstance().getTime())
             sendAudioHistory(audioStatus)
+
+            popupWindow.dismiss()
+
+            complete()
         }
     }
 
@@ -157,23 +164,24 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
         if(mediaPlayer.duration * 0.9 < mediaPlayer.currentPosition){
             // allow user to exit
 
-            val audioStatus = AudioStatus(deviceId, audioIndex, true, Calendar.getInstance().getTime())
+            val audioStatus = AudioStatus(deviceId, mTrack.index, true, Calendar.getInstance().getTime())
             sendAudioHistory(audioStatus)
 
-            val fm = supportFragmentManager
-            val editNameDialogFragment = RatingFragment.newInstance("How was this exercise?", audioSource, this)
-            editNameDialogFragment.show(fm,"dialog")
+            openRatingFrag()
 
         }else{
             // prompt user that seession will not count
-            val audioStatus = AudioStatus(deviceId, audioIndex, false, Calendar.getInstance().getTime())
+            val audioStatus = AudioStatus(deviceId, mTrack.index, false, Calendar.getInstance().getTime())
             sendAudioHistory(audioStatus)
 
-            val fm = supportFragmentManager
-            val editNameDialogFragment = RatingFragment.newInstance("How was this exercise?", audioSource, this)
-
-            editNameDialogFragment.show(fm,"dialog")
+           openRatingFrag()
         }
+    }
+
+    fun openRatingFrag(){
+        val fm = supportFragmentManager
+        val editNameDialogFragment = RatingFragment.newInstance("How was this exercise?", mTrack.index, this, this)
+        editNameDialogFragment.show(fm,"dialog")
     }
 
     override fun onDestroy() {
@@ -204,7 +212,13 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
             val inflater: LayoutInflater = LayoutInflater.from(this@MediaActivity)
             getSystemService(Context.LAYOUT_INFLATER_SERVICE)
             val layout = inflater.inflate(R.layout.pause_popup_window, popup_1)
-            popupWindow = PopupWindow(layout, 500, 500, true)
+            popupWindow = PopupWindow(layout, 600, 600, true)
+            popupWindow.setOnDismissListener {
+                if(isPaused)
+                    resume()
+            }
+            popupWindow.isOutsideTouchable = true
+            popupWindow.isFocusable = true
             popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0)
             popupResumeButton =  layout.resumeButton
             popupResumeButton.setOnClickListener { _ ->
