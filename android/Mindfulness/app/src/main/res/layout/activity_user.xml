@@ -38,6 +38,7 @@
                 android:clickable="true"
                 android:elevation="8dp"
                 android:focusable="true"
+                app:srcCompat="@drawable/ic_user"
                 app:layout_constraintBottom_toBottomOf="@+id/view3"
                 app:layout_constraintEnd_toEndOf="@+id/view3"
                 app:layout_constraintStart_toStartOf="@+id/view3"

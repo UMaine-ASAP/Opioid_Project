@@ -103,8 +103,9 @@ class Resource(context: Context, val title : String, var extra: String, val type
             if (res.type == WEBSITE) {
                 Log.d("Resources", "Changing Tint!")
                 ImageViewCompat.setImageTintList(itemView.resource_icon,
-                        ColorStateList.valueOf(ContextCompat.getColor(itemView.context, R.color.colorHighlight)))
+                        ColorStateList.valueOf(ContextCompat.getColor(itemView.context, R.color.colorPrimary)))
             } else {
+                // Reset the tint if the view is being recycled
                 ImageViewCompat.setImageTintList(itemView.resource_icon,null)
             }
 
