@@ -32,8 +32,8 @@ import com.asap.mindfulness.Containers.CompletionHandeler
 import com.asap.mindfulness.Fragments.RatingFragment
 import com.asap.mindfulness.SQLite.SQLManager
 import android.graphics.drawable.BitmapDrawable
-
-
+import android.support.v4.view.ViewCompat
+import android.view.View
 
 
 class MediaActivity : AppCompatActivity(), CompletionHandeler {
@@ -86,7 +86,7 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
     // counter for the media player 300000 = 5 min
     var cd: CountDownTimer = object: CountDownTimer(300000, 1000) {
         override fun onTick(millisUntilFinished:Long) {
-            popupCounterTextView.text = "Pausing for more than 5 minutes will result in a incomplete listen. \n \n You have been listening for " + getString(R.string.media_popup_timer,
+            popupCounterTextView.text = "Pausing for more than 5 minutes will result in a incomplete listen. \n \n You have been paused for " + getString(R.string.media_popup_timer,
                     TUM.toMinutes(millisUntilFinished),
                     TUM.toSeconds(millisUntilFinished) % 60) + " minutes."
 
@@ -166,6 +166,9 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
 
             val audioStatus = AudioStatus(deviceId, mTrack.index, true, Calendar.getInstance().getTime())
             sendAudioHistory(audioStatus)
+            time = mediaPlayer.currentPosition
+            mediaPlayer.pause()
+            isPaused = true
 
             openRatingFrag()
 
@@ -213,6 +216,7 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
             getSystemService(Context.LAYOUT_INFLATER_SERVICE)
             val layout = inflater.inflate(R.layout.pause_popup_window, popup_1)
             popupWindow = PopupWindow(layout, 600, 600, true)
+            ViewCompat.setElevation(layout, 8f)
             popupWindow.setOnDismissListener {
                 if(isPaused)
                     resume()
