@@ -34,6 +34,22 @@
     <string name="setup_patient_id">Please enter your study ID</string>
     <string name="setup_patient_id_hint"></string>
 
+    <!-- Introduction -->
+    <string name="intro_next_page">Keep Going</string>
+    <string name="intro_previous_page">Go Back</string>
+
+    <string name="intro_page_one_title">Mindfulness is not...</string>
+    <string name="intro_page_one_text"><![CDATA[
+    <font color=#009688>A quick fix.</font> Studies show regular practice over time is necessary to
+    experience benefits.\n\n
+    <font color=#009688>About "emptying your mind"</font> or trying to stop thoughts or feelings.\n\n
+    <font color=#009688>About changing your state of mind</font> to one that is blissful or relaxed.
+    <font color=#009688>Based on religion or prayer,</font> although it may have some elements in
+    common with many religious practices.\n\n
+    <font color=#009688>Easy to figure out on your own.</font> Most people need guidance and help to
+    get started and to move past difficulties.
+    ]]></string>
+
     <!-- Notifications -->
     <string name="notify_channel_name">Mindful Thinking</string>
     <string name="notify_channel_desc">Paying attention, on purpose, without judgement, to the present moment.</string>
