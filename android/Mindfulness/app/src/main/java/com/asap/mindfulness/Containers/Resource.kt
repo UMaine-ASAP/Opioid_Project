@@ -63,7 +63,7 @@ class Resource(context: Context, val title : String, var extra: String, val type
 
         image = when(type) {
 //                        Resource.WEBSITE -> getResources().getIdentifier(cursor.getString(4), "drawable", "com.asap.mindfulness.Fragments")
-            WEBSITE -> R.drawable.ic_resource_web_temp
+            WEBSITE -> R.drawable.ic_resource_web
             VIDEO -> R.drawable.ic_resource_video
             AUDIO -> R.drawable.ic_resource_audio
             SURVEY -> R.drawable.ic_resource_survey
@@ -100,14 +100,14 @@ class Resource(context: Context, val title : String, var extra: String, val type
             }
 
             Log.d("Resources", res.type.toString())
-            if (res.type == WEBSITE) {
-                Log.d("Resources", "Changing Tint!")
-                ImageViewCompat.setImageTintList(itemView.resource_icon,
-                        ColorStateList.valueOf(ContextCompat.getColor(itemView.context, R.color.colorPrimary)))
-            } else {
-                // Reset the tint if the view is being recycled
-                ImageViewCompat.setImageTintList(itemView.resource_icon,null)
-            }
+//            if (res.type == WEBSITE) {
+//                Log.d("Resources", "Changing Tint!")
+//                ImageViewCompat.setImageTintList(itemView.resource_icon,
+//                        ColorStateList.valueOf(ContextCompat.getColor(itemView.context, R.color.colorPrimary)))
+//            } else {
+//                // Reset the tint if the view is being recycled
+//                ImageViewCompat.setImageTintList(itemView.resource_icon,null)
+//            }
 
             Log.e("RESOURCEMe", res.image.toString())
             Log.e("RESOURCE", R.mipmap.wikipedia_favicon.toString())
