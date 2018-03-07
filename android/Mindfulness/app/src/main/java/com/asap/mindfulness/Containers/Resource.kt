@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.asap.mindfulness.Fragments.OnNavigationRequestListener
+import com.asap.mindfulness.IntroductionActivity
 import com.asap.mindfulness.QuoteActivity
 import kotlinx.android.synthetic.main.card_resource.view.*
 
@@ -120,8 +121,8 @@ class Resource(context: Context, val title : String, var extra: String, val type
                     itemView.context.startActivity(quoteIntent)
                 }
                 INTRODUCTION -> { _: View? ->
-                    Toast.makeText(itemView.context, "This will open the intro page", Toast.LENGTH_SHORT)
-                            .show()
+                    val introIntent = Intent(itemView.context, IntroductionActivity::class.java)
+                    itemView.context.startActivity(introIntent)
                 }
                 else -> { _: View? ->
                     navigationListener?.onWebViewRequested(res.extra)
