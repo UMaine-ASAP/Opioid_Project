@@ -37,18 +37,8 @@
     <!-- Introduction -->
     <string name="intro_next_page">Keep Going</string>
     <string name="intro_previous_page">Go Back</string>
-
-    <string name="intro_page_one_title">Mindfulness is not...</string>
-    <string name="intro_page_one_text"><![CDATA[
-    <font color=#009688>A quick fix.</font> Studies show regular practice over time is necessary to
-    experience benefits.\n\n
-    <font color=#009688>About "emptying your mind"</font> or trying to stop thoughts or feelings.\n\n
-    <font color=#009688>About changing your state of mind</font> to one that is blissful or relaxed.
-    <font color=#009688>Based on religion or prayer,</font> although it may have some elements in
-    common with many religious practices.\n\n
-    <font color=#009688>Easy to figure out on your own.</font> Most people need guidance and help to
-    get started and to move past difficulties.
-    ]]></string>
+    <string name="intro_finish">Finish</string>
+    <!-- the introduction pages are in intro_pages.xml -->
 
     <!-- Notifications -->
     <string name="notify_channel_name">Mindful Thinking</string>
@@ -81,6 +71,8 @@
     <string name="feed_progress_bottom">To Day %1$d</string>
     <string name="feed_survey_top">Take Survey</string>
     <string name="feed_survey_bottom">(%1$s %2$d)</string>
+    <string name="feed_no_survey_top">No Surveys</string>
+    <string name="feed_no_survey_bottom">Today!</string>
 
     <!-- Tracks -->
     <string name="track_no_title">Track Not Found</string>

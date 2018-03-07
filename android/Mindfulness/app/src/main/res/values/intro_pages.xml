@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="intro_page_titles">
+        <item>Mindfulness is not&#8230;</item>
+        <item>When trying these exercises&#8230;</item>
+        <item>The “Seven Essentials” of Mindfulness</item>
+        <item>Five Common Challenges in Mindfulness</item>
+    </string-array>
+    <string-array name="intro_pages">
+        <item>
+            <![CDATA[ <b>
+
+            <font color=#009688>A quick fix.</font> Studies show regular practice over time is
+            necessary to experience benefits.<br><br>
+
+            <font color=#009688>About "emptying your mind"</font> or trying to stop thoughts or
+            feelings.<br><br>
+
+            <font color=#009688>About changing your state of mind</font> to one that is blissful or
+            relaxed.
+            <font color=#009688>Based on religion or prayer,</font> although it may have some
+            elements in
+            common with many religious practices.<br><br>
+
+            <font color=#009688>Easy to figure out on your own.</font> Most people need guidance and
+             help to get started and to move past difficulties.
+
+            </b> ]]>
+        </item>
+        <item>
+            <![CDATA[ <b>
+
+            Be in a place that is <font color=#009688>quiet</font>, where you won\'t be
+            interrupted.<br><br>
+
+            Choose a posture that is <font color=#009688>comfortable and balanced</font> but
+            dignified.<br><br>
+
+            It can help to <font color=#009688>close your eyes</font>, but it isn\'t necessary if it
+            makes you feel uncomfortable.<br><br>
+
+            Have <font color=#009688>something to focus your attention on</font> that you keep
+            coming back to. This is usually <font color=#009688>your own breathing</font>, but it
+            can also be a <font color=#009688>word</font>, <font color=#009688>phrase</font>, or
+            <font color=#009688>counting pattern.</font><br><br>
+
+            <font color=#009688>Be curious</font> about what comes up for you during the exercises,
+            <font color=#009688>without judging the experience</font> as “good” or “bad.”
+
+            </b> ]]>
+        </item>
+        <item>
+            <![CDATA[ <b>
+
+            <font color=#009688>1. NON-JUDGING:</font> Be a curious witness to your experience.
+            Observing without judging helps you to see what is on your mind without trying to
+            avoid, edit, or “over think” your thoughts!<br><br>
+
+            <font color=#009688>2. NON-STRIVING:</font> There is no goal other than to be yourself.
+            It is not about achieving bliss, relaxation, absence of thought, etc.<br><br>
+
+            <font color=#009688>3. ACCEPTANCE:</font> By fully accepting what each moment has to
+            offer, you are able to experience life much more completely.<br><br>
+
+            <font color=#009688>4. LETTING GO:</font> Of thoughts, ideas, things, events, desires,
+            views, hopes, and experiences. Allowing things to be as they are, without getting
+            caught up in our attachment or rejection of them. It means to give up resisting or
+            struggling against yourself. Watching your breath as it goes in and out is an excellent
+            starting point.<br><br>
+
+            <font color=#009688>5. BEGINNER’S MIND:</font> Free of expectations from past
+            experience. Use your breath as an anchor to tether your attention to the present
+            moment. It is always there.<br><br>
+
+            <font color=#009688>6. PATIENCE:</font> Remembering that things must unfold in their
+            own time. An alternative to the mind’s restlessness and impatience.<br><br>
+
+            <font color=#009688>7. TRUST:</font> In yourself and your feelings. As a human you
+            carry great innate wisdom and knowledge of your own self and experience.
+            Trust yourself to observe your experience with kindness and thoughtfulness.
+
+            </b> ]]>
+        </item>
+        <item>
+            <![CDATA[ <b>
+
+            <font color=#009688>1. Aversion:</font> “I don’t want this _____” (Feeling, activity, thought, etc.)<br><br>
+
+            <font color=#009688>2. Craving:</font> “I want to be doing _____” (rather than experiencing the present)<br><br>
+
+            <font color=#009688>3. Restlessness:</font> “I must move around, I can’t sit still any longer!”<br><br>
+
+            <font color=#009688>4. Sleepiness:</font> Drifting off during exercises.<br><br>
+
+            <font color=#009688>5. Doubt:</font> “I can’t do this” or “This won’t help me, I’m wasting my time.”<br><br>
+
+            <font color=#009688>When you experience thoughts like these during practice</font>, just notice and try to label them. Having these thoughts is OK and doesn’t mean your mindfulness practice isn’t working. Most people have these types of thoiughts during practice. Noticing and labeling, and returning to your breathing or other focus, can help you move past the challenge. If you simply must stop sooner than you intended, try to observe your own impulse and make your choice deliberately.
+
+            </b> ]]>
+        </item>
+    </string-array>
+</resources>
