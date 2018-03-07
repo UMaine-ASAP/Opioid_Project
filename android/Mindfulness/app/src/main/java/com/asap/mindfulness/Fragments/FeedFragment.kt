@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.text.format.DateFormat
@@ -86,23 +87,36 @@ class FeedFragment : Fragment() {
 
         // Get days passed since start date
         val daysPassed = mPrefs.getInt(getString(R.string.sp_days_passed), 0)
-
-        // Get date of the most recent survey
-        val lastSurveyDate = mPrefs.getLong(getString(R.string.sp_last_survey_date), 0)
-        val surveyDate = Date(lastSurveyDate)
-        val surveyMonth = DateFormat.format("MMMM", surveyDate).toString()
-        val surveyDay = Integer.parseInt(DateFormat.format("dd", surveyDate).toString())
-        // Get the link for the most recent survey
-        val surveyLink = mPrefs.getString(getString(R.string.sp_last_survey_link), "")
-
         feedItems.add(FeedItem(getString(R.string.feed_progress_top),
                 getString(R.string.feed_progress_bottom, daysPassed + 1), FeedItem.PROGRESS, openUserFragment))
-        feedItems.add(FeedItem(getString(R.string.feed_survey_top),
-                getString(R.string.feed_survey_bottom, surveyMonth, surveyDay), FeedItem.SURVEY, object: View.OnClickListener {
-                    override fun onClick(p0: View?) {
-                        mListener?.onWebViewRequested(surveyLink)
+
+        // Get date of the most recent survey
+        val lastSurveyDate = mPrefs.getLong(getString(R.string.sp_last_survey_date), -1L)
+        if (lastSurveyDate != -1L) {
+            val surveyDate = Date(lastSurveyDate)
+            val surveyMonth = DateFormat.format("MMMM", surveyDate).toString()
+            val surveyDay = Integer.parseInt(DateFormat.format("dd", surveyDate).toString())
+            // Get the link for the most recent survey
+            val surveyLink = mPrefs.getString(getString(R.string.sp_last_survey_link), "")
+
+            feedItems.add(FeedItem(getString(R.string.feed_survey_top),
+                    getString(R.string.feed_survey_bottom, surveyMonth, surveyDay), FeedItem.SURVEY, object : View.OnClickListener {
+                        override fun onClick(p0: View?) {
+                            mListener?.onWebViewRequested(surveyLink)
+                        }
+                    }))
+        } else {
+            feedItems.add(FeedItem(
+                    getString(R.string.feed_no_survey_top),
+                    getString(R.string.feed_no_survey_bottom),
+                    FeedItem.SURVEY,
+                    object : View.OnClickListener {
+                        override fun onClick(p0: View?) {
+                            Snackbar.make(rootView, "No surveys to take today", Snackbar.LENGTH_SHORT).show()
+                        }
                     }
-        }))
+            ))
+        }
 
 
         rootView.feed_recycler.adapter = FeedAdapter(track, feedItems, resources)
