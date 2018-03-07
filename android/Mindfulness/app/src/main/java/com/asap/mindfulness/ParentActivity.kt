@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.*
 import com.asap.mindfulness.Fragments.FeedFragment
@@ -29,6 +30,10 @@ import kotlinx.android.synthetic.main.activity_parent.*
  */
 
 class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
+
+    companion object {
+        val INTRO_FLAG = "extra_intro"
+    }
 
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide
@@ -90,6 +95,12 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         button_user.setOnClickListener {
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
+        }
+
+        if (intent.hasExtra(INTRO_FLAG)) {
+            Snackbar.make(container,
+                    "You can access the introduction again in the resources tab!",
+                    Snackbar.LENGTH_LONG)
         }
     }
 
