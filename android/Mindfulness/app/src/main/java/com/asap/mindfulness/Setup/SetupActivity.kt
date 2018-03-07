@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.util.Log
+import com.asap.mindfulness.IntroductionActivity
 import com.asap.mindfulness.Notifications.NotificationScheduler
 import com.asap.mindfulness.ParentActivity
 import com.asap.mindfulness.QuoteActivity
@@ -45,7 +46,7 @@ import java.util.*
  */
 
 
-class SetupActivity : AppCompatActivity() {
+class  SetupActivity : AppCompatActivity() {
 
     // Use patient_password_switch.isChecked for the password checkbox
     lateinit var mPager: ViewPager
@@ -83,8 +84,8 @@ class SetupActivity : AppCompatActivity() {
                     }
                 } else {
                     if (scrollPatient()) {
-                        val main = Intent(parent, ParentActivity::class.java)
-                        startActivity(main)
+                        val introIntent = Intent(mPager.context, IntroductionActivity::class.java)
+                        mPager.context.startActivity(introIntent)
                     } else {
                         mPager.currentItem = 0
                     }
