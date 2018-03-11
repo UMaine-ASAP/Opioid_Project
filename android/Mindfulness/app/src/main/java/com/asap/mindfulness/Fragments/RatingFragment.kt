@@ -1,12 +1,9 @@
 package com.asap.mindfulness.Fragments
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
@@ -14,7 +11,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 
 import com.asap.mindfulness.R
 import com.asap.mindfulness.Retrofit.service
@@ -24,7 +20,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import android.widget.TextView
 import com.asap.mindfulness.Containers.*
 
 
@@ -41,7 +36,7 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
 
 
 
-    private lateinit var completionHandeler: CompletionHandeler
+    private lateinit var completionHandler: CompletionHandler
 
     // TODO: Rename and change types of parameters
     private var prompt: String = "How would you rate that exercise?"
@@ -108,7 +103,7 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
             val survey = Survey(deviceId, resourceId,ratingBar.rating.toInt(), Date())
             addSurvey(survey)
             dismiss()
-            completionHandeler.complete()
+            completionHandler.complete()
         }
     }
 
@@ -127,11 +122,11 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
     }
 
     companion object {
-        fun newInstance(p: String, r: Int, completionHandeler: CompletionHandeler, context: Context): RatingFragment {
+        fun newInstance(p: String, r: Int, completionHandler: CompletionHandler, context: Context): RatingFragment {
             val fragment = RatingFragment()
             fragment.prompt = p
             fragment.resourceId = r
-            fragment.completionHandeler = completionHandeler
+            fragment.completionHandler = completionHandler
             fragment.thiContext = context
             return fragment
         }

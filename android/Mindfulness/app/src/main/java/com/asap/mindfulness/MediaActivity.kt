@@ -2,11 +2,8 @@ package com.asap.mindfulness
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
@@ -14,8 +11,6 @@ import com.asap.mindfulness.Containers.AudioStatus
 import com.asap.mindfulness.Containers.Success
 import com.asap.mindfulness.Retrofit.*
 import kotlinx.android.synthetic.main.activity_media.*
-import kotlinx.android.synthetic.main.pause_popup_window.*
-import kotlinx.android.synthetic.main.pause_popup_window.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,19 +20,16 @@ import java.util.*
 import java.util.concurrent.TimeUnit.MILLISECONDS as TUM
 import android.content.Intent
 import android.content.SharedPreferences
-import android.provider.Settings
 import android.view.MenuItem
 import com.asap.mindfulness.Containers.Track
-import com.asap.mindfulness.Containers.CompletionHandeler
+import com.asap.mindfulness.Containers.CompletionHandler
 import com.asap.mindfulness.Fragments.RatingFragment
 import com.asap.mindfulness.SQLite.SQLManager
-import android.graphics.drawable.BitmapDrawable
 import android.support.v4.app.NavUtils
-import android.support.v4.view.ViewCompat
-import android.view.View
+import com.asap.mindfulness.Fragments.CountdownDialogFragment
 
 
-class MediaActivity : AppCompatActivity(), CompletionHandeler {
+class MediaActivity : AppCompatActivity(), CompletionHandler {
 
 
 
@@ -61,11 +53,6 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
     private lateinit var mediaPlayer: MediaPlayer
     private var playerReleased = true
 
-    // private variables for the pop up view
-    private lateinit var popupWindow: PopupWindow
-    private lateinit var popupCounterTextView: TextView
-    private lateinit var popupResumeButton: Button
-
     // private variables for the media player
     private var time = 0
     private var isPaused = false
@@ -83,25 +70,6 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
             }
         }
     }
-
-    // counter for the media player 300000 = 5 min
-    var cd: CountDownTimer = object: CountDownTimer(300000, 1000) {
-        override fun onTick(millisUntilFinished:Long) {
-            popupCounterTextView.text = "Pausing for more than 5 minutes will result in a incomplete listen. \n \n You have been paused for " + getString(R.string.media_popup_timer,
-                    TUM.toMinutes(millisUntilFinished),
-                    TUM.toSeconds(millisUntilFinished) % 60) + " minutes."
-
-        }
-        override fun onFinish() {
-            val audioStatus = AudioStatus(deviceId, mTrack.index, true, Calendar.getInstance().getTime())
-            sendAudioHistory(audioStatus)
-
-            popupWindow.dismiss()
-
-            complete()
-        }
-    }
-
 
     override fun complete() {
         val navIntent = NavUtils.getParentActivityIntent(this)
@@ -161,6 +129,7 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
     }
 
     fun goBack(){
+        mediaPlayer.pause()
         if(mediaPlayer.duration * 0.9 < mediaPlayer.currentPosition){
             // allow user to exit
 
@@ -205,35 +174,54 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
         mediaPlayer.seekTo(time)
         mediaPlayer.start()
         isPaused = false
-        popupWindow.dismiss()
-        cd.cancel()
     }
 
     private fun showPausePopup() {
-        try {
-            // We need to get the instance of the LayoutInflater
-            val inflater: LayoutInflater = LayoutInflater.from(this@MediaActivity)
-            getSystemService(Context.LAYOUT_INFLATER_SERVICE)
-            val layout = inflater.inflate(R.layout.pause_popup_window, popup_1)
-            popupWindow = PopupWindow(layout, 600, 600, true)
-            ViewCompat.setElevation(layout, 8f)
-            popupWindow.setOnDismissListener {
-                if(isPaused)
-                    resume()
-            }
-            popupWindow.isOutsideTouchable = true
-            popupWindow.isFocusable = true
-            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0)
-            popupResumeButton =  layout.resumeButton
-            popupResumeButton.setOnClickListener { _ ->
-                if(isPaused)
-                    resume()
-            }
-            popupCounterTextView = layout.textCountDown
-            cd.start()
-        } catch (e:Exception) {
-            e.printStackTrace()
+//        try {
+//            // We need to get the instance of the LayoutInflater
+//            val inflater: LayoutInflater = LayoutInflater.from(this@MediaActivity)
+//            getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+//            val layout = inflater.inflate(R.layout.fragment_countdown_dialog, popup_1)
+//            ViewCompat.setElevation(layout, 8f)
+//            popupWindow = PopupWindow(layout, 600, 600, true)
+//            popupWindow.setOnDismissListener {
+//                if(isPaused)
+//                    resume()
+//            }
+//            popupWindow.isOutsideTouchable = true
+//            popupWindow.isFocusable = true
+//            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0)
+//            popupResumeButton =  layout.resumeButton
+//            popupResumeButton.setOnClickListener { _ ->
+//                if(isPaused)
+//                    resume()
+//            }
+//            popupCounterTextView = layout.textCountDown
+//            cd.start()
+//        } catch (e:Exception) {
+//            e.printStackTrace()
+//        }
+
+        val fragTransaction = fragmentManager.beginTransaction()
+        val prevFrag = fragmentManager.findFragmentByTag("media_countdown")
+        if (prevFrag != null) {
+            fragTransaction.remove(prevFrag)
         }
+        fragTransaction.addToBackStack(null)
+
+        CountdownDialogFragment.newInstance(object: CountdownDialogFragment.CountdownListener {
+            override fun onDismissed() {
+                if(isPaused)
+                    resume()
+            }
+
+            override fun onCountdownFinished() {
+                val audioStatus = AudioStatus(deviceId, mTrack.index, true, Calendar.getInstance().getTime())
+                sendAudioHistory(audioStatus)
+
+                complete()
+            }
+        }).show(fragTransaction, "media_countdown")
     }
 
     fun sendAudioHistory(audio: AudioStatus){
