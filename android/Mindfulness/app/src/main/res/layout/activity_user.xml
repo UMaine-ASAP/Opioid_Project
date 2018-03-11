@@ -11,9 +11,17 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimary" >
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/user_views"
+            android:orientation="vertical"
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingStart="24dp"
+            android:paddingLeft="24dp"
+            android:paddingEnd="24dp"
+            android:paddingRight="24dp"
+            >
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/floatingActionButton"
@@ -24,80 +32,97 @@
                 android:clickable="true"
                 android:elevation="8dp"
                 android:focusable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_user" />
 
-            <TextView
+            <Button
                 android:id="@+id/user_name"
+                android:clickable="true"
+                android:focusable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/round_button_white"
                 android:fontFamily="@font/roboto_bold"
                 android:text="Tom Jones"
-                android:textColor="@android:color/white"
+                android:textAllCaps="false"
+                android:textColor="@color/cardview_dark_background"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/floatingActionButton" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/user_study_id"
+                android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/user_study_id"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_name" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/user_progress_days"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="64dp"
-                android:layout_marginStart="64dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="80dp"
                 android:text="You\'ve been making progress for 10 days"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="32sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_study_id" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/user_progress_tracks"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="64dp"
-                android:layout_marginStart="64dp"
                 android:layout_marginTop="80dp"
                 android:text="You\'ve listened through 10 sessions"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="32sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_progress_days" />
+                android:textStyle="bold" />
 
-        </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/user_notifications_enabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="@string/user_notify_enabled"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/user_notifications_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:scaleX="1.2"
+                android:scaleY="1.2"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/user_notifications_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="@string/user_notify_time"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/user_notifications_time_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_button_white"
+                android:text="8:00 am"
+                android:textColor="@color/cardview_dark_background"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp" />
+
+        </LinearLayout>
 
     </ScrollView>
 

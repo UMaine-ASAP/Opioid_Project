@@ -12,5 +12,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/cardview_dark_background</item>
     </style>
 </resources>

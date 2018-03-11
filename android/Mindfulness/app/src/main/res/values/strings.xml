@@ -51,17 +51,24 @@
 
     <!-- User -->
     <string name="title_activity_user">Your Progress</string>
-    <string name="user_study_id">Study ID of %1$s</string>
+    <string name="user_name_edit_title">Change Your Name</string>
+    <string name="user_name_edit_set">Change</string>
+    <string name="user_study_id">Your Study ID is %s</string>
     <plurals name="user_progress_days">
         <item quantity="one">You\'ve been making progress for %s day</item>
         <item quantity="other">You\'ve been making progress for %s days</item>
     </plurals>
-    <string name="user_progress_days_none">Welcome to day one of mindfulness.</string>
+    <string name="user_progress_days_none">Welcome to day one of mindfulness</string>
     <plurals name="user_progress_tracks">
         <item quantity="one">You\'ve listened through %s session</item>
         <item quantity="other">You\'ve listened through %s sessions</item>
     </plurals>
     <string name="user_progress_tracks_none">You haven\'t listened through any sessions yet</string>
+    <string name="user_notify_enabled">Notifications are enabled</string>
+    <string name="user_notify_disabled">Notifications are disabled</string>
+    <string name="user_notify_time">You\'ll receive a friendly reminder every day at&#8230;</string>
+    <string name="am">am</string>
+    <string name="pm">pm</string>
 
     <!-- Parent -->
     <string name="bottom_nav_feed">Feed</string>
@@ -97,5 +104,8 @@
     <string name="survey_link">https://survey.emhs.org/TakeSurvey.aspx?SurveyID=92KLl682M</string>
 
     <string name="quote_notification_title_template">Quote: %1$s</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
