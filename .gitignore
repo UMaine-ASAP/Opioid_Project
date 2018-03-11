@@ -10,3 +10,4 @@ android/Mindfulness/Mindfulness.iml
 android/Mindfulness/app/app.iml
 android/Mindfulness/.idea/misc.xml
 .DS_Store
+android/Mindfulness/.idea/kotlinc.xml

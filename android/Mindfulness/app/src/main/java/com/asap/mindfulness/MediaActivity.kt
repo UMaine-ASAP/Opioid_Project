@@ -32,6 +32,7 @@ import com.asap.mindfulness.Containers.CompletionHandeler
 import com.asap.mindfulness.Fragments.RatingFragment
 import com.asap.mindfulness.SQLite.SQLManager
 import android.graphics.drawable.BitmapDrawable
+import android.support.v4.app.NavUtils
 import android.support.v4.view.ViewCompat
 import android.view.View
 
@@ -103,9 +104,9 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
 
 
     override fun complete() {
-        val myIntent = Intent(applicationContext, ParentActivity::class.java)
-        startActivityForResult(myIntent, 0)
-        finish()
+        val navIntent = NavUtils.getParentActivityIntent(this)
+        navIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        NavUtils.navigateUpTo(this, navIntent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,7 +151,6 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         Log.d("SQL Debug","Back button pressed")
         goBack()
     }

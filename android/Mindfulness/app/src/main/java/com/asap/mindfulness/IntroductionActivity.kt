@@ -5,7 +5,6 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
-import android.text.Spannable
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -68,7 +67,7 @@ class IntroductionActivity : AppCompatActivity() {
                 if (page == pageTitles.size - 1) object: View.OnClickListener {
                     override fun onClick(v: View?) {
                         val main = Intent(this@IntroductionActivity, ParentActivity::class.java)
-                        main.putExtra(ParentActivity.INTRO_FLAG, true)
+                        main.putExtra(ParentActivity.EXTRA_INTRO_FLAG, true)
                         startActivity(main)
                     }
                 } else object: View.OnClickListener {

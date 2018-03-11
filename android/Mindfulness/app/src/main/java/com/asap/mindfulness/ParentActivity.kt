@@ -32,7 +32,8 @@ import kotlinx.android.synthetic.main.activity_parent.*
 class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
 
     companion object {
-        val INTRO_FLAG = "extra_intro"
+        const val EXTRA_INTRO_FLAG = "extra_intro"
+        const val EXTRA_PAGE = "extra_page"
     }
 
     /**
@@ -97,13 +98,23 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
             startActivity(intent)
         }
 
-        if (intent.hasExtra(INTRO_FLAG)) {
+        if (intent.hasExtra(EXTRA_INTRO_FLAG)) {
             Snackbar.make(container,
                     "You can access the introduction again in the resources tab!",
                     Snackbar.LENGTH_LONG)
         }
     }
 
+//    override fun onNewIntent(intent: Intent?) {
+//        super.onNewIntent(intent)
+//
+//        /* Grab the destined page from the intent.
+//         * If the intent is null, set the page to 0 (the feed)
+//         * If the extra doesn't exist, set the page to 0
+//         */
+//        val flipPage = intent?.getIntExtra(EXTRA_PAGE, 0) ?: 0
+//        container.currentItem = flipPage
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

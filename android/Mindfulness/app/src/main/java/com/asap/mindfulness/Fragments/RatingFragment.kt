@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -57,14 +58,15 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //submitButton.setOnClickListener(this)
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         //promtTextView.text = prompt
-        return inflater!!.inflate(R.layout.fragment_rating, container, false)
+        val rootView = inflater!!.inflate(R.layout.fragment_rating, container, false)
+        ViewCompat.setElevation(rootView, 8f)
+
+        return rootView
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
