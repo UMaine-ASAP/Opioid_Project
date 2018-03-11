@@ -19,5 +19,5 @@ package com.asap.mindfulness.Fragments
  */
 interface OnNavigationRequestListener {
     fun onPageRequested(page: Int): Boolean
-    fun onWebViewRequested(url: String): Boolean
+//    fun onWebViewRequested(url: String): Boolean
 }

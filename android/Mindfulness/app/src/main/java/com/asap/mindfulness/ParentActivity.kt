@@ -151,17 +151,17 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         return false
     }
 
-    override fun onWebViewRequested(url: String): Boolean {
-        if (url != "") {
-            val webView = Intent(baseContext, WebViewActivity::class.java)
-            webView.putExtra("url", url)
-            Log.d("ParentActivity", "Got this far!!!!!!!!!!!!!!!!!!!!!!!!!")
-            startActivity(webView)
-            return true
-        }
-
-        return false
-    }
+//    override fun onWebViewRequested(url: String): Boolean {
+//        if (url != "") {
+//            val webView = Intent(baseContext, WebViewActivity::class.java)
+//            webView.putExtra("url", url)
+//            Log.d("ParentActivity", "Got this far!!!!!!!!!!!!!!!!!!!!!!!!!")
+//            startActivity(webView)
+//            return true
+//        }
+//
+//        return false
+//    }
 
 
     /**

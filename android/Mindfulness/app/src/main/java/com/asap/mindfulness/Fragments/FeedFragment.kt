@@ -3,6 +3,7 @@ package com.asap.mindfulness.Fragments
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -132,7 +133,8 @@ class FeedFragment : Fragment() {
                 feedItems.add(FeedItem(getString(R.string.feed_survey_top),
                         getString(R.string.feed_survey_bottom, surveyMonth, surveyDay), FeedItem.SURVEY, object : View.OnClickListener {
                     override fun onClick(p0: View?) {
-                        mListener?.onWebViewRequested(surveyLink)
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(surveyLink))
+                        startActivity(intent)
                     }
                 }))
             } else {

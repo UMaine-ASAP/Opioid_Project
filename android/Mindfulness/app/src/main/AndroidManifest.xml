@@ -7,14 +7,15 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_app_logo_round"
-        android:roundIcon="@drawable/ic_app_logo_round"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:roundIcon="@drawable/ic_app_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -30,7 +31,7 @@
         <activity
             android:name=".Setup.SetupActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ParentActivity"
             android:label="@string/app_name"
@@ -44,13 +45,8 @@
         <activity
             android:name=".QuoteActivity"
             android:label="@string/title_activity_quotes"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ParentActivity"/>
-        <activity
-            android:name=".WebViewActivity"
-            android:label="@string/title_activity_web"
             android:parentActivityName=".ParentActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".IntroductionActivity"
             android:theme="@style/AppTheme" />
@@ -62,8 +58,8 @@
         <activity
             android:name=".UserActivity"
             android:label="@string/title_activity_user"
-            android:theme="@style/AppTheme"
-            android:parentActivityName=".ParentActivity" />
+            android:parentActivityName=".ParentActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

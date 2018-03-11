@@ -3,6 +3,7 @@ package com.asap.mindfulness.Containers
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import com.asap.mindfulness.R
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.ImageViewCompat
@@ -125,7 +126,9 @@ class Resource(context: Context, val title : String, var extra: String, val type
                     itemView.context.startActivity(introIntent)
                 }
                 else -> { _: View? ->
-                    navigationListener?.onWebViewRequested(res.extra)
+//                    navigationListener?.onWebViewRequested(res.extra)
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(res.extra))
+                    itemView.context.startActivity(intent)
                 }
             })
         }
