@@ -95,7 +95,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         quoteTextView.text = quotesList[quoteNum]
-        quoteCredits.text = quotesListCredits[quoteNum]
+        quoteCredits.text = "~ " + quotesListCredits[quoteNum]
 
         //TODO("use mod to update the quote. day%count")
 
