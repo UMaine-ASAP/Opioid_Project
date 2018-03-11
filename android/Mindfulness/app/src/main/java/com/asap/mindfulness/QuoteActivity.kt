@@ -59,18 +59,15 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         deviceId = mPrefs.getString(getString(R.string.sp_study_id), "None")
 
         refreshFields()
-        setup() //-----------//>
+        setup()
 
-         Log.d("SQL Debug", "Mode: " + mode.toString())
+        if (mode == 0) {
+            updateServer()
+            done()
+        }
+    }
 
-                              //|
-        if (mode == 0) {      //|
-            updateServer()    //|
-            done()            //|
-        }                     //|
-    }                         //|
-                              //|
-    fun setup() {  //<-------//<
+    private fun setup() {
 
         quotesList = resources.getStringArray(R.array.quotes_array)
         quotesListCredits = resources.getStringArray(R.array.quotes_credits)
@@ -125,13 +122,13 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
                     TransitionManager.beginDelayedTransition(view_quote)
                     val quoteNumber = grabNewQuote()
                     quoteTextView.text = quotesList[quoteNumber]
-                    quoteCredits.text = quotesListCredits[quoteNumber]
+                    quoteCredits.text = "~ " + quotesListCredits[quoteNumber]
                 }
             }
         })
     }
 
-    fun grabNewQuote() : Int {
+    private fun grabNewQuote() : Int {
         var nextQuote: Int
 
         do {
@@ -143,8 +140,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         return nextQuote
     }
 
-    fun refreshFields() {
-
+    private fun refreshFields() {
         QuoteNotification.scheduleNotifications(this)
 
         val prefsEditor = mPrefs.edit()

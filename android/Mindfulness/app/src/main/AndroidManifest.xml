@@ -60,6 +60,7 @@
             android:label="@string/title_activity_user"
             android:parentActivityName=".ParentActivity"
             android:theme="@style/AppTheme" />
+        <receiver android:name=".Notifications.QuoteNotification" />
     </application>
 
 </manifest>

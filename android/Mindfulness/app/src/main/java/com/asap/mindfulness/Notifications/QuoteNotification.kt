@@ -32,6 +32,7 @@ class QuoteNotification : BroadcastReceiver() {
      * Pick a random quote and display it as a notification when the broadcast is received
      */
     override fun onReceive(context: Context?, intent: Intent?) {
+        Log.d("Notifications", "Broadcast received")
         // We can't pull quotes if the context is null
         if (context == null) return
 
@@ -47,6 +48,10 @@ class QuoteNotification : BroadcastReceiver() {
          * The unique identifier for this type of notification.
          */
         private const val NOTIFICATION_CHANNEL = "mindfulness_notifications"
+        /**
+         * The request code for the pending intent
+         */
+        private const val REQUEST_CODE = 28173891
 
         /**
          * Schedules notifications for the times held in SharedPreferences
@@ -59,8 +64,8 @@ class QuoteNotification : BroadcastReceiver() {
 
             // Schedule notifications
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val alarmIntent = PendingIntent.getBroadcast(context, 0,
-                    Intent(context, QuoteNotification::class.java), 0)
+            val alarmIntent = PendingIntent.getBroadcast(context, REQUEST_CODE,
+                    Intent(context, QuoteNotification::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
             val prefs = context.getSharedPreferences(context.getString(R.string.sp_file_key), Context.MODE_PRIVATE)
 
             val cal = Calendar.getInstance()
@@ -133,19 +138,10 @@ class QuoteNotification : BroadcastReceiver() {
 
                     // Use a default priority (recognized on devices running Android
                     // 4.1 or later)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
 
                     // Set ticker text (preview) information for this notification.
                     .setTicker(summary)
-
-                    // If this notification relates to a past or upcoming event, you
-                    // should set the relevant time information using the setWhen
-                    // method below. If this call is omitted, the notification's
-                    // timestamp will by set to the time at which it was shown.
-                    // TODO: Call setWhen if this notification relates to a past or
-                    // upcoming event. The sole argument to this method should be
-                    // the notification timestamp in milliseconds.
-                    //.setWhen(...)
 
                     // Set the pending intent to be initiated when the user touches
                     // the notification.
