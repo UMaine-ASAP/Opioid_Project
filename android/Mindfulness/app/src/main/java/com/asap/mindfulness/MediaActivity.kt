@@ -259,6 +259,14 @@ class MediaActivity : AppCompatActivity(), CompletionHandeler {
 
     fun addAudioToDatabase(audio: AudioStatus) {
 
+        if (audio.completion_status) {
+            val sessions = mPrefs.getInt(getString(R.string.sp_tracks_completed), 0)
+            with (mPrefs.edit()) {
+                putInt(getString(R.string.sp_tracks_completed), sessions + 1)
+                apply()
+            }
+        }
+
         Log.d(" Note ", "Adding audio")
 
         val db = SQLManager(this)

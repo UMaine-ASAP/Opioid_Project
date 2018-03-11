@@ -120,6 +120,8 @@ class  SetupActivity : AppCompatActivity() {
         val today: Long = Date().time
         mPreferences.putLong(getString(R.string.sp_start_date), today)
         mPreferences.putString(getString(R.string.sp_last_survey_link), getString(R.string.survey_link))
+        mPreferences.putInt(getString(R.string.sp_days_passed), 0)
+        mPreferences.putInt(getString(R.string.sp_tracks_completed), 0)
         mPreferences.apply()
 
         Log.d("TESTING", R.mipmap.google_favicon.toString())

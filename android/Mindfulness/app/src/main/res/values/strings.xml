@@ -49,19 +49,29 @@
     <string name="title_activity_quotes">Mindful Quotes</string>
 
     <!-- User -->
-    <string name="title_activity_user">Your App</string>
-    <string name="user_category_personal">About You</string>
+    <string name="title_activity_user">Your Progress</string>
+    <string name="user_study_id">Study ID of %1$s</string>
+    <plurals name="user_progress_days">
+        <item quantity="one">You\'ve been making progress for %s day</item>
+        <item quantity="other">You\'ve been making progress for %s days</item>
+    </plurals>
+    <string name="user_progress_days_none">Welcome to day one of mindfulness.</string>
+    <plurals name="user_progress_tracks">
+        <item quantity="one">You\'ve listened through %s session</item>
+        <item quantity="other">You\'ve listened through %s sessions</item>
+    </plurals>
+    <string name="user_progress_tracks_none">You haven\'t listened to any sessions yet</string>
 
     <!-- Parent -->
     <string name="bottom_nav_feed">Feed</string>
-    <string name="bottom_nav_tracks">Tracks</string>
+    <string name="bottom_nav_tracks">Exercises</string>
     <string name="bottom_nav_resources">Resources</string>
     <string name="title_activity_setup">Setup</string>
 
     <!-- Media -->
     <string name="media_timer">%1$d:%2$02d  /  %3$d:%4$02d</string>
     <string name="media_popup_timer">%1$d:%2$02d</string>
-    <string name="track_rating_prompt">How much do you feel this track helped you?</string>
+    <string name="track_rating_prompt">How much do you feel this session helped you?</string>
     <string name="track_rating_submit">Submit</string>
 
     <!-- Feed -->
@@ -75,7 +85,7 @@
     <string name="feed_no_survey_bottom">Today!</string>
 
     <!-- Tracks -->
-    <string name="track_no_title">Track Not Found</string>
+    <string name="track_no_title">Exercise Not Found</string>
     <string name="track_no_desc">No description available.</string>
     <string name="track_no_time">10\nminutes</string>
     <string name="title_activity_media">Exercises</string>

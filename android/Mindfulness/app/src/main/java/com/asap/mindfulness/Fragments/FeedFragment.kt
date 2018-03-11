@@ -67,7 +67,7 @@ class FeedFragment : Fragment() {
         val trackCredits = getResources().getStringArray(R.array.track_credits)
         val trackLengths = getResources().getStringArray(R.array.track_lengths)
 
-        val trackNumber = mPrefs.getInt(getString(R.string.sp_current_track), 0)
+        val trackNumber = mPrefs.getInt(getString(R.string.sp_tracks_current), 0)
         track = Track(trackTitles[trackNumber], trackDescriptions[trackNumber],
                 trackCredits[trackNumber], trackLengths[trackNumber], trackNumber)
     }

@@ -79,8 +79,8 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         val quoteNum = when (mode) {
             MODE_LOADING -> {
                 quoteProgressBar.visibility = View.VISIBLE
-                val daysPassed = mPrefs.getInt(getString(R.string.sp_days_passed), 0)
-                if (daysPassed == 0) {
+                val daysPassed = mPrefs.getInt(getString(R.string.sp_days_passed), 1)
+                if (daysPassed == 1) {
                     52
                 } else {
                     Random().nextInt(quotesList.size)
@@ -151,7 +151,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         // Get days passed since start date
         val startDate = mPrefs.getLong(getString(R.string.sp_start_date), 0)
 //        val daysPassed: Int = ((Date().time - startDate) / 1000 / 60 / 60 / 24 + 1).toInt()
-        val daysPassed = daysBetween(Date(startDate), Date())
+        val daysPassed = daysBetween(Date(startDate), Date()) + 1
         prefsEditor.putInt(getString(R.string.sp_days_passed), daysPassed)
 
         val weekNum = daysPassed / 7
@@ -165,7 +165,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
             5 -> 5
             else -> 5
         }
-        prefsEditor.putInt(getString(R.string.sp_current_track), currentTrack)
+        prefsEditor.putInt(getString(R.string.sp_tracks_current), currentTrack)
 
         val currentSurvey = when (weekNum) {
             // 0 -> TODO: Enrollment survey here
