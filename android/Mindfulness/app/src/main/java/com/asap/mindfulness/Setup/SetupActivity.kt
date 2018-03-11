@@ -179,25 +179,15 @@ class  SetupActivity : AppCompatActivity() {
 
     private fun scrollUser() : Boolean {
         val patientName = patient_name.text.toString()
-        val patientPasswordEnabled = patient_password_switch.isChecked
-        val patientPassword = patient_password.text.toString()
 
         if (patientName == "") {
             Snackbar.make(activity_setup, "Please enter a name for yourself",
-                    Snackbar.LENGTH_SHORT).show()
-            return false
-        } else if (patientPassword == "" && patient_password_switch.isChecked) {
-            Snackbar.make(activity_setup, "Please enter a password or uncheck the box",
                     Snackbar.LENGTH_SHORT).show()
             return false
         }
 
         mPreferences
                 .putString(getString(R.string.sp_name), patientName)
-//                .putBoolean(getString(R.string.sp_password_enabled), patientPasswordEnabled)
-//                .putString(getString(R.string.sp_password), patientPassword)
-                .putBoolean(getString(R.string.sp_password_enabled), false)
-                .putString(getString(R.string.sp_password), "")
                 .apply()
 
         return true

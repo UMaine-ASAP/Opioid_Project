@@ -23,10 +23,6 @@ import kotlinx.android.synthetic.main.fragment_setup_user.view.*
 class SetupUserFragment : Fragment() {
     private var patientName: String = ""
         get() = rootView.patient_name.text.toString()
-    private var patientPasswordEnabled = false
-        get() = rootView.patient_password_switch.isChecked
-    private var patientPassword: String = ""
-        get() = rootView.patient_password.text.toString()
     lateinit var rootView: View
     private lateinit var mPrefs: SharedPreferences
 
@@ -46,52 +42,12 @@ class SetupUserFragment : Fragment() {
                     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT)
                 } else {
-                    if (!patientPasswordEnabled) {
-                        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        imm.hideSoftInputFromWindow(v.windowToken, 0)
-                    }
+                    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.windowToken, 0)
                     mPrefs.edit()
                         .putString(getString(R.string.sp_name), patientName)
                         .apply()
                 }
-
-        }
-
-        rootView.patient_password.setOnFocusChangeListener { v: View, hasFocus: Boolean ->
-            if (hasFocus && patientPasswordEnabled) {
-                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT)
-            } else {
-                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(v.windowToken, 0)
-                mPrefs.edit()
-                    .putString(getString(R.string.sp_password), patientPassword)
-                    .apply()
-
-            }
-
-        }
-
-        with(mPrefs.edit()) {
-            putBoolean(getString(R.string.sp_password_enabled), false)
-            commit()
-        }
-
-        rootView.patient_password_switch.setOnCheckedChangeListener { _, b ->
-            mPrefs.edit()
-                .putBoolean(getString(R.string.sp_password_enabled), b)
-                .apply()
-
-            rootView.patient_password.inputType = if (b) {
-                81
-            } else {
-                0       // Disabled
-            }
-
-            if (rootView.patient_password.requestFocus()) {
-                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-            }
 
         }
 
