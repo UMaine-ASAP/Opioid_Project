@@ -47,16 +47,12 @@ class NameDialogFragment : DialogFragment() {
 
     companion object {
 
-        /**
-         * Create a new instance of MyDialogFragment, providing "num"
-         * as an argument.
-         */
         internal fun newInstance(): NameDialogFragment {
             return NameDialogFragment()
         }
     }
 
     interface OnNameChangeListener {
-        abstract fun nameChanged(newName: String)
+        fun nameChanged(newName: String)
     }
 }
