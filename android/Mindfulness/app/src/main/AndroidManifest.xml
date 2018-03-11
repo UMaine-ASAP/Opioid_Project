@@ -3,6 +3,7 @@
     package="com.asap.mindfulness">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -60,7 +61,14 @@
             android:label="@string/title_activity_user"
             android:parentActivityName=".ParentActivity"
             android:theme="@style/AppTheme" />
-        <receiver android:name=".Notifications.QuoteNotification" />
+        <receiver android:name=".Notifications.NotificationHandler" />
+        <receiver
+            android:name=".Notifications.NotificationBootHandler"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

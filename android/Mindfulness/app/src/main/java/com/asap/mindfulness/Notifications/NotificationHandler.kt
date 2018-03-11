@@ -5,13 +5,8 @@ import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
 import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationManagerCompat
 import android.util.Log
 import com.asap.mindfulness.QuoteActivity
 
@@ -26,7 +21,7 @@ import java.util.*
  * This class makes heavy use of the [NotificationCompat.Builder] helper
  * class to create notifications in a backward-compatible way.
  */
-class QuoteNotification : BroadcastReceiver() {
+class NotificationHandler : BroadcastReceiver() {
 
     /**
      * Pick a random quote and display it as a notification when the broadcast is received
@@ -65,16 +60,16 @@ class QuoteNotification : BroadcastReceiver() {
             // Schedule notifications
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val alarmIntent = PendingIntent.getBroadcast(context, REQUEST_CODE,
-                    Intent(context, QuoteNotification::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+                    Intent(context, NotificationHandler::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
             val prefs = context.getSharedPreferences(context.getString(R.string.sp_file_key), Context.MODE_PRIVATE)
 
             val cal = Calendar.getInstance()
             with(cal) {
                 timeInMillis = System.currentTimeMillis()
                 set(Calendar.HOUR_OF_DAY,
-                        prefs.getInt(context.getString(R.string.sp_notification_hour), 11))
+                        prefs.getInt(context.getString(R.string.sp_notification_hour), 8))
                 set(Calendar.MINUTE,
-                        prefs.getInt(context.getString(R.string.sp_notification_minute), 54))
+                        prefs.getInt(context.getString(R.string.sp_notification_minute), 0))
             }
 
             alarmManager.setInexactRepeating(AlarmManager.RTC, cal.timeInMillis,
@@ -188,7 +183,7 @@ class QuoteNotification : BroadcastReceiver() {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             // Rebuild the PendingIntent for the notification's alarm
             val alarmIntent = PendingIntent.getBroadcast(context, REQUEST_CODE,
-                    Intent(context, QuoteNotification::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+                    Intent(context, NotificationHandler::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
             // Cancel the scheduled alarm
             alarmManager.cancel(alarmIntent)
         }

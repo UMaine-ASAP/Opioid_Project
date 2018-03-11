@@ -14,7 +14,6 @@ import retrofit2.Response
 import android.view.View
 import android.content.SharedPreferences
 import android.support.v4.app.NavUtils
-import com.asap.mindfulness.Notifications.QuoteNotification
 import com.asap.mindfulness.SQLite.DatabaseClass
 import com.asap.mindfulness.SQLite.SQLManager
 import com.transitionseverywhere.*
@@ -141,8 +140,6 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun refreshFields() {
-        QuoteNotification.scheduleNotifications(this)
-
         val prefsEditor = mPrefs.edit()
 
         // Get days passed since start date

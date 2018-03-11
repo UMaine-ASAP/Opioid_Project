@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.util.Log
 import com.asap.mindfulness.IntroductionActivity
+import com.asap.mindfulness.Notifications.NotificationHandler
 import com.asap.mindfulness.R
 import com.asap.mindfulness.SQLite.SQLManager
 import kotlinx.android.synthetic.main.activity_setup.*
@@ -168,6 +169,17 @@ class  SetupActivity : AppCompatActivity() {
             Log.d("SetupActivity", R.mipmap.google_favicon.toString())
             Log.d("SetupActivity", R.mipmap.wikipedia_favicon.toString())
         }
+
+        // Create notification settings
+        with (mPreferences) {
+            putBoolean(getString(R.string.sp_notification_enabled), true)
+            putInt(getString(R.string.sp_notification_hour), 8)
+            putInt(getString(R.string.sp_notification_minute), 0)
+            commit()
+        }
+
+        // Schedule notifications
+        NotificationHandler.scheduleNotifications(this)
     }
 
     private fun scrollUser() : Boolean {
