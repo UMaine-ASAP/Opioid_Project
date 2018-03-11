@@ -108,8 +108,8 @@ class  SetupActivity : AppCompatActivity() {
                 }
             } else {
                 if (scrollPatient()) {
-                    val main = Intent(this, QuoteActivity::class.java)
-                    startActivity(main)
+                    val intro = Intent(this, IntroductionActivity::class.java)
+                    startActivity(intro)
                 }
             }
         }
