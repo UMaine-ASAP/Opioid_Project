@@ -67,6 +67,8 @@
     <string name="bottom_nav_tracks">Exercises</string>
     <string name="bottom_nav_resources">Resources</string>
     <string name="title_activity_setup">Setup</string>
+    <string name="parent_intro_snack">"You can access the introduction again in the resources tab!"</string>
+    <string name="parent_intro_action">Resources</string>
 
     <!-- Media -->
     <string name="media_timer">%1$d:%2$02d  /  %3$d:%4$02d</string>

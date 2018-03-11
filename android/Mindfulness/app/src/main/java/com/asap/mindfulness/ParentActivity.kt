@@ -99,9 +99,11 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         }
 
         if (intent.hasExtra(EXTRA_INTRO_FLAG)) {
-            Snackbar.make(container,
-                    "You can access the introduction again in the resources tab!",
-                    Snackbar.LENGTH_LONG)
+            val snack = Snackbar.make(container,
+                            R.string.parent_intro_snack,
+                            Snackbar.LENGTH_LONG)
+            snack.setAction(R.string.parent_intro_action, { _ -> run {container.currentItem = 2} })
+            snack.show()
         }
     }
 
