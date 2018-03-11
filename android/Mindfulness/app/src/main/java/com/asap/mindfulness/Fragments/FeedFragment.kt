@@ -87,8 +87,10 @@ class FeedFragment : Fragment() {
 
         // Get days passed since start date
         val daysPassed = mPrefs.getInt(getString(R.string.sp_days_passed), 0)
+        var daysText = UserActivity.convertNum(daysPassed)
+        daysText = daysText.substring(0, 1).toUpperCase() + daysText.substring(1)
         feedItems.add(FeedItem(getString(R.string.feed_progress_top),
-                getString(R.string.feed_progress_bottom, daysPassed + 1), FeedItem.PROGRESS, openUserFragment))
+                getString(R.string.feed_progress_bottom, daysText), FeedItem.PROGRESS, openUserFragment))
 
         // Get date of the most recent survey
         val lastSurveyDate = mPrefs.getLong(getString(R.string.sp_last_survey_date), -1L)

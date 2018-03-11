@@ -38,75 +38,77 @@ class UserActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * A recursive helper function to convert a number to its word counterpart
-     * @param number The number to be converted
-     * @return The string describing the number in english
-     */
-    fun convertNum(number: Int): String {
-        if (number < 20) {
-            return when (number) {
-                0 -> "zero"
-                1 -> "one"
-                2 -> "two"
-                3 -> "three"
-                4 -> "four"
-                5 -> "five"
-                6 -> "six"
-                7 -> "seven"
-                8 -> "eight"
-                9 -> "nine"
-                10 -> "ten"
-                11 -> "eleven"
-                12 -> "twelve"
-                13 -> "thirteen"
-                14 -> "fourteen"
-                15 -> "fifteen"
-                16 -> "sixteen"
-                17 -> "seventeen"
-                18 -> "eighteen"
-                19 -> "nineteen"
-                else -> "none"
+    companion object {
+        /**
+         * A recursive helper function to convert a number to its word counterpart
+         * @param number The number to be converted
+         * @return The string describing the number in english
+         */
+        fun convertNum(number: Int): String {
+            if (number < 20) {
+                return when (number) {
+                    0 -> "zero"
+                    1 -> "one"
+                    2 -> "two"
+                    3 -> "three"
+                    4 -> "four"
+                    5 -> "five"
+                    6 -> "six"
+                    7 -> "seven"
+                    8 -> "eight"
+                    9 -> "nine"
+                    10 -> "ten"
+                    11 -> "eleven"
+                    12 -> "twelve"
+                    13 -> "thirteen"
+                    14 -> "fourteen"
+                    15 -> "fifteen"
+                    16 -> "sixteen"
+                    17 -> "seventeen"
+                    18 -> "eighteen"
+                    19 -> "nineteen"
+                    else -> "none"
+                }
             }
+
+            if (number < 100) {
+                // Separate the number into a tens place and a ones place
+                val tens = number / 10      // 19 < tens < 100
+                val ones = number % 10      // 0 < ones < 10
+
+                val tenString = when (tens) {
+                    2 -> "twenty"
+                    3 -> "thirty"
+                    4 -> "forty"
+                    5 -> "fifty"
+                    6 -> "sixty"
+                    7 -> "seventy"
+                    8 -> "eighty"
+                    9 -> "ninety"
+                    else -> "nonety"
+                }
+
+                // As long as the ones place isn't zero, return tenString-oneString
+                return if (ones > 0) {
+                    tenString + "-" + convertNum(ones)
+                } else {
+                    tenString
+                }
+            }
+
+            if (number < 1000) {
+                // Separate the number into a hundreds place and a remainder
+                val hund = number / 100     // 99 < hund < 1000
+                val rem = number % 100      // 0 < rem < 100
+
+                return if (rem > 0) {
+                    convertNum(hund) + " hundred " + convertNum(rem)
+                } else {
+                    convertNum(hund) + " hundred"
+                }
+            }
+
+            else return "Hopefully this will never show up"
         }
-
-        if (number < 100) {
-            // Separate the number into a tens place and a ones place
-            val tens = number / 10      // 19 < tens < 100
-            val ones = number % 10      // 0 < ones < 10
-
-            val tenString = when (tens) {
-                2 -> "twenty"
-                3 -> "thirty"
-                4 -> "forty"
-                5 -> "fifty"
-                6 -> "sixty"
-                7 -> "seventy"
-                8 -> "eighty"
-                9 -> "ninety"
-                else -> "nonety"
-            }
-
-            // As long as the ones place isn't zero, return tenString-oneString
-            return if (ones > 0) {
-                tenString + "-" + convertNum(ones)
-            } else {
-                tenString
-            }
-        }
-
-        if (number < 1000) {
-            // Separate the number into a hundreds place and a remainder
-            val hund = number / 100     // 99 < hund < 1000
-            val rem = number % 100      // 0 < rem < 100
-
-            return if (rem > 0) {
-                convertNum(hund) + " hundred " + convertNum(rem)
-            } else {
-                convertNum(hund) + " hundred"
-            }
-        }
-
-        else return "Hopefully this will never show up"
     }
 }
