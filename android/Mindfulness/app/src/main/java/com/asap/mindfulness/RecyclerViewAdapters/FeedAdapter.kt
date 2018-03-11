@@ -1,6 +1,7 @@
 package com.asap.mindfulness.RecyclerViewAdapters
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,7 @@ class FeedAdapter(private val track: Track,
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        when (holder?.itemViewType) {
+        when (getItemViewType(position)) {
             TRACK -> {
                 val card = holder as Track.Holder
                 card.populate(track)
@@ -66,7 +67,6 @@ class FeedAdapter(private val track: Track,
             0 -> TRACK
             1 -> FEED
             2 -> FEED
-            3 -> RESOURCE
             else -> RESOURCE
         }
     }
