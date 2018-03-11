@@ -1,6 +1,5 @@
 package com.asap.mindfulness.Setup
 
-import android.app.job.JobScheduler
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -13,15 +12,11 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.util.Log
 import com.asap.mindfulness.IntroductionActivity
-import com.asap.mindfulness.Notifications.NotificationScheduler
-import com.asap.mindfulness.ParentActivity
-import com.asap.mindfulness.QuoteActivity
 import com.asap.mindfulness.R
 import com.asap.mindfulness.SQLite.SQLManager
 import kotlinx.android.synthetic.main.activity_setup.*
 import kotlinx.android.synthetic.main.fragment_setup_patient.*
 import kotlinx.android.synthetic.main.fragment_setup_user.*
-import kotlinx.android.synthetic.main.fragment_setup_user.view.*
 import java.util.*
 
 /**
@@ -113,8 +108,6 @@ class  SetupActivity : AppCompatActivity() {
                 }
             }
         }
-
-        NotificationScheduler.scheduleNotifications(this)
 
         //Setting the date the user starts treatment
         val today: Long = Date().time

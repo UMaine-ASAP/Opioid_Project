@@ -14,7 +14,7 @@ import retrofit2.Response
 import android.view.View
 import android.content.SharedPreferences
 import android.support.v4.app.NavUtils
-import com.asap.mindfulness.Notifications.NotificationScheduler
+import com.asap.mindfulness.Notifications.QuoteNotification
 import com.asap.mindfulness.SQLite.DatabaseClass
 import com.asap.mindfulness.SQLite.SQLManager
 import com.transitionseverywhere.*
@@ -132,7 +132,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun grabNewQuote() : Int {
-        var nextQuote = -1
+        var nextQuote: Int
 
         do {
             nextQuote = Random().nextInt(quotesList.size)
@@ -144,7 +144,8 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun refreshFields() {
-        NotificationScheduler.scheduleNotifications(this)
+
+        QuoteNotification.scheduleNotifications(this)
 
         val prefsEditor = mPrefs.edit()
 
@@ -167,15 +168,23 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         }
         prefsEditor.putInt(getString(R.string.sp_tracks_current), currentTrack)
 
-        val currentSurvey = when (weekNum) {
-            // 0 -> TODO: Enrollment survey here
-            // 8 -> TODO: Final survey here
+        val currentSurvey = when {
+            // weekNum == 0 -> TODO: Enrollment survey here
+            // weekNum == 8 -> TODO: Final survey here
+            weekNum > 8 -> "No survey to take!"
             else -> "https://survey.emhs.org/TakeSurvey.aspx?SurveyID=92KLl682M"
         }
+
         prefsEditor.putString(getString(R.string.sp_last_survey_link), currentSurvey)
         // Set the survey assignment date at the start of the week, relative to when the user first
         // enrolled
-        prefsEditor.putLong(getString(R.string.sp_last_survey_date), weekNum * 7 + startDate)
+        prefsEditor.putLong(
+                getString(R.string.sp_last_survey_date),
+                if (currentSurvey == "No Survey to take!") {
+                    -1L
+                } else {
+                    weekNum * 7 + startDate
+                })
 
         prefsEditor.apply()
     }

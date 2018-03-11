@@ -43,7 +43,8 @@
     <!-- Notifications -->
     <string name="notify_channel_name">Mindful Thinking</string>
     <string name="notify_channel_desc">Paying attention, on purpose, without judgement, to the present moment.</string>
-    <string name="notify_reminder_title">Keeping Mindful</string>
+    <string name="notify_quote_summary">Quote from %s</string>
+    <string name="notify_quote_label">Keeping Mindful</string>
 
     <!-- Quotes -->
     <string name="title_activity_quotes">Mindful Quotes</string>
@@ -94,5 +95,7 @@
 
     <!-- Resources -->
     <string name="survey_link">https://survey.emhs.org/TakeSurvey.aspx?SurveyID=92KLl682M</string>
+
+    <string name="quote_notification_title_template">Quote: %1$s</string>
 
 </resources>
