@@ -107,16 +107,17 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
         }
     }
 
-//    override fun onNewIntent(intent: Intent?) {
-//        super.onNewIntent(intent)
-//
-//        /* Grab the destined page from the intent.
-//         * If the intent is null, set the page to 0 (the feed)
-//         * If the extra doesn't exist, set the page to 0
-//         */
-//        val flipPage = intent?.getIntExtra(EXTRA_PAGE, 0) ?: 0
-//        container.currentItem = flipPage
-//    }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        /*
+         * Grab the destined page from the intent.
+         * If the intent is null, set the page to 0 (the feed)
+         * If the extra doesn't exist, set the page to 0
+         */
+        val flipPage = intent?.getIntExtra(EXTRA_PAGE, 0) ?: 0
+        container.currentItem = flipPage
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
