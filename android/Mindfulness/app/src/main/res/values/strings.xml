@@ -60,7 +60,7 @@
         <item quantity="one">You\'ve listened through %s session</item>
         <item quantity="other">You\'ve listened through %s sessions</item>
     </plurals>
-    <string name="user_progress_tracks_none">You haven\'t listened to any sessions yet</string>
+    <string name="user_progress_tracks_none">You haven\'t listened through any sessions yet</string>
 
     <!-- Parent -->
     <string name="bottom_nav_feed">Feed</string>
