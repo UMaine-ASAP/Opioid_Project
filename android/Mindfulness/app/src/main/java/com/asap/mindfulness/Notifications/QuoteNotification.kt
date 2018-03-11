@@ -179,5 +179,18 @@ class QuoteNotification : BroadcastReceiver() {
                     .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.cancel(NOTIFICATION_CHANNEL.hashCode())
         }
+
+        /**
+         * Cancels future scheduled notifications
+         */
+        fun cancelScheduled(context: Context) {
+            // Get the system AlarmManager
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            // Rebuild the PendingIntent for the notification's alarm
+            val alarmIntent = PendingIntent.getBroadcast(context, REQUEST_CODE,
+                    Intent(context, QuoteNotification::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+            // Cancel the scheduled alarm
+            alarmManager.cancel(alarmIntent)
+        }
     }
 }
