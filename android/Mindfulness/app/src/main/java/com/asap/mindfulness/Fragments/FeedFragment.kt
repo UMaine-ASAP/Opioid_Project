@@ -140,7 +140,7 @@ class FeedFragment : Fragment() {
             } else {
                 feedItems.add(FeedItem(
                         getString(R.string.feed_no_survey_top),
-                        getString(R.string.feed_no_survey_bottom),
+                        "",
                         FeedItem.SURVEY,
                         object : View.OnClickListener {
                             override fun onClick(p0: View?) {

@@ -98,7 +98,8 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
             startActivity(intent)
         }
 
-        if (intent.hasExtra(EXTRA_INTRO_FLAG)) {
+        val firstLaunch = intent.getBooleanExtra(EXTRA_INTRO_FLAG, false)
+        if (firstLaunch) {
             val snack = Snackbar.make(container,
                             R.string.parent_intro_snack,
                             Snackbar.LENGTH_LONG)

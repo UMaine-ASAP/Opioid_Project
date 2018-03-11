@@ -95,8 +95,7 @@
     <string name="feed_progress_bottom">To Day %s</string>
     <string name="feed_survey_top">Take Survey</string>
     <string name="feed_survey_bottom">(%1$s %2$d)</string>
-    <string name="feed_no_survey_top">No Surveys</string>
-    <string name="feed_no_survey_bottom">Today!</string>
+    <string name="feed_no_survey_top">No Surveys Today!</string>
 
     <!-- Tracks -->
     <string name="track_no_title">Exercise Not Found</string>

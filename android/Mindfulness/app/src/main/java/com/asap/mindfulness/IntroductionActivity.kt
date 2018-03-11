@@ -66,9 +66,10 @@ class IntroductionActivity : AppCompatActivity() {
             intro_next.setOnClickListener(
                 if (page == pageTitles.size - 1) object: View.OnClickListener {
                     override fun onClick(v: View?) {
-                        val main = Intent(this@IntroductionActivity, ParentActivity::class.java)
-                        main.putExtra(ParentActivity.EXTRA_INTRO_FLAG, true)
-                        startActivity(main)
+                        val quotes = Intent(this@IntroductionActivity, QuoteActivity::class.java)
+                        quotes.putExtra(QuoteActivity.EXTRA_INTRO_FLAG, true)
+                        quotes.putExtra(QuoteActivity.MODE, QuoteActivity.MODE_LOADING)
+                        startActivity(quotes)
                     }
                 } else object: View.OnClickListener {
                     override fun onClick(v: View?) {

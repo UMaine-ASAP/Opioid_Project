@@ -29,16 +29,15 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         const val MODE_LOADING = 0
         const val MODE_MEDIA = 1
         const val MODE_BROWSER = 2
+        const val EXTRA_INTRO_FLAG = "extra_intro"
     }
 
     var isDoneSending = false
-
     lateinit var mPrefs: SharedPreferences
-
     var deviceId = ""
-
     var mode: Int = 0
 
+    private var firstLaunch: Boolean = false
     lateinit var quotesList: Array<String>
     lateinit var quotesListCredits: Array<String>
     val quotesUsed = KotlinList<Int>()
@@ -52,6 +51,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_quote)
 
         mode = intent.getIntExtra(MODE, 0)
+        firstLaunch = intent.getBooleanExtra(EXTRA_INTRO_FLAG, false)
 
         mPrefs = getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
 
@@ -107,7 +107,8 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         view_quote.setOnClickListener(when(mode) {
             MODE_LOADING -> { _: View? ->
                 if(isDoneSending) {
-                    val intent = Intent(baseContext, ParentActivity::class.java)
+                    val intent = Intent(this, ParentActivity::class.java)
+                    intent.putExtra(ParentActivity.EXTRA_INTRO_FLAG, firstLaunch)
                     startActivity(intent)
                 }
             }
