@@ -89,7 +89,7 @@
     <string name="track_rating_submit">Submit</string>
 
     <!-- Feed -->
-    <string name="feed_no_top">No Top Text</string>
+    <string name="feed_no_top">No Survey Today</string>
     <string name="feed_no_bottom">No Bottom Text</string>
     <string name="feed_progress_top">Welcome</string>
     <string name="feed_progress_bottom">To Day %s</string>

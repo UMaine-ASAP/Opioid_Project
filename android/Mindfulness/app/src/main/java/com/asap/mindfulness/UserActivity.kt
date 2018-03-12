@@ -21,6 +21,7 @@ class UserActivity : AppCompatActivity(), NameDialogFragment.OnNameChangeListene
 
     lateinit var mPrefs: SharedPreferences
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
@@ -60,6 +61,12 @@ class UserActivity : AppCompatActivity(), NameDialogFragment.OnNameChangeListene
         }
 
         user_notifications_switch.isChecked = mPrefs.getBoolean(getString(R.string.sp_notification_enabled), true)
+        user_notifications_enabled.text = if (user_notifications_switch.isChecked) {
+            getString(R.string.user_notify_enabled)
+        } else {
+            getString(R.string.user_notify_disabled)
+        }
+
         user_notifications_switch.setOnClickListener { _ ->
             TransitionManager.beginDelayedTransition(user_views)
             if (user_notifications_switch.isChecked) {
