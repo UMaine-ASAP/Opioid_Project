@@ -20,7 +20,7 @@
 
     <EditText
         android:id="@+id/user_name_edit"
-        android:background="@drawable/round_edit_text"
+        android:theme="@style/ColoredEditText"
         android:layout_width="200dp"
         android:layout_marginTop="16dp"
         android:layout_height="wrap_content"

@@ -35,6 +35,7 @@
         android:hint="@string/setup_name_hint"
         android:inputType="textCapWords"
         android:textAlignment="center"
+        android:theme="@style/ColoredEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"

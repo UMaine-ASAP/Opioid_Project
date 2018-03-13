@@ -19,6 +19,11 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ColoredEditText" parent="Widget.AppCompat.EditText">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+    </style>
+
     <style name="TimePickerDialogStyle">
         <item name="android:windowBackground">?android:attr/colorBackground</item>
         <item name="android:windowContentOverlay">@null</item>
