@@ -152,7 +152,7 @@ class MediaActivity : AppCompatActivity(), CompletionHandler {
 
     fun openRatingFrag(){
         val fm = supportFragmentManager
-        val editNameDialogFragment = RatingFragment.newInstance("How was this exercise?", mTrack.index, this, this)
+        val editNameDialogFragment = RatingFragment.newInstance(mTrack.index, this, this)
         editNameDialogFragment.show(fm,"dialog")
     }
 

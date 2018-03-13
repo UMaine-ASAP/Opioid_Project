@@ -38,8 +38,6 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
 
     private lateinit var completionHandler: CompletionHandler
 
-    // TODO: Rename and change types of parameters
-    private var prompt: String = "How would you rate that exercise?"
     private var resourceId: Int = -1
 
     lateinit var mPrefs: SharedPreferences
@@ -56,10 +54,7 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        //promtTextView.text = prompt
         val rootView = inflater!!.inflate(R.layout.fragment_rating, container, false)
-        ViewCompat.setElevation(rootView, 8f)
 
         return rootView
     }
@@ -71,7 +66,6 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
         deviceId =  mPrefs.getString(getString(R.string.sp_study_id), "None")
 
         submitButton.setOnClickListener(this)
-        promptTextView.text = prompt
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -122,9 +116,8 @@ class RatingFragment : DialogFragment(), View.OnClickListener {
     }
 
     companion object {
-        fun newInstance(p: String, r: Int, completionHandler: CompletionHandler, context: Context): RatingFragment {
+        fun newInstance(r: Int, completionHandler: CompletionHandler, context: Context): RatingFragment {
             val fragment = RatingFragment()
-            fragment.prompt = p
             fragment.resourceId = r
             fragment.completionHandler = completionHandler
             fragment.thiContext = context
