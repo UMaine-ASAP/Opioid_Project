@@ -21,16 +21,6 @@
         android:layout_height="match_parent">
 
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            card_view:srcCompat="@android:color/white" />
-
         <TextView
             android:id="@+id/track_title"
             android:layout_width="wrap_content"
@@ -76,11 +66,11 @@
             android:textAlignment="center"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/track_time"
-            app:layout_constraintEnd_toEndOf="@+id/imageView2"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bar"
             app:layout_constraintVertical_bias="0.504" />
 
@@ -115,7 +105,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bar"
             app:layout_constraintVertical_bias="0.628"
-            card_view:layout_constraintBottom_toBottomOf="@+id/imageView2" />
+            card_view:layout_constraintBottom_toBottomOf="parent" />
 
 
     </android.support.constraint.ConstraintLayout>
