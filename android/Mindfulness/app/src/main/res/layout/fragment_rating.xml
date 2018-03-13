@@ -24,10 +24,10 @@
 
     <TextView
         android:id="@+id/promptTextView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/track_rating_prompt"
         android:textAlignment="center"
@@ -43,7 +43,7 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/round_button"
         android:text="@string/track_rating_submit"
