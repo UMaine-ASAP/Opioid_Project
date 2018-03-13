@@ -58,7 +58,7 @@
         <item quantity="one">You\'ve been making progress for %s day</item>
         <item quantity="other">You\'ve been making progress for %s days</item>
     </plurals>
-    <string name="user_progress_days_none">Welcome to day one of mindfulness</string>
+    <string name="user_progress_days_none">Welcome to day one of mindfulness.</string>
     <plurals name="user_progress_tracks">
         <item quantity="one">You\'ve listened through %s session</item>
         <item quantity="other">You\'ve listened through %s sessions</item>

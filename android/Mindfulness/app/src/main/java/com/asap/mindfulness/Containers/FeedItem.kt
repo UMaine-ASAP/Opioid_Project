@@ -27,7 +27,11 @@ class FeedItem(val line1: String, val line2: String, val type: Int, val onClickL
 
         fun populate(item: FeedItem, listener: OnNavigationRequestListener?) {
             top.text = item.line1
-            bottom.text = item.line2
+            if (item.line2 == "") {
+                bottom.visibility = View.GONE
+            } else {
+                bottom.text = item.line2
+            }
             itemView.setOnClickListener(item.onClickListener)
 
             // TODO: Set up listener to navigate the parent to a specific page
