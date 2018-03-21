@@ -141,7 +141,7 @@ app.post('/audio_history', function (req, res) {
   var table = ["audio_report", req.body.device_id, req.body.track_number, req.body.completion_status, req.body.creation_date];
 
   db.get().query(query, table, function(err, rows) {
-    if(err){ 
+    if(err){
     	console.log(err);
     	return res.status(400).send({"error": true});
     }
@@ -164,7 +164,7 @@ app.post('/survey', function (req, res) {
   var table = ["survey_responces", req.body.device_id, req.body.resource_id, req.body.creation_date, req.body.rating];
 
   db.get().query(query, table, function(err, rows) {
-    if(err){ 
+    if(err){
     	console.log(err);
     	return res.status(400).send({"error": true});
     }
@@ -226,7 +226,7 @@ var genReport = (type, callback) => {
 
         // Reformate rows
         for (let i = 0; i < rows.length; i++) {
-          data.push([rows[i].id, rows[i].user_id, rows[i].track_number, rows[i].completion_status, ""+rows[i].creation_date]);
+          data.push([rows[i].id, rows[i].device_id, rows[i].track_number, rows[i].completion_status, ""+rows[i].creation_date]);
         }
       } else if (type = 'survey') {
         columns = {
@@ -239,7 +239,7 @@ var genReport = (type, callback) => {
 
         // Reformate rows
         for (let i = 0; i < rows.length; i++) {
-          data.push([rows[i].id, rows[i].user_id, rows[i].resource_id, rows[i].rating, ""+rows[i].creation_date]);
+          data.push([rows[i].id, rows[i].device_id, rows[i].resource_id, rows[i].rating, ""+rows[i].creation_date]);
         }
       }
 

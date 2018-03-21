@@ -103,7 +103,9 @@ var report = (req, method, type, callback) => {
     let data = false;
     try {
       data = JSON.parse(body);
-    } catch (e) {}
+    } catch (e) {
+      callback({error: true, messege: "Invalid API response"});
+    }
     if (err) { // if err, report it, otherwise continue
       return callback({error: true, messege: err});
     } else if(data && data.error) {
