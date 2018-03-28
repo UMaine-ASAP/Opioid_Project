@@ -193,7 +193,7 @@ app.get('/survey/report/:type', (req, res) => {
       return res.send({error: true, messege: 'Invalid URL'});
     }
   } else {
-    return res.send({error: true, messege: "You must send your Auth token to gain access"});
+    return res.send({error: true, messege: "Auth token is missing"});
   }
 });
 
@@ -203,8 +203,10 @@ var genReport = (type, callback) => {
 
   if (type == 'audio') {
     table = "audio_report";
-  } else if (type = 'survey') {
+  } else if (type == 'survey') {
     table = "survey_responces";
+  } else if (type == "account") {
+    table = "admin";
   }
 
   // Get report from database
@@ -215,32 +217,50 @@ var genReport = (type, callback) => {
       // Set up data array
       let data = [];
       let columns = {};
-      if (type == 'audio') {
-        columns = {
-          id: 'ID',
-          user_id: 'User ID',
-          track_number: 'Track Number',
-          completion_status: 'Completion Status',
-          date: 'Date Created'
-        };
+      switch (type) {
+        case 'audio':
+          columns = {
+            id: 'ID',
+            user_id: 'User ID',
+            track_number: 'Track Number',
+            completion_status: 'Completion Status',
+            date: 'Date Created'
+          };
+          console.log('audio reporting');
 
-        // Reformate rows
-        for (let i = 0; i < rows.length; i++) {
-          data.push([rows[i].id, rows[i].device_id, rows[i].track_number, rows[i].completion_status, ""+rows[i].creation_date]);
-        }
-      } else if (type = 'survey') {
-        columns = {
-          id: 'ID',
-          user_id: 'User ID',
-          resource_id: 'Resource ID',
-          rating: 'Rating',
-          date: 'Date Created'
-        };
+          // Reformate rows
+          for (let i = 0; i < rows.length; i++) {
+            data.push([rows[i].id, rows[i].device_id, rows[i].track_number, rows[i].completion_status, ""+rows[i].creation_date]);
+          }
+          break;
+        case 'survey':
+          columns = {
+            id: 'ID',
+            user_id: 'User ID',
+            resource_id: 'Resource ID',
+            rating: 'Rating',
+            date: 'Date Created'
+          };
+          console.log('survey reporting');
+          console.log('type: ' + type);
 
-        // Reformate rows
-        for (let i = 0; i < rows.length; i++) {
-          data.push([rows[i].id, rows[i].device_id, rows[i].resource_id, rows[i].rating, ""+rows[i].creation_date]);
-        }
+          // Reformate rows
+          for (let i = 0; i < rows.length; i++) {
+            data.push([rows[i].id, rows[i].device_id, rows[i].resource_id, rows[i].rating, ""+rows[i].creation_date]);
+          }
+          break;
+        case 'account':
+          columns = {
+            id: 'ID',
+            username: 'Username',
+            head: 'Is Head'
+          }
+          console.log('account reporting');
+          // Reformate rows
+          for (let i = 0; i < rows.length; i++) {
+            data.push([rows[i].id, rows[i].username, rows[i].head_admin]);
+          }
+          break;
       }
 
       csv(data, { header: true, columns: columns }, (err, output) => {
@@ -251,3 +271,25 @@ var genReport = (type, callback) => {
     }
   })
 }
+
+app.post('/user/:method', (req, res) => {
+  // PRE: Client must send their token to gain access
+  if (req.body.token) {
+    switch (req.params.method) {
+      case 'get':
+        // Send admin accounts back
+        genReport('account', (data) => {
+          res.json(data);
+        });
+        break;
+      case 'update':
+        // Change admin's privileges
+        break;
+      case 'remove':
+        // Remove account
+        break;
+    }
+  } else {
+    return res.send({error: true, messege: "Auth token is missing"});
+  }
+});
