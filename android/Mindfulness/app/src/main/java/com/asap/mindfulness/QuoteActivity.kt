@@ -143,7 +143,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
     private fun refreshFields() {
         val prefsEditor = mPrefs.edit()
 
-        // Get days passed since start date
+        // Get days passed since start date (starts at daysPassed = 1)
         val startDate = mPrefs.getLong(getString(R.string.sp_start_date), 0)
 //        val daysPassed: Int = ((Date().time - startDate) / 1000 / 60 / 60 / 24 + 1).toInt()
         val daysPassed = daysBetween(Date(startDate), Date()) + 1
@@ -162,25 +162,47 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
         }
         prefsEditor.putInt(getString(R.string.sp_tracks_current), currentTrack)
 
-        val currentSurvey = when {
-            // weekNum == 0 -> TODO: Enrollment survey here
-            // weekNum == 8 -> TODO: Final survey here
-            weekNum > 8 -> "No survey to take!"
-            else -> "https://survey.emhs.org/TakeSurvey.aspx?SurveyID=92KLl682M"
+        val lastSurvey = mPrefs.getInt(getString(R.string.sp_last_survey_num), 0)
+        var newSurveyAssigned = mPrefs.getBoolean(getString(R.string.sp_new_survey), false)
+        // We don't wanna run this if a new survey is already being assigned
+        if (!newSurveyAssigned) {
+            val newSurvey = if (daysPassed > 59 && lastSurvey == 9) {
+                newSurveyAssigned = true
+                10
+            } else if (daysPassed >= lastSurvey * 7) {
+                newSurveyAssigned = true
+                lastSurvey + 1
+            } else {
+                lastSurvey
+            }
+
+            val surveyType = when (newSurvey) {
+                1 -> 0
+                in 2..9 -> 1
+                10 -> 2
+                else -> -1
+            }
+
+            val currentSurvey = when (surveyType) {
+                0 -> "https://survey.emhs.org/TakeSurvey.aspx?SurveyID=l6K379mL2"
+                1 -> "https://survey.emhs.org/TakeSurvey.aspx?SurveyID=92KLl682M"
+                2 -> "https://survey.emhs.org/TakeSurvey.aspx?SurveyID=l6K37l2L2"
+                else -> "No Survey to take!"
+            }
+
+            if (newSurveyAssigned) {
+                prefsEditor.putString(getString(R.string.sp_last_survey_link), currentSurvey)
+                // Set the survey assignment date at the start of the week, relative to when the user first
+                // enrolled
+                prefsEditor.putLong(
+                        getString(R.string.sp_last_survey_date),
+                        Date().time)
+                prefsEditor.putBoolean(
+                        getString(R.string.sp_new_survey),
+                        newSurveyAssigned)
+                prefsEditor.apply()
+            }
         }
-
-        prefsEditor.putString(getString(R.string.sp_last_survey_link), currentSurvey)
-        // Set the survey assignment date at the start of the week, relative to when the user first
-        // enrolled
-        prefsEditor.putLong(
-                getString(R.string.sp_last_survey_date),
-                if (currentSurvey == "No Survey to take!") {
-                    -1L
-                } else {
-                    weekNum * 7 + startDate
-                })
-
-        prefsEditor.apply()
     }
 
     fun updateServer() {

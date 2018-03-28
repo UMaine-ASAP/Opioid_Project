@@ -1,6 +1,9 @@
 package com.asap.mindfulness
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 
 import android.support.v4.app.Fragment
@@ -100,11 +103,31 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
 
         val firstLaunch = intent.getBooleanExtra(EXTRA_INTRO_FLAG, false)
         if (firstLaunch) {
-            val snack = Snackbar.make(container,
+            val snack = Snackbar.make(
+                            container,
                             R.string.parent_intro_snack,
                             Snackbar.LENGTH_LONG)
             snack.setAction(R.string.parent_intro_action, { _ -> run {container.currentItem = 2} })
             snack.show()
+        }
+
+        val prefs = getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
+        val newSurvey = prefs.getBoolean(getString(R.string.sp_new_survey), false)
+        val currentSurvey = prefs.getString(getString(R.string.sp_last_survey_link), "")
+
+        if (newSurvey) {
+            val snack = Snackbar.make(
+                    container,
+                    getString(R.string.survey_new_notify),
+                    Snackbar.LENGTH_INDEFINITE)
+            snack.setAction(getString(R.string.survey_new_launch), {
+                with (prefs.edit()) {
+                    putBoolean(getString(R.string.sp_new_survey), false)
+                    .apply()
+                }
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(currentSurvey))
+                startActivity(intent)
+            })
         }
     }
 
