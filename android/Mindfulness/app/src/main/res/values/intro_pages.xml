@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="intro_page_titles">
+        <item>Mindfulness is&#8230;</item>
         <item>Mindfulness is not&#8230;</item>
         <item>When trying these exercises&#8230;</item>
-        <item>The “Seven Essentials” of Mindfulness</item>
-        <item>Five Common Challenges in Mindfulness</item>
+        <item>The “7 Essentials” of Mindfulness</item>
+        <item>5 Common Challenges in Mindfulness</item>
     </string-array>
     <string-array name="intro_pages">
+        <item>
+            <![CDATA[ <b>
+
+            <font color=#009688>About safety.</font> having a safe place
+            to be in your own mind and body<br><br>
+
+            <font color=#009688>About taking care of yourself.</font>
+            Studies show people who
+            practice mindfulness are
+            healthier in many ways<br><br>
+
+            <font color=#009688>A skill you can learn</font> that helps
+            you feel more comfortable with
+            whatever you’re experiencing in
+            the present and strengthens your
+            attention and focus<br><br>
+
+            <font color=#009688>A way to gain greater control</font>
+            over the activity of your mind by
+            observing it and creating a space
+            to think before acting<br><br>
+
+            <font color=#009688>About acceptance.</font> Learning to
+            notice and accept what is actually
+            happening in your mind and body
+            with no negative self judgment<br><br>
+
+            <font color=#009688>Different for everyone.</font> Your
+            experience of mindfulness is
+            unique<br><br>
+
+            </b> ]]>
+        </item>
         <item>
             <![CDATA[ <b>
 

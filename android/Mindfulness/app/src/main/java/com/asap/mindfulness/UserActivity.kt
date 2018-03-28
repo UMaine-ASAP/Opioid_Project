@@ -17,6 +17,10 @@ import com.asap.mindfulness.Fragments.NameDialogFragment
 import com.asap.mindfulness.Notifications.NotificationBootHandler
 
 
+fun main(args: Array<String>) {
+    println(UserActivity.convertNum(1))
+}
+
 class UserActivity : AppCompatActivity(), NameDialogFragment.OnNameChangeListener {
 
     lateinit var mPrefs: SharedPreferences
@@ -59,6 +63,21 @@ class UserActivity : AppCompatActivity(), NameDialogFragment.OnNameChangeListene
         } else {
             getString(R.string.user_progress_tracks_none)
         }
+
+        // Grab time stuff
+        val h = mPrefs.getInt(getString(R.string.sp_notification_hour), 8)
+        val m = mPrefs.getInt(getString(R.string.sp_notification_minute), 0)
+
+        val amPM: String
+        val h12 = if (h < 12) {
+            amPM = "am"
+            h
+        } else {
+            amPM = "pm "
+            h - 12
+        }
+
+        user_notifications_time_picker.text = String.format("%d:%02d %s", h12, m, amPM)
 
         user_notifications_switch.isChecked = mPrefs.getBoolean(getString(R.string.sp_notification_enabled), true)
         user_notifications_enabled.text = if (user_notifications_switch.isChecked) {
