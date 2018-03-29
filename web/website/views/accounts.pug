@@ -2,12 +2,11 @@ extends layout
 
 block content
   page
-    p Welcome, #{username}!
     cards
       card
-        name View Logs
-        desc Click the button below to view and download both audio and survey logs of the users.
-        a(href="/reports") View!
+        name Manage Admin accounts
+        desc View current admin accounts, edit privileges and remove accounts.
+        a(href="/accounts/manage") Manage!
       card
         name Add Admins
         desc Create new administrator accounts by filling out this form.

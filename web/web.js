@@ -8,6 +8,11 @@ const https = require('https');
 const fs = require('fs');
 const app = express();
 
+////     SETTINGS    ////
+const HTTPS = false;
+const API_URL = "http://localhost:4300"; //https://emac.asap.um.maine.edu:1337";
+//// END OF SETTINGS ////
+
 // Setting up page renderer
 app.set('views', path.join(__dirname, 'website/views'));
 app.set('view engine', 'pug');
@@ -38,6 +43,7 @@ app.get('/', function (req, res) {
   }
 });
 
+// Page for managing reports
 app.get('/reports', (req, res) => {
   if (req.session.token) { // redirect if no access token
     res.render('reports', {subtitle: 'Reports', token: true});
@@ -48,23 +54,29 @@ app.get('/reports', (req, res) => {
 
 app.post('/reports', (req, res) => {
   if (req.session.token) { // redirect if no access token
+    // Detect is the user is viewing or downloading the content
     if (req.body.method == "view") {
+      // Get different reports based off the type
       switch (req.body.type) {
         case "audio":
+          // Use the general purpose "report" function to grab the CSV file from the API
           report(req, req.body.method, req.body.type, (data) => {
             if (data.error) {
               res.render('viewReport', {subtitle: 'View Report - Error', token: true, data: data.messege});
             } else {
+              // Convert the CSV file into HTML
               let table = csvToHTML(data.data.toString('utf8'));
               res.render('viewReport', {subtitle: 'Audio Report', token: true, data: table});
             }
           });
           break;
         case "survey":
+          // Get the CSV file from the API
           report(req, req.body.method, req.body.type, (data) => {
             if (data.error) {
               res.render('viewReport', {subtitle: 'View Report - Error', token: true, data: data.messege});
             } else {
+              // Convert CSV to HTML and display.
               let table = csvToHTML(data.data.toString('utf8'));
               res.render('viewReport', {subtitle: 'Survey Report', token: true, data: table});
             }
@@ -99,26 +111,49 @@ var report = (req, method, type, callback) => {
     token:req.session.token
   }
   // sending data to API
-  request.get('https://emac.asap.um.maine.edu:1337/survey/report/'+type, { form: newForm }, function(err, resp, body) {
-    let data = false;
-    try {
-      data = JSON.parse(body);
-    } catch (e) {
-      callback({error: true, messege: "Invalid API response"});
-    }
-    if (err) { // if err, report it, otherwise continue
-      return callback({error: true, messege: err});
-    } else if(data && data.error) {
-      return callback({error: true, messege: data.messege});
-    } else {
+  if (type != 'account') {
+    request.get(API_URL + '/survey/report/'+type, { form: newForm }, function(err, resp, body) {
+      let data = false;
       try {
-        let buff = new Buffer(data.buffer);
-        return callback({error: false, data: buff});
+        data = JSON.parse(body);
       } catch (e) {
-        return callback({error: true, messege: e});
+        callback({error: true, messege: "Invalid API response"});
       }
-    }
-  });
+      if (err) { // if err, report it, otherwise continue
+        return callback({error: true, messege: err});
+      } else if(data && data.error) {
+        return callback({error: true, messege: data.messege});
+      } else {
+        try {
+          let buff = new Buffer(data.buffer);
+          return callback({error: false, data: buff});
+        } catch (e) {
+          return callback({error: true, messege: e});
+        }
+      }
+    });
+  } else if (type == 'account') {
+    request.post(API_URL + '/user/'+method, { form: newForm }, function(err, resp, body) {
+      let data = false;
+      try {
+        data = JSON.parse(body);
+      } catch (e) {
+        callback({error: true, messege: "Invalid API response"});
+      }
+      if (err) { // if err, report it, otherwise continue
+        return callback({error: true, messege: err});
+      } else if(data && data.error) {
+        return callback({error: true, messege: data.messege});
+      } else {
+        try {
+          let buff = new Buffer(data.buffer);
+          return callback({error: false, data: buff});
+        } catch (e) {
+          return callback({error: true, messege: e});
+        }
+      }
+    });
+  }
 }
 
 /* Converts CSV given from API to a table */
@@ -181,7 +216,7 @@ app.post('/login', function (req, res){
       password: req.body.password
     }
     // sending data to API
-    request.post('https://emac.asap.um.maine.edu:1337/user/login', { form: newForm }, function(err, resp, body) {
+    request.post(API_URL + '/user/login', { form: newForm }, function(err, resp, body) {
       let data = JSON.parse(body);
       if (err) { // if err, report it, otherwise continue
         res.render('login', {subtitle: 'Login', error: err});
@@ -200,11 +235,19 @@ app.get('/accounts', function (req, res){
   if (!req.session.token) { // redirect if no access token
     res.redirect('/');
   } else {
+    res.render('accounts', {subtitle: 'Accounts', error: '', token: true});
+  }
+});
+
+app.get('/accounts/add', function (req, res){
+  if (!req.session.token) { // redirect if no access token
+    res.redirect('/');
+  } else {
     res.render('register', {subtitle: 'Add Account', error: '', token: true});
   }
 });
 
-app.post('/accounts', function (req, res){
+app.post('/accounts/add', function (req, res){
   if (!req.session.token) { // redirect if no access token
     res.redirect('/');
   } else {
@@ -222,7 +265,7 @@ app.post('/accounts', function (req, res){
         password: req.body.password
       }
       // send to API
-      request.post('https://emac.um.maine.edu:1337/user/create', { form: newForm }, function(err, resp, body) {
+      request.post(API_URL + '/user/create', { form: newForm }, function(err, resp, body) {
         let data = JSON.parse(body);
         if (err) {
           res.render('register', {subtitle: 'Add Account', error: err, token: true});
@@ -233,6 +276,23 @@ app.post('/accounts', function (req, res){
         }
       });
     }
+  }
+});
+
+// Page for managing accounts
+app.get('/accounts/manage', (req, res) => {
+  if (req.session.token) { // redirect if no access token
+    report(req, 'get', 'account', (data) => {
+      if (data.error) {
+        res.render('manage', {subtitle: 'Manage Accounts - Error', token: true, data: data.messege});
+      } else {
+        // Convert CSV to HTML and display.
+        let table = csvToHTML(data.data.toString('utf8'));
+        res.render('manage', {subtitle: 'Manage Accounts', token: true, data: table});
+      }
+    });
+  } else {
+    res.redirect('/login');
   }
 });
 
@@ -279,34 +339,28 @@ app.use(function (err, req, res, next) {
     });
 });
 
-//app.listen(80);
+if (HTTPS) {
 
-/* Setup Green-Lock for SSL Cert */
+  // Setup for SSL Cert
+  app.set('port', 443);
 
-//require('greenlock-express').create({
-//  server: 'staging',
-//  email: 'dylan.bulmer@maine.edu',
-//  agreeTos: true,
-//  approveDomains: [ 'emac.asap.um.maine.edu' ],
-//  app: app
-//}).listen(443);
-var port = 443;
-app.set('port', port);
+  /* Grab the Certifications */
+  var key = fs.readFileSync('/var/www/Opioid/Opioid_Project/web/private.key');
+  var cert = fs.readFileSync( '/var/www/Opioid/Opioid_Project/web/certificate.crt' );
+  var options = {
+    key: key,
+    cert: cert,
+    ca: [
+      fs.readFileSync('/var/www/Opioid/Opioid_Project/web/isgrootx1.pem'),
+      fs.readFileSync('/var/www/Opioid/Opioid_Project/web/lets-encrypt-x3-cross-signed.pem')
+    ]
+  };
 
-var key = fs.readFileSync('/var/www/Opioid/Opioid_Project/web/private.key');
-var cert = fs.readFileSync( '/var/www/Opioid/Opioid_Project/web/certificate.crt' );
+  // Serve The Server over 443
+  var server = https.createServer(options, app);
 
-
-var options = {
-  key: key,
-  cert: cert,
-  ca: [
-    fs.readFileSync('/var/www/Opioid/Opioid_Project/web/isgrootx1.pem'),
-    fs.readFileSync('/var/www/Opioid/Opioid_Project/web/lets-encrypt-x3-cross-signed.pem')
-  ]
-};
-
-
-var server = https.createServer(options, app);
-
-server.listen(port);
+  server.listen(app.get('port'));
+} else {
+  // Serve the server over 80
+  app.listen(80);
+}

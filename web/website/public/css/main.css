@@ -105,7 +105,7 @@ opt > span > form {
   display: inline-block;
 }
 
-opt > span > form > button {
+opt > span > form > button, opt > span > a {
   vertical-align: middle;
   display: inline-block;
   padding: 18px;
@@ -114,9 +114,10 @@ opt > span > form > button {
   background-color: #009688;
   margin: 0;
   border: 0;
+  text-decoration: none;
 }
 
-opt > span > form > button:hover {
+opt > span > form > button:hover, opt > span > a:hover {
   background-color: #00776c;
   cursor: pointer;
 }
