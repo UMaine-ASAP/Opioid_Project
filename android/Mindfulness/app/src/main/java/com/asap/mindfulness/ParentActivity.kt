@@ -78,6 +78,7 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
             }
         })
 
+        /** Set the bottom nav bar to control the current page **/
         bottom_nav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.bottom_nav_feed -> {
@@ -101,23 +102,14 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
             startActivity(intent)
         }
 
-        val firstLaunch = intent.getBooleanExtra(EXTRA_INTRO_FLAG, false)
-        if (firstLaunch) {
-            val snack = Snackbar.make(
-                            container,
-                            R.string.parent_intro_snack,
-                            Snackbar.LENGTH_LONG)
-            snack.setAction(R.string.parent_intro_action, { _ -> run {container.currentItem = 2} })
-            snack.show()
-        }
-
+        /** Display Snackbar if the user has a new survey **/
         val prefs = getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE)
         val newSurvey = prefs.getBoolean(getString(R.string.sp_new_survey), false)
         val currentSurvey = prefs.getString(getString(R.string.sp_last_survey_link), "")
 
         if (newSurvey) {
             val snack = Snackbar.make(
-                    container,
+                    snackbar_anchor,
                     getString(R.string.survey_new_notify),
                     Snackbar.LENGTH_INDEFINITE)
             snack.setAction(getString(R.string.survey_new_launch), {
@@ -128,6 +120,18 @@ class ParentActivity : AppCompatActivity(), OnNavigationRequestListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(currentSurvey))
                 startActivity(intent)
             })
+            snack.show()
+        }
+
+        /** Display first launch Snackbar **/
+        val firstLaunch = intent.getBooleanExtra(EXTRA_INTRO_FLAG, false)
+        if (firstLaunch) {
+            val snack = Snackbar.make(
+                    snackbar_anchor,
+                    R.string.parent_intro_snack,
+                    Snackbar.LENGTH_LONG)
+            snack.setAction(R.string.parent_intro_action, { _ -> run {container.currentItem = 2} })
+            snack.show()
         }
     }
 

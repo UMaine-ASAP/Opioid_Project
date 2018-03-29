@@ -89,11 +89,6 @@ class FeedFragment : Fragment() {
             }
         }
 
-        // Get days passed since start date
-        val daysPassed = mPrefs.getInt(getString(R.string.sp_days_passed), 0)
-        var daysText = UserActivity.convertNum(daysPassed)
-        daysText = daysText.substring(0, 1).toUpperCase() + daysText.substring(1)
-
         rootView.feed_recycler.adapter = FeedAdapter(track, feedItems, resources)
                 .attachOnNavigationRequestListener(mListener)
         // Create grid layout for Cards
@@ -118,6 +113,11 @@ class FeedFragment : Fragment() {
          * SnackBars
          */
         if (feedItems.isEmpty()) {
+            // Get days passed since start date
+            val daysPassed = mPrefs.getInt(getString(R.string.sp_days_passed), 0)
+            var daysText = UserActivity.convertNum(daysPassed)
+            daysText = daysText.substring(0, 1).toUpperCase() + daysText.substring(1)
+
             feedItems.add(FeedItem(getString(R.string.feed_progress_top),
                     getString(R.string.feed_progress_bottom, daysText), FeedItem.PROGRESS, openUserFragment))
 
