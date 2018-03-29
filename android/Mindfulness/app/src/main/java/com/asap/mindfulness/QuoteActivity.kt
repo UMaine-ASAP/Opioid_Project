@@ -199,7 +199,7 @@ class QuoteActivity : AppCompatActivity(), View.OnClickListener {
                         Date().time)
                 prefsEditor.putBoolean(
                         getString(R.string.sp_new_survey),
-                        newSurveyAssigned)
+                        true)
                 prefsEditor.apply()
             }
         }

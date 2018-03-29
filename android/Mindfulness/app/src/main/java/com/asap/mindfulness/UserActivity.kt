@@ -17,10 +17,6 @@ import com.asap.mindfulness.Fragments.NameDialogFragment
 import com.asap.mindfulness.Notifications.NotificationBootHandler
 
 
-fun main(args: Array<String>) {
-    println(UserActivity.convertNum(1))
-}
-
 class UserActivity : AppCompatActivity(), NameDialogFragment.OnNameChangeListener {
 
     lateinit var mPrefs: SharedPreferences
@@ -155,30 +151,28 @@ class UserActivity : AppCompatActivity(), NameDialogFragment.OnNameChangeListene
          * @return The string describing the number in english
          */
         fun convertNum(number: Int): String {
-            if (number < 20) {
-                return when (number) {
-                    0 -> "zero"
-                    1 -> "one"
-                    2 -> "two"
-                    3 -> "three"
-                    4 -> "four"
-                    5 -> "five"
-                    6 -> "six"
-                    7 -> "seven"
-                    8 -> "eight"
-                    9 -> "nine"
-                    10 -> "ten"
-                    11 -> "eleven"
-                    12 -> "twelve"
-                    13 -> "thirteen"
-                    14 -> "fourteen"
-                    15 -> "fifteen"
-                    16 -> "sixteen"
-                    17 -> "seventeen"
-                    18 -> "eighteen"
-                    19 -> "nineteen"
-                    else -> "none"
-                }
+            if (number < 20) return when (number) {
+                0 -> "zero"
+                1 -> "one"
+                2 -> "two"
+                3 -> "three"
+                4 -> "four"
+                5 -> "five"
+                6 -> "six"
+                7 -> "seven"
+                8 -> "eight"
+                9 -> "nine"
+                10 -> "ten"
+                11 -> "eleven"
+                12 -> "twelve"
+                13 -> "thirteen"
+                14 -> "fourteen"
+                15 -> "fifteen"
+                16 -> "sixteen"
+                17 -> "seventeen"
+                18 -> "eighteen"
+                19 -> "nineteen"
+                else -> "none"
             }
 
             if (number < 100) {
@@ -206,19 +200,20 @@ class UserActivity : AppCompatActivity(), NameDialogFragment.OnNameChangeListene
                 }
             }
 
-            if (number < 1000) {
+            return if (number < 1000) {
                 // Separate the number into a hundreds place and a remainder
                 val hund = number / 100     // 99 < hund < 1000
                 val rem = number % 100      // 0 < rem < 100
 
-                return if (rem > 0) {
+                if (rem > 0) {
                     convertNum(hund) + " hundred " + convertNum(rem)
                 } else {
                     convertNum(hund) + " hundred"
                 }
             }
-
-            else return "Hopefully this will never show up"
+            else {
+                "Hopefully this will never show up"
+            }
         }
     }
 }
