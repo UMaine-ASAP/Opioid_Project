@@ -205,8 +205,6 @@ var genReport = (type, callback) => {
     table = "audio_report";
   } else if (type == 'survey') {
     table = "survey_responces";
-  } else if (type == "account") {
-    table = "admin";
   }
 
   // Get report from database
@@ -249,18 +247,6 @@ var genReport = (type, callback) => {
             data.push([rows[i].id, rows[i].device_id, rows[i].resource_id, rows[i].rating, ""+rows[i].creation_date]);
           }
           break;
-        case 'account':
-          columns = {
-            id: 'ID',
-            username: 'Username',
-            head: 'Is Head'
-          }
-          console.log('account reporting');
-          // Reformate rows
-          for (let i = 0; i < rows.length; i++) {
-            data.push([rows[i].id, rows[i].username, rows[i].head_admin]);
-          }
-          break;
       }
 
       csv(data, { header: true, columns: columns }, (err, output) => {
@@ -278,8 +264,12 @@ app.post('/user/:method', (req, res) => {
     switch (req.params.method) {
       case 'get':
         // Send admin accounts back
-        genReport('account', (data) => {
-          res.json(data);
+        db.get().query('SELECT id, username, head_admin FROM admin', (err, rows) => {
+          if(err){
+            return callback({"error": true, messege: err});
+          } else {
+            res.json(rows);
+          }
         });
         break;
       case 'update':

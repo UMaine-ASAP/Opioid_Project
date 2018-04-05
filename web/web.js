@@ -9,8 +9,8 @@ const fs = require('fs');
 const app = express();
 
 ////     SETTINGS    ////
-const HTTPS = false;
-const API_URL = "http://localhost:4300"; //https://emac.asap.um.maine.edu:1337";
+const HTTPS = true;
+const API_URL = "https://emac.asap.um.maine.edu:1337"; //"http://localhost:4300";
 //// END OF SETTINGS ////
 
 // Setting up page renderer
@@ -113,27 +113,6 @@ var report = (req, method, type, callback) => {
   // sending data to API
   if (type != 'account') {
     request.get(API_URL + '/survey/report/'+type, { form: newForm }, function(err, resp, body) {
-      let data = false;
-      try {
-        data = JSON.parse(body);
-      } catch (e) {
-        callback({error: true, messege: "Invalid API response"});
-      }
-      if (err) { // if err, report it, otherwise continue
-        return callback({error: true, messege: err});
-      } else if(data && data.error) {
-        return callback({error: true, messege: data.messege});
-      } else {
-        try {
-          let buff = new Buffer(data.buffer);
-          return callback({error: false, data: buff});
-        } catch (e) {
-          return callback({error: true, messege: e});
-        }
-      }
-    });
-  } else if (type == 'account') {
-    request.post(API_URL + '/user/'+method, { form: newForm }, function(err, resp, body) {
       let data = false;
       try {
         data = JSON.parse(body);
@@ -282,12 +261,20 @@ app.post('/accounts/add', function (req, res){
 // Page for managing accounts
 app.get('/accounts/manage', (req, res) => {
   if (req.session.token) { // redirect if no access token
-    report(req, 'get', 'account', (data) => {
+
+    adminManage(req, 'get', (data) => {
       if (data.error) {
         res.render('manage', {subtitle: 'Manage Accounts - Error', token: true, data: data.messege});
       } else {
-        // Convert CSV to HTML and display.
-        let table = csvToHTML(data.data.toString('utf8'));
+        let table = "";
+        for (let i = 0; i < data.data.length; i++) {
+          table += "<opt class='admin'><span style='width: calc(50% - 40px); text-align: left;'>";
+          table += "<name class='info'>" + data.data[i].id + "</name>";
+          table += "<name class='info'>" + data.data[i].username + "</name>";
+          table += "<name class='info'>" + (data.data[i].head_admin ? "True" : "False") + "</name></span>";
+          table += "<span><a onclick=''>Edit</a><a onclick='' class='danger'>Remove</a></span></opt>"
+        }
+
         res.render('manage', {subtitle: 'Manage Accounts', token: true, data: table});
       }
     });
@@ -295,6 +282,57 @@ app.get('/accounts/manage', (req, res) => {
     res.redirect('/login');
   }
 });
+
+// Page for editing an account
+app.get('/accounts/manage/:id', (req, res) => {
+  if (req.session.token) { // redirect if no access token
+
+    adminManage(req, 'get', (data) => {
+      if (data.error) {
+        res.render('manage', {subtitle: 'Manage Accounts - Error', token: true, data: data.messege});
+      } else {
+        let table = "";
+        for (let i = 0; i < data.data.length; i++) {
+          table += "<opt class='admin'><span style='width: calc(50% - 40px); text-align: left;'>";
+          table += "<name class='info'>" + data.data[i].id + "</name>";
+          table += "<name class='info'>" + data.data[i].username + "</name>";
+          table += "<name class='info'>" + (data.data[i].head_admin ? "True" : "False") + "</name></span>";
+          table += "<span><a onclick=''>Edit</a><a onclick='' class='danger'>Remove</a></span></opt>"
+        }
+
+        res.render('manage', {subtitle: 'Manage Accounts', token: true, data: table});
+      }
+    });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+const adminManage = (req, method, callback) => {
+  // Send data
+  let newForm = {
+    token:req.session.token
+  }
+  // Send post request to server
+  request.post(API_URL + '/user/'+method, { form: newForm }, function(err, resp, body) {
+    let data = false;
+    // try to gather data if it is there
+    try {
+      data = JSON.parse(body);
+    } catch (e) {
+      return callback({error: true, messege: "Invalid API response"});
+    }
+    // if err, report it, otherwise continue
+    if (err) {
+      return callback({error: true, messege: err});
+    } else if(data && data.error) {
+      return callback({error: true, messege: data.messege});
+    } else {
+      // If everything is all good continue
+      return callback({error: false, data: data});
+    }
+  });
+}
 
 app.get('/logout', (req, res) => {
   if (req.session.token) { // redirect if no access token
