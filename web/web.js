@@ -9,8 +9,8 @@ const fs = require('fs');
 const app = express();
 
 ////     SETTINGS    ////
-const HTTPS = true;
-const API_URL = "https://emac.asap.um.maine.edu:1337"; //"http://localhost:4300";
+const HTTPS = false;
+const API_URL = "http://localhost:4300"; // "https://emac.asap.um.maine.edu:1337"; //
 //// END OF SETTINGS ////
 
 // Setting up page renderer
@@ -272,7 +272,7 @@ app.get('/accounts/manage', (req, res) => {
           table += "<name class='info'>" + data.data[i].id + "</name>";
           table += "<name class='info'>" + data.data[i].username + "</name>";
           table += "<name class='info'>" + (data.data[i].head_admin ? "True" : "False") + "</name></span>";
-          table += "<span><a onclick=''>Edit</a><a onclick='' class='danger'>Remove</a></span></opt>"
+          table += "<span><a href='/accounts/manage/" + data.data[i].id + "'>Edit</a><a onclick='' class='danger'>Remove</a></span></opt>";
         }
 
         res.render('manage', {subtitle: 'Manage Accounts', token: true, data: table});
@@ -287,31 +287,60 @@ app.get('/accounts/manage', (req, res) => {
 app.get('/accounts/manage/:id', (req, res) => {
   if (req.session.token) { // redirect if no access token
 
-    adminManage(req, 'get', (data) => {
+    adminManage(req, 'edit', (data) => {
       if (data.error) {
-        res.render('manage', {subtitle: 'Manage Accounts - Error', token: true, data: data.messege});
+        res.render('edit', {subtitle: 'Manage Accounts - Error', token: true, data: data.messege});
       } else {
-        let table = "";
-        for (let i = 0; i < data.data.length; i++) {
-          table += "<opt class='admin'><span style='width: calc(50% - 40px); text-align: left;'>";
-          table += "<name class='info'>" + data.data[i].id + "</name>";
-          table += "<name class='info'>" + data.data[i].username + "</name>";
-          table += "<name class='info'>" + (data.data[i].head_admin ? "True" : "False") + "</name></span>";
-          table += "<span><a onclick=''>Edit</a><a onclick='' class='danger'>Remove</a></span></opt>"
-        }
-
-        res.render('manage', {subtitle: 'Manage Accounts', token: true, data: table});
+        res.render('edit', {subtitle: 'Manage Accounts', token: true, data: data.data});
       }
-    });
+    }, req.params.id);
   } else {
     res.redirect('/login');
   }
 });
 
-const adminManage = (req, method, callback) => {
+// Page for editing an account
+app.post('/accounts/manage/:id', (req, res) => {
+  if (req.session.token) { // redirect if no access token
+
+    // Tesing the data
+    console.log(req.body);
+    if (req.body.password === req.body.confirm_password) {
+      // if passwords match send data
+
+      // form must go [username, head_admin, password]
+      // Password set to false if it is left blank
+      let form = {
+        username: req.body.username,
+        head_admin: (req.body.head_admin == "on") ? 1 : 0,
+        password: (req.body.password != "") ? req.body.password : false
+      };
+
+      // send to server
+      adminManage(req, 'update', (data) => {
+        console.log(data);
+        if (data.error) {
+          res.render('edit', {subtitle: 'Manage Accounts - Error', token: true, data: {}, error: data.messege});
+        } else {
+          res.render('edit', {subtitle: 'Manage Accounts', token: true, data: data.data});
+        }
+      }, req.params.id, form);
+    } else {
+      adminManage(req, 'edit', (data) => {
+        res.render('edit', {subtitle: 'Manage Accounts - Error', token: true, data: data.data, error: "Passwords do not match!"});
+      }, req.params.id);
+    }
+  } else {
+    res.redirect('/login');
+  }
+});
+
+const adminManage = (req, method, callback, id, form) => {
   // Send data
   let newForm = {
-    token:req.session.token
+    token:req.session.token,
+    id: id || null,
+    form: form || null
   }
   // Send post request to server
   request.post(API_URL + '/user/'+method, { form: newForm }, function(err, resp, body) {

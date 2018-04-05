@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    page
+        form(action="" method="POST")
+            h1 Edit User
+            br
+            err(style="color: #f00; font-size: 0.9em; text-align: center; display: block;") #{error}
+            br
+            span(style="display: inline-block; width: calc(80% - 1em - 12px); margin: 5px 10% 5px 10%;")
+              h3 Basic Account Info
+              br
+              | Username:
+            input(placeholder="Username" name="username" value=data.username autofocus)
+            br
+            span(style="display: inline-block; width: calc(80% - 1em - 12px); margin: 5px 10% 5px 10%;") Is a head admin?
+              - var check = (data.head_admin == 1) ? true : false;
+              input(type="checkbox" name="head_admin" checked=check style="width: auto; margin-left: 10px;")
+              br
+              br
+              h3 Change password
+              i(style="font-size: 12px") Leave blank if you don't want to change passwords
+            br
+            input(type="password" name="password" placeholder="Password")
+            input(type="password" name="confirm_password" placeholder="Confirm Password")
+            span(style="display: block; text-align: right;")
+              a(style="display: inline-block; background-color: #555555; color: #ffffff; width: calc(100px - 12px); margin: 5px 10px 5px 0; font-size: 16px; padding: 5px; text-align: center; text-decoration: none; vertical-align: middle;" href="/accounts/manage") Back
+              input(type="submit" value="Update" style="display: inline-block; background-color: #555555; color: #ffffff; width: 100px; height: 31px; font-size: 16px; padding: 6px; margin: 5px calc(10% + 10px) 5px 0; vertical-align: middle;")

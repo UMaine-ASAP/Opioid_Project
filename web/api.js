@@ -95,7 +95,7 @@ app.post('/user/login', function(req, res) {
     if (!bcrypt.compareSync(req.body.password , user.password) ) {
       return res.status(400).send({"error": true, "messege": "The username or password don't match"});
     }
-    res.send({
+    return res.send({
       id_token: createToken(user)
     });
   });
@@ -118,7 +118,7 @@ app.post('/register_device', function (req, res) {
 
   db.get().query(query, table, function(err, rows) {
     if(err){ return res.status(400).send({"error": true});}
-      res.send({"error": false});
+      return res.send({"error": false});
   });
 });
 
@@ -129,9 +129,9 @@ app.get('/register_device/:device_id', function (req, res) {
   db.get().query(query, table, function(err, rows) {
     if(err){ return res.status(400).send({"error": true});}
     if(rows.length <= 0){
-      res.send({"exists": false});
+      return res.send({"exists": false});
     }else{
-      res.send({"exists": true});
+      return res.send({"exists": true});
     }
   });
 });
@@ -145,7 +145,7 @@ app.post('/audio_history', function (req, res) {
     	console.log(err);
     	return res.status(400).send({"error": true});
     }
-      res.send({"error": false});
+      return res.send({"error": false});
   });
 });
 
@@ -155,7 +155,7 @@ app.get('/audio_history/:device_id', function (req, res) {
 
   db.get().query(query, table, function(err, rows) {
     if(err){ return res.status(400).send({"error": true});}
-    res.send(rows);
+    return res.send(rows);
   });
 });
 
@@ -168,7 +168,7 @@ app.post('/survey', function (req, res) {
     	console.log(err);
     	return res.status(400).send({"error": true});
     }
-      res.send({"error": false});
+      return res.send({"error": false});
   });
 });
 
@@ -178,7 +178,7 @@ app.get('/survey/:device_id', function (req, res) {
 
   db.get().query(query, table, function(err, rows) {
     if(err){ return res.status(400).send({"error": true});}
-    res.send(rows);
+    return res.send(rows);
   });
 });
 
@@ -187,7 +187,7 @@ app.get('/survey/report/:type', (req, res) => {
   if (req.body.token) {
     if (req.params.type == 'audio' || req.params.type == 'survey') {
       genReport(req.params.type, (data) => {
-        res.json(data);
+        return res.json(data);
       });
     } else {
       return res.send({error: true, messege: 'Invalid URL'});
@@ -266,14 +266,47 @@ app.post('/user/:method', (req, res) => {
         // Send admin accounts back
         db.get().query('SELECT id, username, head_admin FROM admin', (err, rows) => {
           if(err){
-            return callback({"error": true, messege: err});
+            return res.json({"error": true, messege: err});
           } else {
-            res.json(rows);
+            return res.json(rows);
+          }
+        });
+        break;
+      case 'edit':
+        // get one account
+        db.get().query('SELECT id, username, head_admin FROM admin WHERE id = ' + req.body.id, (err, rows) => {
+          if(err){
+            return res.json({"error": true, messege: err});
+          } else {
+            return res.json(rows[0]);
           }
         });
         break;
       case 'update':
         // Change admin's privileges
+        let user = req.body.form;
+        if (req.body.password) {
+
+        } else {
+          db.get().query("UPDATE `admin` SET username='"+user.username+"', head_admin="+user.head_admin+" WHERE id=" + req.body.id, (err, result) => {
+            if(err){
+              console.log(err);
+              try {
+                return res.json({"error": true, messege: err.sqlMessage});
+              } catch (e) {
+                return console.log(e);
+              }
+            } else {
+              db.get().query('SELECT id, username, head_admin FROM admin WHERE id = ' + req.body.id, (err, rows) => {
+                if(err){
+                  return res.json({"error": true, messege: err});
+                } else {
+                  return res.json(rows[0]);
+                }
+              });
+            }
+          });
+        }
         break;
       case 'remove':
         // Remove account
