@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 // Main page
 app.get('/', function (req, res) {
   if (req.session.token) { // redirect if no access token
-    res.render('dashboard', {subtitle: 'Dashboard', token: true, username: req.session.username});
+    res.render('dashboard', {subtitle: 'Dashboard', head: req.session.head_admin, token: true, username: req.session.username});
   } else {
     res.redirect('/login');
   }
@@ -46,7 +46,7 @@ app.get('/', function (req, res) {
 // Page for managing reports
 app.get('/reports', (req, res) => {
   if (req.session.token) { // redirect if no access token
-    res.render('reports', {subtitle: 'Reports', token: true});
+    res.render('reports', {subtitle: 'Reports', head: req.session.head_admin, token: true});
   } else {
     res.redirect('/login');
   }
@@ -62,11 +62,11 @@ app.post('/reports', (req, res) => {
           // Use the general purpose "report" function to grab the CSV file from the API
           report(req, req.body.method, req.body.type, (data) => {
             if (data.error) {
-              res.render('viewReport', {subtitle: 'View Report - Error', token: true, data: data.messege});
+              res.render('viewReport', {subtitle: 'View Report - Error', head: req.session.head_admin, token: true, data: data.message});
             } else {
               // Convert the CSV file into HTML
               let table = csvToHTML(data.data.toString('utf8'));
-              res.render('viewReport', {subtitle: 'Audio Report', token: true, data: table});
+              res.render('viewReport', {subtitle: 'Audio Report', head: req.session.head_admin, token: true, data: table});
             }
           });
           break;
@@ -74,21 +74,21 @@ app.post('/reports', (req, res) => {
           // Get the CSV file from the API
           report(req, req.body.method, req.body.type, (data) => {
             if (data.error) {
-              res.render('viewReport', {subtitle: 'View Report - Error', token: true, data: data.messege});
+              res.render('viewReport', {subtitle: 'View Report - Error', head: req.session.head_admin, token: true, data: data.message});
             } else {
               // Convert CSV to HTML and display.
               let table = csvToHTML(data.data.toString('utf8'));
-              res.render('viewReport', {subtitle: 'Survey Report', token: true, data: table});
+              res.render('viewReport', {subtitle: 'Survey Report', head: req.session.head_admin, token: true, data: table});
             }
           });
           break;
         default:
-          res.render('viewReport', {subtitle: 'View Report - Error', token: true});
+          res.render('viewReport', {subtitle: 'View Report - Error', head: req.session.head_admin, token: true});
       }
     } else {
       report(req, req.body.method, req.body.type, (data) => {
         if (data.error) {
-          res.render('viewReport', {subtitle: 'View Report - Error', token: true, data: data.messege});
+          res.render('viewReport', {subtitle: 'View Report - Error', head: req.session.head_admin, token: true, data: data.message});
         } else {
           let d = new Date();
           let curr_date = d.getDate();
@@ -117,18 +117,18 @@ var report = (req, method, type, callback) => {
       try {
         data = JSON.parse(body);
       } catch (e) {
-        callback({error: true, messege: "Invalid API response"});
+        callback({error: true, message: "Invalid API response"});
       }
       if (err) { // if err, report it, otherwise continue
-        return callback({error: true, messege: err});
+        return callback({error: true, message: err});
       } else if(data && data.error) {
-        return callback({error: true, messege: data.messege});
+        return callback({error: true, message: data.message});
       } else {
         try {
           let buff = new Buffer(data.buffer);
           return callback({error: false, data: buff});
         } catch (e) {
-          return callback({error: true, messege: e});
+          return callback({error: true, message: e});
         }
       }
     });
@@ -200,10 +200,12 @@ app.post('/login', function (req, res){
       if (err) { // if err, report it, otherwise continue
         res.render('login', {subtitle: 'Login', error: err});
       } else if(data.error) {
-        res.render('login', {subtitle: 'Login', error: data.messege});
+        res.render('login', {subtitle: 'Login', error: data.message});
       } else {
         req.session.token = data.id_token;
         req.session.username = req.body.username;
+        console.log(data);
+        req.session.head_admin = (data.head_admin == 1) ? true : false;
         res.redirect('/');
       }
     });
@@ -213,30 +215,36 @@ app.post('/login', function (req, res){
 app.get('/accounts', function (req, res){
   if (!req.session.token) { // redirect if no access token
     res.redirect('/');
+  } else if (!req.session.head_admin) { // redirect if not head admin
+    res.redirect('/');
   } else {
-    res.render('accounts', {subtitle: 'Accounts', error: '', token: true});
+    res.render('accounts', {subtitle: 'Accounts', head: req.session.head_admin, error: '', token: true});
   }
 });
 
 app.get('/accounts/add', function (req, res){
   if (!req.session.token) { // redirect if no access token
     res.redirect('/');
+  } else if (!req.session.head_admin) { // redirect if not head admin
+    res.redirect('/');
   } else {
-    res.render('register', {subtitle: 'Add Account', error: '', token: true});
+    res.render('register', {subtitle: 'Add Account', head: req.session.head_admin, error: '', token: true});
   }
 });
 
 app.post('/accounts/add', function (req, res){
   if (!req.session.token) { // redirect if no access token
+    res.redirect('/login');
+  } else if (!req.session.head_admin) { // redirect if not head admin
     res.redirect('/');
   } else {
     // Confirming fields are not blank
     if (req.body.username == '' || req.body.password == ''){
-      res.render('register', {subtitle: 'Add Account', error: 'Please enter a username and password!', token: true});
+      res.render('register', {subtitle: 'Add Account', head: req.session.head_admin, error: 'Please enter a username and password!', token: true});
     }
     // Confirming password fields match
     else if (req.body.password != req.body.confirm_password) {
-      res.render('register', {subtitle: 'Add Account', error: 'Passwords do not match!', token: true, username: req.body.username});
+      res.render('register', {subtitle: 'Add Account', head: req.session.head_admin, error: 'Passwords do not match!', token: true, username: req.body.username});
     } else {
       // create form
       let newForm = {
@@ -247,11 +255,11 @@ app.post('/accounts/add', function (req, res){
       request.post(API_URL + '/user/create', { form: newForm }, function(err, resp, body) {
         let data = JSON.parse(body);
         if (err) {
-          res.render('register', {subtitle: 'Add Account', error: err, token: true});
+          res.render('register', {subtitle: 'Add Account', head: req.session.head_admin, error: err, token: true});
         } else if(data.error) {
-          res.render('register', {subtitle: 'Add Account', error: data.messege, token: true});
+          res.render('register', {subtitle: 'Add Account', head: req.session.head_admin, error: data.message, token: true});
         } else {
-          res.render('register', {subtitle: 'Add Account', error: 'Account has been registered!', token: true});
+          res.render('register', {subtitle: 'Add Account', head: req.session.head_admin, error: 'Account has been registered!', token: true});
         }
       });
     }
@@ -261,23 +269,30 @@ app.post('/accounts/add', function (req, res){
 // Page for managing accounts
 app.get('/accounts/manage', (req, res) => {
   if (req.session.token) { // redirect if no access token
+    if (req.session.head_admin) {
+      // User IS a head admin
 
-    adminManage(req, 'get', (data) => {
-      if (data.error) {
-        res.render('manage', {subtitle: 'Manage Accounts - Error', token: true, data: data.messege});
-      } else {
-        let table = "";
-        for (let i = 0; i < data.data.length; i++) {
-          table += "<opt class='admin'><span style='width: calc(50% - 40px); text-align: left;'>";
-          table += "<name class='info'>" + data.data[i].id + "</name>";
-          table += "<name class='info'>" + data.data[i].username + "</name>";
-          table += "<name class='info'>" + (data.data[i].head_admin ? "True" : "False") + "</name></span>";
-          table += "<span><a href='/accounts/manage/" + data.data[i].id + "'>Edit</a><a onclick='' class='danger'>Remove</a></span></opt>";
+      adminManage(req, 'get', (data) => {
+        if (data.error) {
+          res.render('manage', {subtitle: 'Manage Accounts - Error', head: req.session.head_admin, token: true, data: data.message});
+        } else {
+          let table = "";
+          for (let i = 0; i < data.data.length; i++) {
+            table += "<opt class='admin'><span style='width: calc(50% - 40px); text-align: left;'>";
+            table += "<name class='info'>" + data.data[i].id + "</name>";
+            table += "<name class='info'>" + data.data[i].username + "</name>";
+            table += "<name class='info'>" + (data.data[i].head_admin ? "True" : "False") + "</name></span>";
+            table += "<span><a href='/accounts/manage/" + data.data[i].id + "'>Edit</a>"
+            table += "<a href='/accounts/remove/"+data.data[i].id+"' data-confirm='Are you sure to delete this user?' class='danger'>Remove</a></span></opt>";
+          }
+
+          res.render('manage', {subtitle: 'Manage Accounts', head: req.session.head_admin, token: true, data: table});
         }
-
-        res.render('manage', {subtitle: 'Manage Accounts', token: true, data: table});
-      }
-    });
+      });
+    } else {
+      // User IS NOT a head admin
+      res.redirect('/');
+    }
   } else {
     res.redirect('/login');
   }
@@ -286,14 +301,20 @@ app.get('/accounts/manage', (req, res) => {
 // Page for editing an account
 app.get('/accounts/manage/:id', (req, res) => {
   if (req.session.token) { // redirect if no access token
+    if (req.session.head_admin) {
+      // User IS a head admin
 
-    adminManage(req, 'edit', (data) => {
-      if (data.error) {
-        res.render('edit', {subtitle: 'Manage Accounts - Error', token: true, data: data.messege});
-      } else {
-        res.render('edit', {subtitle: 'Manage Accounts', token: true, data: data.data});
-      }
-    }, req.params.id);
+      adminManage(req, 'edit', (data) => {
+        if (data.error) {
+          res.render('edit', {subtitle: 'Manage Accounts - Error', head: req.session.head_admin, token: true, data: data.message});
+        } else {
+          res.render('edit', {subtitle: 'Manage Accounts', head: req.session.head_admin, token: true, data: data.data});
+        }
+      }, req.params.id);
+    } else {
+      // User IS NOT a head admin
+      res.redirect('/');
+    }
   } else {
     res.redirect('/login');
   }
@@ -302,39 +323,68 @@ app.get('/accounts/manage/:id', (req, res) => {
 // Page for editing an account
 app.post('/accounts/manage/:id', (req, res) => {
   if (req.session.token) { // redirect if no access token
+    if (req.session.head_admin) {
+      // User IS a head admin
 
-    // Tesing the data
-    console.log(req.body);
-    if (req.body.password === req.body.confirm_password) {
-      // if passwords match send data
+      // Tesing the data
+      console.log(req.body);
+      if (req.body.password === req.body.confirm_password) {
+        // if passwords match send data
 
-      // form must go [username, head_admin, password]
-      // Password set to false if it is left blank
-      let form = {
-        username: req.body.username,
-        head_admin: (req.body.head_admin == "on") ? 1 : 0,
-        password: (req.body.password != "") ? req.body.password : false
-      };
+        // form must go [username, head_admin, password]
+        // Password set to false if it is left blank
+        let form = {
+          username: req.body.username,
+          head_admin: (req.body.head_admin == "on") ? 1 : 0,
+          password: (req.body.password != "") ? req.body.password : false
+        };
 
-      // send to server
-      adminManage(req, 'update', (data) => {
-        console.log(data);
-        if (data.error) {
-          res.render('edit', {subtitle: 'Manage Accounts - Error', token: true, data: {}, error: data.messege});
-        } else {
-          res.render('edit', {subtitle: 'Manage Accounts', token: true, data: data.data});
-        }
-      }, req.params.id, form);
+        // send to server
+        adminManage(req, 'update', (data) => {
+          console.log(data);
+          if (data.error) {
+            res.render('edit', {subtitle: 'Manage Accounts - Error', head: req.session.head_admin, token: true, data: {}, error: data.message});
+          } else {
+            res.render('edit', {subtitle: 'Manage Accounts', head: req.session.head_admin, token: true, data: data.data, error: "User was updated"});
+          }
+        }, req.params.id, form);
+      } else {
+        adminManage(req, 'edit', (data) => {
+          res.render('edit', {subtitle: 'Manage Accounts - Error', head: req.session.head_admin, token: true, data: data.data, error: "Passwords do not match!"});
+        }, req.params.id);
+      }
     } else {
-      adminManage(req, 'edit', (data) => {
-        res.render('edit', {subtitle: 'Manage Accounts - Error', token: true, data: data.data, error: "Passwords do not match!"});
-      }, req.params.id);
+      // User IS NOT a head admin
+      res.redirect('/');
     }
   } else {
     res.redirect('/login');
   }
 });
 
+// Page for editing an account
+app.get('/accounts/remove/:id', (req, res) => {
+  if (req.session.token) { // redirect if no access token
+    if (req.session.head_admin) {
+      // User IS a head admin
+      adminManage(req, 'remove', (data) => {
+        if (data.error) {
+          console.log(data.message)
+          res.render('manage', {subtitle: 'Manage Accounts - Error', head: req.session.head_admin, token: true, error: data.message});
+        } else {
+          res.redirect('/accounts/manage');
+        }
+      }, req.params.id);
+    } else {
+      // User IS NOT a head admin
+      res.redirect('/');
+    }
+  } else {
+    res.redirect('/login');
+  }
+});
+
+// The all-in-one admin management function! Just send in the parameters needed and you are done!
 const adminManage = (req, method, callback, id, form) => {
   // Send data
   let newForm = {
@@ -349,13 +399,13 @@ const adminManage = (req, method, callback, id, form) => {
     try {
       data = JSON.parse(body);
     } catch (e) {
-      return callback({error: true, messege: "Invalid API response"});
+      return callback({error: true, message: "Invalid API response"});
     }
     // if err, report it, otherwise continue
     if (err) {
-      return callback({error: true, messege: err});
+      return callback({error: true, message: err});
     } else if(data && data.error) {
-      return callback({error: true, messege: data.messege});
+      return callback({error: true, message: data.message});
     } else {
       // If everything is all good continue
       return callback({error: false, data: data});
@@ -367,6 +417,7 @@ app.get('/logout', (req, res) => {
   if (req.session.token) { // redirect if no access token
     delete req.session.token;
     delete req.session.username;
+    delete req.session.head_admin;
   }
   res.redirect('/');
 });
@@ -388,6 +439,7 @@ if (app.get('env') === 'development') {
         res.status(err.status);
         res.render('error', {
             subtitle: 'Error',
+            head: req.session.head_admin,
             message: err.message,
             error: err
         });
@@ -401,6 +453,7 @@ app.use(function (err, req, res, next) {
     res.status(err.status);
     res.render('error', {
         subtitle: 'Error',
+        head: req.session.head_admin,
         message: err.message,
         error: { error: { status: err.status } }
     });

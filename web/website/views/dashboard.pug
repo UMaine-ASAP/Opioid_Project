@@ -8,7 +8,13 @@ block content
         name View Logs
         desc Click the button below to view and download both audio and survey logs of the users.
         a(href="/reports") View!
-      card
-        name Add Admins
-        desc Create new administrator accounts by filling out this form.
-        a(href="/accounts/add") Go to form!
+      
+      if head
+        card
+          name Manage Admins
+          desc Add, edit and remove administrative accounts.
+          a(href="/accounts/manage") Manage!
+        card
+          name Add Admins
+          desc Create new administrator accounts by filling out this form.
+          a(href="/accounts/add") Go to form!

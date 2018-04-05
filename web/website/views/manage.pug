@@ -5,7 +5,8 @@ block content
     opt
       name= "Need to add another admin account?"
       span
-        a(href='') Add Account
+        a(href='/accounts/add') Add Account
+    err(style="color: #f00; font-size: 0.9em; text-align: center; display: block;") #{error}
     p(style='padding: 0 10px;')
       opt(style='box-shadow: none; margin: 0;').admin
         span(style='text-align: left;')
@@ -13,3 +14,17 @@ block content
           name(style='font-weight: bold;').info Username
           name(style='font-weight: bold;').info Is Head
     p!= data
+  script.
+    var deleteLinks = document.querySelectorAll('.danger');
+
+    for (var i = 0; i < deleteLinks.length; i++) {
+      deleteLinks[i].addEventListener('click', function(event) {
+          event.preventDefault();
+
+          var choice = confirm(this.getAttribute('data-confirm'));
+
+          if (choice) {
+            window.location.href = this.getAttribute('href');
+          }
+      });
+    }

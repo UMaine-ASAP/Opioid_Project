@@ -25,4 +25,6 @@ block content
             input(type="password" name="confirm_password" placeholder="Confirm Password")
             span(style="display: block; text-align: right;")
               a(style="display: inline-block; background-color: #555555; color: #ffffff; width: calc(100px - 12px); margin: 5px 10px 5px 0; font-size: 16px; padding: 5px; text-align: center; text-decoration: none; vertical-align: middle;" href="/accounts/manage") Back
-              input(type="submit" value="Update" style="display: inline-block; background-color: #555555; color: #ffffff; width: 100px; height: 31px; font-size: 16px; padding: 6px; margin: 5px calc(10% + 10px) 5px 0; vertical-align: middle;")
+              - var disabled = (error) ? true : false;
+              if !disabled
+                input(type="submit" value="Update" style="display: inline-block; background-color: #555555; color: #ffffff; width: 100px; height: 31px; font-size: 16px; padding: 6px; margin: 5px calc(10% + 10px) 5px 0; vertical-align: middle;")

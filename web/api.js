@@ -60,7 +60,7 @@ function getUserDB(username, done) {
 }
 app.post('/user/create', function(req, res) {
   if (!req.body.username || !req.body.password) {
-    return res.status(400).send({"error": true, "messege": "Send both username and password"});
+    return res.status(400).send({"error": true, "message": "Send both username and password"});
   }
   getUserDB(req.body.username, function(user){
     if(!user) {
@@ -80,23 +80,24 @@ app.post('/user/create', function(req, res) {
         });
       });
     }
-    else res.status(400).send({"error": true, "messege": "A user with that username already exists"});
+    else res.status(400).send({"error": true, "message": "A user with that username already exists"});
   });
 });
 
 app.post('/user/login', function(req, res) {
   if (!req.body.username || !req.body.password) {
-    return res.status(400).send({"error": true, "messege": "Must enter in password and username"});
+    return res.status(400).send({"error": true, "message": "Must enter in password and username"});
   }
   getUserDB(req.body.username, function(user){
     if (!user) {
-      return res.status(400).send({"error": true, "messege": "Username doesnt exist"});
+      return res.status(400).send({"error": true, "message": "Username doesnt exist"});
     }
     if (!bcrypt.compareSync(req.body.password , user.password) ) {
-      return res.status(400).send({"error": true, "messege": "The username or password don't match"});
+      return res.status(400).send({"error": true, "message": "The username or password don't match"});
     }
     return res.send({
-      id_token: createToken(user)
+      id_token: createToken(user),
+      head_admin: user.head_admin
     });
   });
 });
@@ -190,10 +191,10 @@ app.get('/survey/report/:type', (req, res) => {
         return res.json(data);
       });
     } else {
-      return res.send({error: true, messege: 'Invalid URL'});
+      return res.send({error: true, message: 'Invalid URL'});
     }
   } else {
-    return res.send({error: true, messege: "Auth token is missing"});
+    return res.send({error: true, message: "Auth token is missing"});
   }
 });
 
@@ -210,7 +211,7 @@ var genReport = (type, callback) => {
   // Get report from database
   db.get().query('SELECT * FROM ' + table, (err, rows) => {
     if(err){
-      return callback({"error": true, messege: err});
+      return callback({"error": true, message: err});
     } else {
       // Set up data array
       let data = [];
@@ -266,7 +267,7 @@ app.post('/user/:method', (req, res) => {
         // Send admin accounts back
         db.get().query('SELECT id, username, head_admin FROM admin', (err, rows) => {
           if(err){
-            return res.json({"error": true, messege: err});
+            return res.json({"error": true, message: err});
           } else {
             return res.json(rows);
           }
@@ -276,9 +277,13 @@ app.post('/user/:method', (req, res) => {
         // get one account
         db.get().query('SELECT id, username, head_admin FROM admin WHERE id = ' + req.body.id, (err, rows) => {
           if(err){
-            return res.json({"error": true, messege: err});
+            return res.json({"error": true, message: err});
           } else {
-            return res.json(rows[0]);
+            if (rows.length > 0){
+              return res.json(rows[0]);
+            } else {
+              return res.json({"error": true, message: "Invalid User ID"});
+            }
           }
         });
         break;
@@ -286,20 +291,37 @@ app.post('/user/:method', (req, res) => {
         // Change admin's privileges
         let user = req.body.form;
         if (req.body.password) {
-
-        } else {
-          db.get().query("UPDATE `admin` SET username='"+user.username+"', head_admin="+user.head_admin+" WHERE id=" + req.body.id, (err, result) => {
+          db.get().query("UPDATE `admin` SET username='"+user.username+"', head_admin="+user.head_admin+", password='" + bcrypt.hashSync(user.password) + "' WHERE id=" + req.body.id, (err, result) => {
             if(err){
               console.log(err);
               try {
-                return res.json({"error": true, messege: err.sqlMessage});
+                return res.json({"error": true, message: err.sqlMessage});
               } catch (e) {
                 return console.log(e);
               }
             } else {
               db.get().query('SELECT id, username, head_admin FROM admin WHERE id = ' + req.body.id, (err, rows) => {
                 if(err){
-                  return res.json({"error": true, messege: err});
+                  return res.json({"error": true, message: err});
+                } else {
+                  return res.json(rows[0]);
+                }
+              });
+            }
+          });
+        } else {
+          db.get().query("UPDATE `admin` SET username='"+user.username+"', head_admin="+user.head_admin+" WHERE id=" + req.body.id, (err, result) => {
+            if(err){
+              console.log(err);
+              try {
+                return res.json({"error": true, message: err.sqlMessage});
+              } catch (e) {
+                return console.log(e);
+              }
+            } else {
+              db.get().query('SELECT id, username, head_admin FROM admin WHERE id = ' + req.body.id, (err, rows) => {
+                if(err){
+                  return res.json({"error": true, message: err});
                 } else {
                   return res.json(rows[0]);
                 }
@@ -310,9 +332,20 @@ app.post('/user/:method', (req, res) => {
         break;
       case 'remove':
         // Remove account
+
+        //////// DANGER!!!!! ////////
+        db.get().query("DELETE FROM `admin` WHERE id=" + req.body.id, (err, result) => {
+          if(err){
+            return res.json({"error": true, message: err.sqlMessage});
+          } else {
+            return res.json(result);
+          }
+        });
+        /////// USER IS NOW FOREVER GONE ///////
+
         break;
     }
   } else {
-    return res.send({error: true, messege: "Auth token is missing"});
+    return res.send({error: true, message: "Auth token is missing"});
   }
 });

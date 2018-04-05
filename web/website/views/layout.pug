@@ -4,6 +4,14 @@ html
     title= "Mindfulness Admin | " + subtitle
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     link(rel='stylesheet', href='/css/main.css')
+    //- Favicons
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    //- Manifest and colors
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#009688">
+    <meta name="theme-color" content="#ffffff">
   body
     bar
       h2!="Mindfulness Admin | " + subtitle
@@ -14,8 +22,11 @@ html
             li Dashboard
           a(href='/reports')
             li Reports
-          a(href='/accounts')
-            li Accounts
+          //- Adjusting nav based on if user head admin
+          if head
+            a(href='/accounts')
+              li Accounts
+
           a(href='/logout')
             li Logout
 
