@@ -9,8 +9,8 @@ const fs = require('fs');
 const app = express();
 
 ////     SETTINGS    ////
-const HTTPS = false;
-const API_URL = "http://localhost:4300"; // "https://emac.asap.um.maine.edu:1337"; //
+const HTTPS = true;
+const API_URL = "https://emac.asap.um.maine.edu:1337"; // "http://localhost:4300"; //
 //// END OF SETTINGS ////
 
 // Setting up page renderer
